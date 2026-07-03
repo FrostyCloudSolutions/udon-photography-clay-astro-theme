@@ -33,10 +33,10 @@ export async function getStaticPaths() {
 
       if (entry.data.templateKey === "news-page") {
         items = sortedNews;
-        baseSlug = "news";
+        baseSlug = "journal";
       } else if (entry.data.templateKey === "portfolio-page") {
         items = sortedWork;
-        baseSlug = "work";
+        baseSlug = "portfolio";
       } else if (entry.data.templateKey === "exhibitions-page") {
         // maps to sold collection
         items = sortedSold;
