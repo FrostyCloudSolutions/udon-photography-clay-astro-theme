@@ -7,10 +7,11 @@ import { getCollection } from 'astro:content';
 const allPages = await getCollection('pages');
 const allNews = await getCollection('news');
 const allWork = await getCollection('work');
-const allSold = await getCollection('sold');
+// const allSold = await getCollection('sold');
 
 // Combine for filtering
-const allContent = [...allPages, ...allNews, ...allWork, ...allSold];
+//const allContent = [...allPages, ...allNews, ...allWork, ...allSold];
+const allContent = [...allPages, ...allNews, ...allWork];
 
 // Filter for pagetype containing 'main' and sort by number
 const posts = allContent.filter(item => {
@@ -41,9 +42,9 @@ let postCounter = 0;
             // Here I need to generate the same link.
 
             let slug = post.slug;
-            if (post.collection === 'work') slug = `work/${post.slug}`;
-            if (post.collection === 'news') slug = `news/${post.slug}`;
-            if (post.collection === 'sold') slug = `sold/${post.slug}`;
+            if (post.collection === 'portfolio') slug = `portfolio/${post.slug}`;
+            if (post.collection === 'journal') slug = `journal/${post.slug}`;
+            // if (post.collection === 'sold') slug = `sold/${post.slug}`;
             // Pages collection: 'bio' -> 'bio'.
 
             // Wait, legacy slug split logic:

@@ -14,33 +14,49 @@ const { title } = Astro.props;
                 </div>
             </div>
         </a>
+        <div class="site-head-center">
+            <a class="site-head-logo" href="/">
+                {title || "Udon Photography"}
+            </a>
+        </div>
         <nav id="swup" class="site-head-left">
             <ul class="nav" role="menu">
                 <li class="nav-home" role="menuitem">
                     <a href="/">Home</a>
                 </li>
                 <li class="nav-home" role="menuitem">
-                    <a href="/bio">Bio</a>
+                    <a href="/about">About</a>
+                </li>
+                <li class="nav-dropdown" role="menuitem">
+                    <a href="/portfolio">Portfolio</a>
+                    <ul class="nav-submenu">
+                        <li><a href="/portfolio/in-home">In-Home</a></li>
+                        <li><a href="/portfolio/outdoor">Outdoor</a></li>
+                        <li><a href="/portfolio/maternity">Maternity</a></li>
+                        <li><a href="/portfolio/pet">Pet</a></li>
+                        <li><a href="/portfolio/parties-and-events">Parties & Events</a></li>
+                        <li><a href="/portfolio/fine-art-projects">Fine Art Projects</a></li>
+                        <li><a href="/portfolio/commercial-work">Commercial Work</a></li>
+                        <li><a href="/portfolio/workshops">Workshops</a></li>
+                    </ul>
+                </li>
+                <li class="nav-dropdown" role="menuitem">
+                    <a href="/journal">Journal</a>
+                    <ul class="nav-submenu">
+                        <li><a href="/journal/an-ordinary-afternoon">An Ordinary Afternoon</a></li>
+                        <li><a href="/journal/turning-one">Turning One</a></li>
+                        <li><a href="/journal/waiting-for-you">Waiting for You</a></li>
+                        <li><a href="/journal/in-red">In Red</a></li>
+                    </ul>
                 </li>
                 <li class="nav-home" role="menuitem">
-                    <a href="/work">Work</a>
+                    <a href="/investment">Investment</a>
                 </li>
                 <li class="nav-home" role="menuitem">
-                    <a href="/news">News</a>
-                </li>
-                <li class="nav-home" role="menuitem">
-                    <a href="/contact">Contact</a>
-                </li>
-                <li class="nav-home" role="menuitem">
-                    <a href="/elements">Elements</a>
+                    <a href="/inquire">Inquire</a>
                 </li>
             </ul>
         </nav>
-        <div class="site-head-center">
-            <a class="site-head-logo" href="/">
-                {title || "Clay"}
-            </a>
-        </div>
         <div class="site-head-right">
             <div class="social-links">
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Dark Mode">
@@ -51,3 +67,33 @@ const { title } = Astro.props;
         </div>
     </div>
 </header>
+
+<style>
+    .nav-dropdown {
+        position: relative;
+    }
+
+    .nav-submenu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--color-bg, white);
+        list-style: none;
+        padding: 0.5rem 0;
+        margin: 0;
+        min-width: 200px;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .nav-dropdown:hover .nav-submenu {
+        display: block;
+    }
+
+    .nav-submenu li a {
+        display: block;
+        padding: 0.4rem 1rem;
+        white-space: nowrap;
+    }
+</style>
