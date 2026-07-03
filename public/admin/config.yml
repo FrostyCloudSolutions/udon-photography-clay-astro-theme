@@ -1,5 +1,9 @@
+# backend:
+#   name: git-gateway
+#   branch: main
 backend:
-  name: git-gateway
+  name: github
+  repo: FrostyCloudSolutions/udon-photography-clay-astro-theme
   branch: main
   commit_messages:
     create: "Create {{collection}} “{{slug}}”"
@@ -8,7 +12,8 @@ backend:
     uploadMedia: "[skip ci] Upload “{{path}}”"
     deleteMedia: "[skip ci] Delete “{{path}}”"
 
-local_backend: true
+# local_backend: true
+# removed local_backend: true to transfer compatibility from Netlify to cloudflare pages
 media_folder: public/img
 public_folder: /img
 
