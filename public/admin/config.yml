@@ -5,6 +5,8 @@ backend:
   name: github
   repo: FrostyCloudSolutions/udon-photography-clay-astro-theme
   branch: main
+  base_url: https://udonphoto.com
+  auth_endpoint: /auth
   commit_messages:
     # create: "Create {{collection}} “{{slug}}”"
     # update: "Update {{collection}} “{{slug}}”"
@@ -16,7 +18,7 @@ backend:
     delete: 'Delete {{collection}} {{slug}}'
     uploadMedia: '[skip ci] Upload {{path}}'
     deleteMedia: '[skip ci] Delete {{path}}'
-    
+
 # local_backend: true
 # removed local_backend: true to transfer compatibility from Netlify to cloudflare pages
 media_folder: public/img
