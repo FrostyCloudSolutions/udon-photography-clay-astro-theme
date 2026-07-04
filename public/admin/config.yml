@@ -5,8 +5,8 @@ backend:
   name: github
   repo: FrostyCloudSolutions/udon-photography-clay-astro-theme
   branch: main
-  base_url: https://udonphoto.com
-  auth_endpoint: /auth
+  # base_url: https://udonphoto.com
+  # auth_endpoint: /auth
   commit_messages:
     # create: "Create {{collection}} “{{slug}}”"
     # update: "Update {{collection}} “{{slug}}”"
