@@ -2,7 +2,7 @@
 #   name: git-gateway
 #   branch: main
 backend:
-  name: github
+  name: git-gateway
   repo: FrostyCloudSolutions/udon-photography-clay-astro-theme
   branch: main
   # base_url: https://udonphoto.com
