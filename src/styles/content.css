@@ -103,7 +103,7 @@ production stylesheet in assets/built/screen.css using gulp dev
 /* ---------------------------------------------------------- */
 
 .post-content {
-  max-width: 720px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 3vw 0;
 }
@@ -123,6 +123,8 @@ production stylesheet in assets/built/screen.css using gulp dev
   margin: 0 0 3vw;
   color: var(--color-base);
   text-align: center;
+  font-size: 4rem;
+  font-weight: 600;
 }
 
 .post-content-excerpt {
@@ -139,7 +141,7 @@ production stylesheet in assets/built/screen.css using gulp dev
   }
 }
 
-.post-content-image {
+/* .post-content-image {
   margin: 4vw 0;
   position: relative;
   width: 75vw;
@@ -147,6 +149,11 @@ production stylesheet in assets/built/screen.css using gulp dev
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   transform: translateX(calc(50vw - 50%));
+} */
+.post-content-image {
+  margin: 4vw 0;
+  position: relative;
+  width: 100%;
 }
 
 .contact-form-image {

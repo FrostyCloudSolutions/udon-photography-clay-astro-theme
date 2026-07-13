@@ -20,11 +20,9 @@ const { title, description, thumbnail } = entry.data;
 
 <Layout title={title} description={description}>
   <article class={`post-content ${thumbnail ? '' : 'no-image'}`}>
-    {/* Title hidden as it is shown in the header now
     <header class="post-content-header">
-      <h1 class="post-content-title">{title}</h1>
+    <h1 class="post-content-title">{title}</h1>
     </header>
-    */}
 
     {description && (
       <p class="post-content-excerpt">{description}</p>

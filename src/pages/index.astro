@@ -31,6 +31,10 @@ let postCounter = 0;
 ---
 
 <Layout title={title} description={description}>
+    <header class="post-content-header">
+    <h1 class="post-content-title">{title}</h1>
+        {description && <p class="post-content-excerpt">{description}</p>}
+    </header>
     <div class="post-feed">
         {posts.map((post) => {
             postCounter++;

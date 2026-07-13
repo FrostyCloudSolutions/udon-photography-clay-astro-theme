@@ -196,6 +196,7 @@ footer.site-foot a {
     display: flex;
     justify-content: flex-start;
     flex-shrink: 0;
+    margin-right: auto;
 }
 
 .site-head-logo {
