@@ -172,7 +172,9 @@ production stylesheet in assets/built/screen.css using gulp dev
 }
 @media (max-width: 500px) {
   .post-content-body {
-    font-size: 1.7rem;
+    font-size: 1.9rem;
+    line-height: 1.65em;
+    font-family: var(--font-sans-serif);
   }
 }
 
