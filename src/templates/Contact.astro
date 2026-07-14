@@ -28,10 +28,11 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
     <div class="post-content-body">
       <Content />
 
-      <form id="inquiry-form" name="inquiry" method="POST">
+      <form id="inquiry-form" name="inquiry" method="POST" action="https://api.web3forms.com/submit">
         <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
         <input type="hidden" name="subject" value="New Inquiry - Udon Photography" />
         <input type="hidden" name="replyto" value="" />
+        <input type="hidden" name="redirect" value="https://udonphoto.com/inquire/thanks/" />
         <input type="checkbox" name="botcheck" style="display:none" />
 
         <div class="row gtr-uniform">
@@ -117,9 +118,7 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
       const result = await response.json();
 
       if (result.success) {
-        form.reset();
-        form.style.display = 'none';
-        if (status) status.textContent = "Thanks! Your inquiry has been sent — we'll be in touch soon.";
+        window.location.assign('/inquire/thanks/');
       } else {
         throw new Error(result.message || 'Submission failed');
       }
