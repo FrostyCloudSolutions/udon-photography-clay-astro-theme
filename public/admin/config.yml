@@ -22,8 +22,8 @@ media_folder: public/img
 public_folder: /img
 
 collections:
-  - name: "blog"
-    label: "News"
+  - name: "journal"
+    label: "Journal"
     folder: "src/content/news"
     create: true
     slug: "{{slug}}"
@@ -68,8 +68,8 @@ collections:
       #         { label: "Other", value: "other" },
       #       ],
       #   }
-  - name: "work"
-    label: "Work"
+  - name: "portfolio"
+    label: "Portfolio"
     folder: "src/content/work"
     create: true
     slug: "{{slug}}"
@@ -98,8 +98,8 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Body", name: "body", widget: "markdown" }
-  - name: "exhibitions"
-    label: "Exhibitions"
+  - name: "sold"
+    label: "Sold"
     folder: "src/content/sold"
     create: true
     slug: "{{slug}}"
@@ -133,7 +133,7 @@ collections:
     label: "Pages"
     files:
       - file: "src/content/pages/index.md"
-        label: "Landing Page"
+        label: "Home"
         name: "index"
         fields:
           - {
@@ -152,15 +152,15 @@ collections:
           - { label: "Description", name: "description", widget: "string" }
           - { label: "Body", name: "body", widget: "markdown" }
 
-      - file: "src/content/pages/bio.md"
-        label: "Bio"
-        name: "bio"
+      - file: "src/content/pages/about.md"
+        label: "About"
+        name: "about"
         fields:
           - {
               label: "Template Key",
               name: "templateKey",
               widget: "hidden",
-              default: "bio-page",
+              default: "about-page",
             }
           - {
               label: "Thumbnail",
@@ -182,15 +182,15 @@ collections:
             }
           - { label: "Body", name: "body", widget: "markdown" }
 
-      - file: "src/content/pages/work.md"
-        label: "Work"
-        name: "work"
+      - file: "src/content/pages/portfolio.md"
+        label: "Portfolio"
+        name: "portfolio"
         fields:
           - {
               label: "Template Key",
               name: "templateKey",
               widget: "hidden",
-              default: "work-page",
+              default: "portfolio-page",
             }
           - {
               label: "Thumbnail",
@@ -205,8 +205,8 @@ collections:
           - { label: "Numbering", name: "number", widget: "number" }
 
       - file: "src/content/pages/sold.md"
-        label: "exhibitions"
-        name: "exhibitions"
+        label: "Sold"
+        name: "sold"
         fields:
           - {
               label: "Template Key",
@@ -234,15 +234,15 @@ collections:
               options: [{ label: "Main", value: "main" }],
             }
 
-      - file: "src/content/pages/news.md"
-        label: "News"
-        name: "news"
+      - file: "src/content/pages/journal.md"
+        label: "Journal"
+        name: "journal"
         fields:
           - {
               label: "Template Key",
               name: "templateKey",
               widget: "hidden",
-              default: "news-page",
+              default: "journal-page",
             }
           - {
               label: "Thumbnail",
@@ -264,15 +264,35 @@ collections:
               options: [{ label: "Main", value: "main" }],
             }
 
-      - file: "src/content/pages/contact.md"
-        label: "Contact"
-        name: "contact"
+      - file: "src/content/pages/investment.md"
+        label: "Investment"
+        name: "investment"
         fields:
           - {
               label: "Template Key",
               name: "templateKey",
               widget: "hidden",
-              default: "contact-page",
+              default: "investment",
+            }
+          - {
+              label: "Thumbnail",
+              name: "thumbnail",
+              widget: image,
+              choose_url: false,
+            }
+          - { label: Title, name: title, widget: string }
+          - { label: "Description", name: "description", widget: "string" }
+          - { label: "Body", name: "body", widget: "markdown" }
+
+      - file: "src/content/pages/inquire.md"
+        label: "Inquire"
+        name: "inquire"
+        fields:
+          - {
+              label: "Template Key",
+              name: "templateKey",
+              widget: "hidden",
+              default: "inquire-page",
             }
           - {
               label: "Thumbnail",
