@@ -1,5 +1,6 @@
 ---
 templateKey: about-page
+thumbnail: /img/clay-images-12.jpg
 date: 2023-03-02T10:17:05.133Z
 title: About
 description: Sydney & Melbourne Photographer
