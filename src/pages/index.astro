@@ -46,8 +46,8 @@ let postCounter = 0;
             // Here I need to generate the same link.
 
             let slug = post.slug;
-            if (post.collection === 'portfolio') slug = `portfolio/${post.slug}`;
-            if (post.collection === 'journal') slug = `journal/${post.slug}`;
+            if (post.collection === 'work') slug = `portfolio/${post.slug}`;
+            if (post.collection === 'news') slug = `journal/${post.slug}`;
             // if (post.collection === 'sold') slug = `sold/${post.slug}`;
             // Pages collection: 'bio' -> 'bio'.
 

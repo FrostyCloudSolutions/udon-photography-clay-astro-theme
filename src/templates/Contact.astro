@@ -11,8 +11,10 @@ const { Content } = await entry.render();
 
 const { title, description, thumbnail } = entry.data;
 
-// Porting the form HTML.
-// Using standard Netlify form submission (no JS hijack required for basic functionality).
+// Reservation / quote-request form, submitted via Web3Forms (static-site
+// friendly, no backend needed). The access key is a public-safe client-side
+// identifier by design, not a secret.
+const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
 ---
 
 <Layout title={title} description={description}>
@@ -26,50 +28,54 @@ const { title, description, thumbnail } = entry.data;
     <div class="post-content-body">
       <Content />
 
-      <h3 id="forms">Form</h3>
-      <form name="contact" method="POST" data-netlify="true" action="/contact/thanks">
-        <input type="hidden" name="form-name" value="contact" />
-        <p hidden>
-           <label>Don’t fill this out: <input name="bot-field" /></label>
-        </p>
+      <form id="inquiry-form" name="inquiry" method="POST">
+        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+        <input type="hidden" name="subject" value="New Inquiry — Udon Photography" />
+        <input type="checkbox" name="botcheck" style="display:none" />
 
         <div class="row gtr-uniform">
           <div class="col-6 col-12-xsmall">
-            <input type="text" name="first-name" id="first-name" placeholder="First Name" required />
+            <input type="text" name="name" id="name" placeholder="Full Name" required />
           </div>
           <div class="col-6 col-12-xsmall">
-            <input type="text" name="last-name" id="last-name" placeholder="Last Name" required />
+            <input type="email" name="email" id="email" placeholder="Email" required />
           </div>
 
           <div class="col-6 col-12-xsmall">
-            <input type="email" name="email" id="demo-email" placeholder="Email" required />
+            <input type="tel" name="phone" id="phone" placeholder="Phone (optional)" />
           </div>
           <div class="col-6 col-12-xsmall">
             <input type="text" name="location" id="location" placeholder="Location" required />
           </div>
 
-          <div class="col-12">
-            <select name="category" id="category" required>
-              <option value="">-Nature of Enquiry-</option>
-              <option value="General">General</option>
-              <option value="Purchase">Purchase</option>
-              <option value="Commissions">Commissions</option>
-              <option value="Exhibitions">Exhibitions</option>
-              <option value="Gallery Feature">Gallery Feature</option>
+          <div class="col-6 col-12-xsmall">
+            <select name="session-type" id="session-type" required>
+              <option value="">Session Type</option>
+              <option value="In-Home">In-Home</option>
+              <option value="Outdoor">Outdoor</option>
+              <option value="Maternity">Maternity</option>
+              <option value="Pet">Pet</option>
+              <option value="Parties & Events">Parties & Events</option>
+              <option value="Fine Art Projects">Fine Art Projects</option>
+              <option value="Commercial Work">Commercial Work</option>
+              <option value="Workshops">Workshops</option>
               <option value="Other">Other</option>
             </select>
           </div>
-
-          <div class="col-12">
-            <textarea name="message" id="message" placeholder="Enter your message" rows="6" required></textarea>
+          <div class="col-6 col-12-xsmall">
+            <input type="date" name="requested-date" id="requested-date" required />
           </div>
 
-          <div data-netlify-recaptcha="true"></div>
+          <div class="col-12">
+            <textarea name="message" id="message" placeholder="Tell us about what you're looking for" rows="6" required></textarea>
+          </div>
+
+          <div class="col-12" id="inquiry-form-status" role="status"></div>
 
           <div class="col-12">
             <ul class="actions">
               <li>
-                <input type="submit" value="Send Message" class="primary" />
+                <input type="submit" value="Send Inquiry" class="primary" />
               </li>
             </ul>
           </div>
@@ -78,3 +84,41 @@ const { title, description, thumbnail } = entry.data;
     </div>
   </article>
 </Layout>
+
+<script>
+  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
+  const status = document.getElementById('inquiry-form-status');
+
+  form?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const submitBtn = form.querySelector('input[type="submit"]') as HTMLInputElement | null;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.value = 'Sending...';
+    }
+    if (status) status.textContent = '';
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        form.reset();
+        form.style.display = 'none';
+        if (status) status.textContent = "Thanks! Your inquiry has been sent — we'll be in touch soon.";
+      } else {
+        throw new Error(result.message || 'Submission failed');
+      }
+    } catch {
+      if (status) status.textContent = 'Something went wrong sending your inquiry. Please try again or email us directly.';
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.value = 'Send Inquiry';
+      }
+    }
+  });
+</script>

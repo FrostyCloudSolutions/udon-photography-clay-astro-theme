@@ -31,7 +31,7 @@ export async function getStaticPaths() {
       let items: SortableEntry[] = [];
       let baseSlug = "";
 
-      if (entry.data.templateKey === "news-page") {
+      if (entry.data.templateKey === "journal-page") {
         items = sortedNews;
         baseSlug = "journal";
       } else if (entry.data.templateKey === "portfolio-page") {
@@ -62,10 +62,10 @@ const templateKey = entry.data.templateKey;
 ---
 
 {
-  templateKey === "contact-page" ? (
+  templateKey === "inquire-page" ? (
     <Contact entry={entry} />
-  ) : templateKey === "news-page" ||
-    templateKey === "work-page" ||
+  ) : templateKey === "journal-page" ||
+    templateKey === "portfolio-page" ||
     templateKey === "exhibitions-page" ? (
     <List entry={entry} items={items} baseSlug={baseSlug} />
   ) : (
