@@ -19,6 +19,14 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
 
 <Layout title={title} description={description}>
   <article class="contact-form page-template">
+    <header class="post-content-header">
+      <h1 class="post-content-title">{title}</h1>
+    </header>
+
+    {description && (
+      <p class="post-content-excerpt">{description}</p>
+    )}
+
     {thumbnail && (
       <div class="post-content-image">
         <img src={thumbnail} class="kg-image" alt={title} />

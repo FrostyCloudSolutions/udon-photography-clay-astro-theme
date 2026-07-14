@@ -10,27 +10,21 @@ interface Props {
 }
 
 const { entry, items = [], baseSlug } = Astro.props;
-const { Content } = await entry.render();
 
-const { title, description, thumbnail } = entry.data;
+const { title, description } = entry.data;
 
 let postCounter = 0;
 ---
 
 <Layout title={title} description={description}>
-    <header class="page-head">
-      <h1 class="page-head-title">
-        {title}
-      </h1>
-      {description && (
-        <p class="page-head-description">
-          {description}
-        </p>
-      )}
+  <article class="post-content">
+    <header class="post-content-header">
+      <h1 class="post-content-title">{title}</h1>
     </header>
 
-    {/* Content from the index markdown (if any, though legacy portfolio-page didn't show it, only description).
-        But generic List might want it. */}
+    {description && (
+      <p class="post-content-excerpt">{description}</p>
+    )}
 
     <div class="post-feed">
         {items.map((post) => {
@@ -44,4 +38,5 @@ let postCounter = 0;
             );
         })}
     </div>
+  </article>
 </Layout>
