@@ -358,3 +358,30 @@ production stylesheet in assets/built/screen.css using gulp dev
 img.gatsby-resp-image-image { border-radius: 10px !important;}
 
 img {border-radius: 10px;}
+
+/* Grid feed layout (homepage, portfolio, journal) */
+.post-feed.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+.post-feed.grid-4 .post-card {
+  margin: 0;
+  height: auto;
+  aspect-ratio: 1 / 1;
+}
+@media (max-width: 900px) {
+  .post-feed.grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .post-feed.grid-4 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .post-feed.grid-4 .post-card {
+    aspect-ratio: 4 / 3;
+  }
+}

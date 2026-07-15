@@ -13,6 +13,8 @@ const { entry, items = [], baseSlug } = Astro.props;
 
 const { title, description } = entry.data;
 
+const useGrid = baseSlug === 'portfolio' || baseSlug === 'journal';
+
 let postCounter = 0;
 ---
 
@@ -26,7 +28,7 @@ let postCounter = 0;
       <p class="post-content-excerpt">{description}</p>
     )}
 
-    <div class="post-feed">
+    <div class={`post-feed ${useGrid ? 'grid-4' : ''}`}>
         {items.map((post) => {
             postCounter++;
             return (
