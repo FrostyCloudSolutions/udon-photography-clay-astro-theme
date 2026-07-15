@@ -4,6 +4,11 @@ import WorkTemplate from '../../templates/Work.astro';
 import { JOURNAL_CATEGORIES } from '../../lib/categories';
 
 export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  const sectionEntry = pages.find((p) => p.slug === 'journal');
+  const sectionTitle = sectionEntry?.data.title ?? 'Journal';
+  const sectionDescription = sectionEntry?.data.description ?? '';
+
   const entries = await getCollection('news');
   const sortedEntries = entries.sort((a, b) => {
     return new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime();
@@ -19,12 +24,22 @@ export async function getStaticPaths() {
         entry,
         next: newer,
         prev: older,
+        sectionTitle,
+        sectionDescription,
       },
     };
   });
 }
 
-const { entry, next, prev } = Astro.props;
+const { entry, next, prev, sectionTitle, sectionDescription } = Astro.props;
 ---
 
-<WorkTemplate entry={entry} next={next} prev={prev} baseSlug="journal" categories={JOURNAL_CATEGORIES} />
+<WorkTemplate
+  entry={entry}
+  next={next}
+  prev={prev}
+  baseSlug="journal"
+  categories={JOURNAL_CATEGORIES}
+  sectionTitle={sectionTitle}
+  sectionDescription={sectionDescription}
+/>

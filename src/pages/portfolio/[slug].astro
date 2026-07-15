@@ -4,6 +4,11 @@ import WorkTemplate from '../../templates/Work.astro';
 import { PORTFOLIO_CATEGORIES } from '../../lib/categories';
 
 export async function getStaticPaths() {
+  const pages = await getCollection('pages');
+  const sectionEntry = pages.find((p) => p.slug === 'portfolio');
+  const sectionTitle = sectionEntry?.data.title ?? 'Portfolio';
+  const sectionDescription = sectionEntry?.data.description ?? '';
+
   const workEntries = await getCollection('work');
   // Sort by date or number if needed? Legacy sorted by date DESC in gatsby-node but actually didn't sort, just list.
   // Actually gatsby-node sorted `allMarkdownRemark(limit: 1000, sort: {frontmatter: {date: DESC}})`
@@ -41,12 +46,22 @@ export async function getStaticPaths() {
         entry,
         next: newer, // Left
         prev: older, // Right
+        sectionTitle,
+        sectionDescription,
       },
     };
   });
 }
 
-const { entry, next, prev } = Astro.props;
+const { entry, next, prev, sectionTitle, sectionDescription } = Astro.props;
 ---
 
-<WorkTemplate entry={entry} next={next} prev={prev} baseSlug="portfolio" categories={PORTFOLIO_CATEGORIES} />
+<WorkTemplate
+  entry={entry}
+  next={next}
+  prev={prev}
+  baseSlug="portfolio"
+  categories={PORTFOLIO_CATEGORIES}
+  sectionTitle={sectionTitle}
+  sectionDescription={sectionDescription}
+/>

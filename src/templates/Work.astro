@@ -8,29 +8,33 @@ interface Props {
   prev?: any;
   baseSlug?: string; // e.g. 'work'
   categories?: string[];
+  sectionTitle?: string;
+  sectionDescription?: string;
 }
 
-const { entry, next, prev, baseSlug, categories = [] } = Astro.props;
+const { entry, next, prev, baseSlug, categories = [], sectionTitle, sectionDescription } = Astro.props;
 const { Content } = await entry.render();
 
 const { title, description, thumbnail, date, category } = entry.data;
 const formattedDate = date
   ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   : null;
-const sectionLabel = baseSlug === 'portfolio' ? 'Portfolio' : baseSlug === 'journal' ? 'Journal' : null;
-
-// Icons logic (replacing SVG imports with inline or similar)
-// For simplicity, using text or simple arrows.
 ---
 
 <Layout title={title} description={description}>
   <article class={`post-content ${thumbnail ? '' : 'no-image'}`}>
-    {sectionLabel && (
-      <p class="post-content-section"><a href={`/${baseSlug}`}>{sectionLabel}</a></p>
+    {sectionTitle && (
+      <header class="post-content-header">
+        <h1 class="post-content-title">{sectionTitle}</h1>
+      </header>
+    )}
+
+    {sectionDescription && (
+      <p class="post-content-excerpt">{sectionDescription}</p>
     )}
 
     {categories.length > 0 && (
-      <div class="filter-bar" role="group" aria-label={`Browse ${sectionLabel} by category`}>
+      <div class="filter-bar" role="group" aria-label={`Browse ${sectionTitle} by category`}>
         <a class="filter-pill" href={`/${baseSlug}`} data-category="all">All</a>
         {categories.map((cat) => (
           <a
@@ -86,21 +90,6 @@ const sectionLabel = baseSlug === 'portfolio' ? 'Portfolio' : baseSlug === 'jour
 </Layout>
 
 <style>
-  .post-content-section {
-    text-align: center;
-    margin: 0 0 1rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 1.3rem;
-  }
-  .post-content-section a {
-    color: color(var(--color-base) l(+40%));
-    text-decoration: none;
-  }
-  .post-content-section a:hover {
-    color: var(--color-base);
-    text-decoration: underline;
-  }
   .post-content-date {
     display: inline-block;
     margin-left: 1rem;
