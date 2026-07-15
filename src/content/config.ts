@@ -25,11 +25,6 @@ const work = defineCollection({
   schema: commonSchema,
 });
 
-const sold = defineCollection({
-  type: 'content',
-  schema: commonSchema,
-});
-
 const pages = defineCollection({
   type: 'content',
   schema: commonSchema,
@@ -38,6 +33,5 @@ const pages = defineCollection({
 export const collections = {
   news,
   work,
-  sold,
   pages,
 };
