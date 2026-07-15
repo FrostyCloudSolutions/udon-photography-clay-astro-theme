@@ -12,7 +12,10 @@ interface Props {
 const { entry, next, prev, baseSlug } = Astro.props;
 const { Content } = await entry.render();
 
-const { title, description, thumbnail } = entry.data;
+const { title, description, thumbnail, date } = entry.data;
+const formattedDate = date
+  ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
 
 // Icons logic (replacing SVG imports with inline or similar)
 // For simplicity, using text or simple arrows.
@@ -21,7 +24,10 @@ const { title, description, thumbnail } = entry.data;
 <Layout title={title} description={description}>
   <article class={`post-content ${thumbnail ? '' : 'no-image'}`}>
     <header class="post-content-header">
-    <h1 class="post-content-title">{title}</h1>
+    <h1 class="post-content-title">
+      {title}
+      {formattedDate && <time class="post-content-date" datetime={new Date(date).toISOString()}>{formattedDate}</time>}
+    </h1>
     </header>
 
     {description && (
@@ -57,3 +63,22 @@ const { title, description, thumbnail } = entry.data;
 
   </article>
 </Layout>
+
+<style>
+  .post-content-date {
+    display: inline-block;
+    margin-left: 1rem;
+    font-family: var(--font-sans-serif);
+    font-size: 1.4rem;
+    font-weight: var(--font-normal);
+    color: color(var(--color-base) l(+40%));
+    vertical-align: middle;
+  }
+  @media (max-width: 700px) {
+    .post-content-date {
+      display: block;
+      margin-left: 0;
+      margin-top: 0.5rem;
+    }
+  }
+</style>
