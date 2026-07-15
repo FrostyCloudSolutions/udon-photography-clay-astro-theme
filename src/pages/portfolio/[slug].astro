@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import WorkTemplate from '../../templates/Work.astro';
+import { PORTFOLIO_CATEGORIES } from '../../lib/categories';
 
 export async function getStaticPaths() {
   const workEntries = await getCollection('work');
@@ -48,4 +49,4 @@ export async function getStaticPaths() {
 const { entry, next, prev } = Astro.props;
 ---
 
-<WorkTemplate entry={entry} next={next} prev={prev} baseSlug="portfolio" />
+<WorkTemplate entry={entry} next={next} prev={prev} baseSlug="portfolio" categories={PORTFOLIO_CATEGORIES} />

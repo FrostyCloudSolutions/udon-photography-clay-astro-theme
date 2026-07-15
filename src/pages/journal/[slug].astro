@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import WorkTemplate from '../../templates/Work.astro';
+import { JOURNAL_CATEGORIES } from '../../lib/categories';
 
 export async function getStaticPaths() {
   const entries = await getCollection('news');
@@ -26,4 +27,4 @@ export async function getStaticPaths() {
 const { entry, next, prev } = Astro.props;
 ---
 
-<WorkTemplate entry={entry} next={next} prev={prev} baseSlug="journal" />
+<WorkTemplate entry={entry} next={next} prev={prev} baseSlug="journal" categories={JOURNAL_CATEGORIES} />

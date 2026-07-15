@@ -93,37 +93,3 @@ let postCounter = 0;
 
   document.addEventListener('astro:page-load', initCategoryFilters);
 </script>
-
-<style>
-  .filter-bar {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    margin: 0 auto 2.5rem;
-    max-width: 90%;
-  }
-  .filter-pill {
-    font-family: inherit;
-    font-size: 1.8rem;
-    height: auto;
-    line-height: 1.4;
-    padding: 0.9rem 2rem;
-    border: 1px solid color(var(--color-border) l(-20%));
-    border-radius: 999px;
-    background-color: transparent;
-    color: var(--color-base) !important;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
-  }
-  .filter-pill:hover {
-    border-color: var(--color-base);
-    color: var(--color-base) !important;
-    box-shadow: none;
-  }
-  .filter-pill.is-active {
-    background-color: var(--color-base);
-    color: var(--color-bg) !important;
-    border-color: var(--color-base);
-  }
-</style>
