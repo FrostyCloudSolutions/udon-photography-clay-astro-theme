@@ -7,9 +7,10 @@ interface Props {
   entry: CollectionEntry<'pages'>;
   items?: any[]; // The list of items to display
   baseSlug?: string;
+  categories?: string[]; // Fixed category filter options, if this list supports filtering
 }
 
-const { entry, items = [], baseSlug } = Astro.props;
+const { entry, items = [], baseSlug, categories = [] } = Astro.props;
 
 const { title, description } = entry.data;
 
@@ -28,7 +29,16 @@ let postCounter = 0;
       <p class="post-content-excerpt">{description}</p>
     )}
 
-    <div class={`post-feed ${useGrid ? 'grid-4' : ''}`}>
+    {categories.length > 0 && (
+      <div class="filter-bar" role="group" aria-label={`Filter ${title} by category`}>
+        <button type="button" class="filter-pill is-active" data-category="all">All</button>
+        {categories.map((category) => (
+          <button type="button" class="filter-pill" data-category={category}>{category}</button>
+        ))}
+      </div>
+    )}
+
+    <div class={`post-feed ${useGrid ? 'grid-4' : ''}`} data-filterable={categories.length > 0}>
         {items.map((post) => {
             postCounter++;
             return (
@@ -42,3 +52,78 @@ let postCounter = 0;
     </div>
   </article>
 </Layout>
+
+<script>
+  function initCategoryFilters() {
+    document.querySelectorAll<HTMLElement>('.filter-bar').forEach((bar) => {
+      const feed = bar.nextElementSibling as HTMLElement | null;
+      if (!feed || !feed.classList.contains('post-feed')) return;
+
+      const cards = Array.from(feed.querySelectorAll<HTMLElement>('.post-card'));
+      const pills = Array.from(bar.querySelectorAll<HTMLElement>('.filter-pill'));
+
+      const applyFilter = (category: string) => {
+        cards.forEach((card) => {
+          const show = category === 'all' || card.dataset.category === category;
+          card.style.display = show ? '' : 'none';
+        });
+        pills.forEach((pill) => {
+          pill.classList.toggle('is-active', pill.dataset.category === category);
+        });
+      };
+
+      pills.forEach((pill) => {
+        pill.addEventListener('click', () => {
+          const category = pill.dataset.category || 'all';
+          applyFilter(category);
+          const url = new URL(window.location.href);
+          if (category === 'all') {
+            url.searchParams.delete('category');
+          } else {
+            url.searchParams.set('category', category);
+          }
+          window.history.replaceState({}, '', url);
+        });
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      applyFilter(params.get('category') || 'all');
+    });
+  }
+
+  document.addEventListener('astro:page-load', initCategoryFilters);
+</script>
+
+<style>
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0 auto 2.5rem;
+    max-width: 90%;
+  }
+  .filter-pill {
+    font-family: inherit;
+    font-size: 1.4rem;
+    height: auto;
+    line-height: 1.4;
+    padding: 0.5rem 1.4rem;
+    border: 1px solid color(var(--color-border) l(-20%));
+    border-radius: 999px;
+    background-color: transparent;
+    color: var(--color-base) !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .filter-pill:hover {
+    border-color: var(--color-base);
+    color: var(--color-base) !important;
+    box-shadow: none;
+  }
+  .filter-pill.is-active {
+    background-color: var(--color-base);
+    color: var(--color-bg) !important;
+    border-color: var(--color-base);
+  }
+</style>

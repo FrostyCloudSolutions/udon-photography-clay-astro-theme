@@ -6,6 +6,26 @@ import List from "../templates/List.astro";
 // import Elements from '../templates/Elements.astro';
 
 export async function getStaticPaths() {
+  // Fixed category options for filtering. Kept in sync manually with the
+  // "Category" select field options in public/admin/config.yml -- adding a
+  // new category means updating both places.
+  const PORTFOLIO_CATEGORIES = [
+    "In-Home",
+    "Outdoor",
+    "Maternity",
+    "Pet",
+    "Parties & Events",
+    "Fine Art Projects",
+    "Commercial Work",
+    "Workshops",
+  ];
+  const JOURNAL_CATEGORIES = [
+    "An Ordinary Afternoon",
+    "Turning One",
+    "Waiting for You",
+    "In Red",
+  ];
+
   const pages = await getCollection("pages");
 
   // Pre-fetch other collections for index pages
@@ -28,13 +48,16 @@ export async function getStaticPaths() {
       let props = { entry };
       let items: SortableEntry[] = [];
       let baseSlug = "";
+      let categories: string[] = [];
 
       if (entry.data.templateKey === "journal-page") {
         items = sortedNews;
         baseSlug = "journal";
+        categories = JOURNAL_CATEGORIES;
       } else if (entry.data.templateKey === "portfolio-page") {
         items = sortedWork;
         baseSlug = "portfolio";
+        categories = PORTFOLIO_CATEGORIES;
       }
 
       return {
@@ -46,12 +69,12 @@ export async function getStaticPaths() {
         // Yes, but index.astro (file) > [...slug].astro (dynamic).
         // So it's safe.
         // For 'bio', slug is 'bio'.
-        props: { ...props, items, baseSlug },
+        props: { ...props, items, baseSlug, categories },
       };
     });
 }
 
-const { entry, items, baseSlug } = Astro.props;
+const { entry, items, baseSlug, categories } = Astro.props;
 const templateKey = entry.data.templateKey;
 ---
 
@@ -60,7 +83,7 @@ const templateKey = entry.data.templateKey;
     <Contact entry={entry} />
   ) : templateKey === "journal-page" ||
     templateKey === "portfolio-page" ? (
-    <List entry={entry} items={items} baseSlug={baseSlug} />
+    <List entry={entry} items={items} baseSlug={baseSlug} categories={categories} />
   ) : (
     <Page entry={entry} />
   )

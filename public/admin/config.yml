@@ -178,7 +178,7 @@ collections:
             }
 
   - name: "portfolio"
-    label: "Portfolio Categories"
+    label: "Portfolio Posts"
     folder: "src/content/work"
     create: true
     slug: "{{slug}}"
@@ -188,6 +188,22 @@ collections:
           name: "templateKey",
           widget: "hidden",
           default: "work-sub-page",
+        }
+      - {
+          label: "Category",
+          name: "category",
+          widget: "select",
+          options:
+            [
+              "In-Home",
+              "Outdoor",
+              "Maternity",
+              "Pet",
+              "Parties & Events",
+              "Fine Art Projects",
+              "Commercial Work",
+              "Workshops",
+            ],
         }
       - {
           label: "Thumbnail",
@@ -219,6 +235,18 @@ collections:
           name: "templateKey",
           widget: "hidden",
           default: "blog-post",
+        }
+      - {
+          label: "Category",
+          name: "category",
+          widget: "select",
+          options:
+            [
+              "An Ordinary Afternoon",
+              "Turning One",
+              "Waiting for You",
+              "In Red",
+            ],
         }
       - {
           label: "Thumbnail",
