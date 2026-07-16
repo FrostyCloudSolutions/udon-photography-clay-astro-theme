@@ -115,7 +115,11 @@ she wants in the form copy.
 
 ## Open Items — Pending Client Input
 
-- Wedding questions (date/time/location): folded into the main question
-  list, or a separate section?
 - Which footer additions above should actually be included?
-- Official social media icons still need to be sourced
+- Brand name in the inquiry copy: her script says "Udon Studio" but the
+  site is branded "Udon Photography" — question sent to the client
+  July 16, awaiting her reply
+- ~~Wedding questions (date/time/location)~~ resolved: shown
+  conditionally when the Weddings session type is selected (see Addendum)
+- ~~Official social media icons~~ resolved: sourced from Simple Icons
+  (MIT-licensed official brand paths)
