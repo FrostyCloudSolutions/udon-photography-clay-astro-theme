@@ -114,16 +114,37 @@ body {
 .site-foot {
     font-family: var(--font-sans-serif);
     font-weight: 300;
-    margin: 3vw 0 1vw;
+    margin: 6vw 0 0;
+    padding: 3.5rem 1rem 2.5rem;
+    border-top: 1px solid var(--color-border);
     text-align: center;
     color: var(--color-base);
-    opacity: 0.6;
-    font-size: 1.3rem;
+    opacity: 0.85;
+    font-size: 1.4rem;
     line-height: 1.6;
 }
 
 .site-foot div {
     margin: 0.3rem 0;
+}
+
+.site-foot-brand {
+    font-size: 2rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 0.4rem;
+}
+
+.site-foot-tagline {
+    font-size: 1.5rem;
+    opacity: 0.7;
+}
+
+.site-foot-copyright {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+    opacity: 0.6;
 }
 
 footer.site-foot a {
@@ -236,6 +257,11 @@ footer.site-foot a {
     flex-shrink: 0;
     display: flex;
     align-items: center;
+}
+
+.header-social-links {
+    gap: 1.1rem;
+    margin-right: 1.1rem;
 }
 
 /* Mobile Nav */
