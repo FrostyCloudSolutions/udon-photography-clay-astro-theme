@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { type CollectionEntry } from 'astro:content';
+import { PORTFOLIO_CATEGORIES } from '../lib/categories';
 
 interface Props {
   entry: CollectionEntry<'pages'>;
@@ -55,25 +56,51 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
             <input type="tel" name="phone" id="phone" placeholder="Phone (optional)" />
           </div>
           <div class="col-6 col-12-xsmall">
-            <input type="text" name="location" id="location" placeholder="Location" required />
+            <input type="text" name="location" id="location" placeholder="Location — Sydney, Melbourne, or another city" required />
           </div>
 
           <div class="col-6 col-12-xsmall">
             <select name="session-type" id="session-type" required>
               <option value="">Session Type</option>
-              <option value="In-Home">In-Home</option>
-              <option value="Outdoor">Outdoor</option>
-              <option value="Maternity">Maternity</option>
-              <option value="Pet">Pet</option>
-              <option value="Events">Events</option>
-              <option value="Fine Art Projects">Fine Art Projects</option>
-              <option value="Commercial Work">Commercial Work</option>
-              <option value="Workshops">Workshops</option>
+              {PORTFOLIO_CATEGORIES.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
               <option value="Other">Other</option>
             </select>
           </div>
           <div class="col-6 col-12-xsmall">
-            <input type="date" name="requested-date" id="requested-date" required />
+            <select name="group-size" id="group-size" required>
+              <option value="">How many people?</option>
+              <option value="1-2 people">1&ndash;2 people</option>
+              <option value="3-4 people">3&ndash;4 people</option>
+              <option value="5-6 people">5&ndash;6 people</option>
+              <option value="7+ people">7+ people</option>
+            </select>
+          </div>
+
+          <div class="col-6 col-12-xsmall date-range-only">
+            <label for="date-from">Preferred dates &mdash; from</label>
+            <input type="date" name="preferred-date-from" id="date-from" required />
+          </div>
+          <div class="col-6 col-12-xsmall date-range-only">
+            <label for="date-to">Preferred dates &mdash; to</label>
+            <input type="date" name="preferred-date-to" id="date-to" />
+          </div>
+
+          <div class="col-12 maternity-only" hidden>
+            <input type="number" name="weeks-pregnant" id="weeks-pregnant" min="1" max="45" placeholder="How many weeks pregnant are you currently? (optional)" disabled />
+          </div>
+
+          <div class="col-6 col-12-xsmall wedding-only" hidden>
+            <label for="wedding-date">Wedding date</label>
+            <input type="date" name="wedding-date" id="wedding-date" required disabled />
+          </div>
+          <div class="col-6 col-12-xsmall wedding-only" hidden>
+            <label for="wedding-time">Start time (optional)</label>
+            <input type="time" name="wedding-time" id="wedding-time" disabled />
+          </div>
+          <div class="col-12 wedding-only" hidden>
+            <input type="text" name="wedding-venue" id="wedding-venue" placeholder="Venue / ceremony location" required disabled />
           </div>
 
           <div class="col-12">
@@ -91,51 +118,99 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
           </div>
         </div>
       </form>
+
+      <p>
+        Before booking, I do hope you&rsquo;ve had a chance to explore my portfolio and
+        photography style, as finding the right photographer is a two-way connection.
+        It helps ensure that we&rsquo;re a good fit and can create something meaningful together.
+      </p>
+      <p>
+        I look forward to hearing from you!<br />
+        Udon Studio
+      </p>
     </div>
   </article>
 </Layout>
 
 <script>
-  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
-  const status = document.getElementById('inquiry-form-status');
+  function initInquiryForm() {
+    const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
+    if (!form || form.dataset.enhanced === '1') return;
+    form.dataset.enhanced = '1';
 
-  form?.addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const submitBtn = form.querySelector('input[type="submit"]') as HTMLInputElement | null;
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.value = 'Sending...';
-    }
-    if (status) status.textContent = '';
+    const status = document.getElementById('inquiry-form-status');
+    const sessionType = form.querySelector('#session-type') as HTMLSelectElement | null;
 
-    try {
-      const formData = new FormData(form);
-      const requesterName = (formData.get('name') || '').toString().trim();
-      const requesterEmail = (formData.get('email') || '').toString().trim();
-      formData.set(
-        'subject',
-        requesterName ? `New Inquiry from ${requesterName} - Udon Photography` : 'New Inquiry - Udon Photography'
-      );
-      formData.set('replyto', requesterEmail);
-
-      const response = await fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        headers: { Accept: 'application/json' },
-        body: formData,
+    // Hidden conditional fields are also disabled so they neither block
+    // native validation nor submit stale values.
+    const toggleGroup = (selector: string, show: boolean) => {
+      form.querySelectorAll<HTMLElement>(selector).forEach((wrapper) => {
+        wrapper.hidden = !show;
+        wrapper.querySelectorAll<HTMLInputElement>('input, select').forEach((field) => {
+          field.disabled = !show;
+        });
       });
-      const result = await response.json();
+    };
 
-      if (result.success) {
-        window.location.assign('/inquire/thanks/');
-      } else {
-        throw new Error(result.message || 'Submission failed');
-      }
-    } catch {
-      if (status) status.textContent = 'Something went wrong sending your inquiry. Please try again or email us directly.';
+    const updateConditionalFields = () => {
+      const type = sessionType?.value;
+      toggleGroup('.maternity-only', type === 'Maternity');
+      toggleGroup('.wedding-only', type === 'Weddings');
+      toggleGroup('.date-range-only', type !== 'Weddings');
+    };
+    sessionType?.addEventListener('change', updateConditionalFields);
+    updateConditionalFields();
+
+    const dateFrom = form.querySelector('#date-from') as HTMLInputElement | null;
+    const dateTo = form.querySelector('#date-to') as HTMLInputElement | null;
+    dateFrom?.addEventListener('change', () => {
+      if (!dateTo || !dateFrom.value) return;
+      dateTo.min = dateFrom.value;
+      if (dateTo.value && dateTo.value < dateFrom.value) dateTo.value = dateFrom.value;
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const submitBtn = form.querySelector('input[type="submit"]') as HTMLInputElement | null;
       if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.value = 'Send Inquiry';
+        submitBtn.disabled = true;
+        submitBtn.value = 'Sending...';
       }
-    }
-  });
+      if (status) status.textContent = '';
+
+      try {
+        const formData = new FormData(form);
+        const requesterName = (formData.get('name') || '').toString().trim();
+        const requesterEmail = (formData.get('email') || '').toString().trim();
+        formData.set(
+          'subject',
+          requesterName ? `New Inquiry from ${requesterName} - Udon Photography` : 'New Inquiry - Udon Photography'
+        );
+        formData.set('replyto', requesterEmail);
+
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: formData,
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          window.location.assign('/inquire/thanks/');
+        } else {
+          throw new Error(result.message || 'Submission failed');
+        }
+      } catch {
+        if (status) status.textContent = 'Something went wrong sending your inquiry. Please try again or email us directly.';
+        const submitBtn = form.querySelector('input[type="submit"]') as HTMLInputElement | null;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.value = 'Send Inquiry';
+        }
+      }
+    });
+  }
+
+  initInquiryForm();
+  document.addEventListener('astro:page-load', initInquiryForm);
 </script>

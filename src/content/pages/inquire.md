@@ -9,3 +9,6 @@ pagetype:
   - main
 featuredimage: /img/clay-images-20.jpg
 ---
+Hi there! Thank you so much for your interest in Udon Studio. ✨
+
+Before we move forward, could you please take a moment to answer the following questions?
