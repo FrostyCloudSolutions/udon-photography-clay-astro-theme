@@ -399,8 +399,8 @@ img {border-radius: 10px;}
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.75rem;
-  margin: 0 auto 3rem;
-  padding-bottom: 3rem;
+  margin: 0 auto 4.5rem;
+  padding-bottom: 4rem;
   max-width: 80%;
   border-bottom: 1px solid var(--color-base);
 }
