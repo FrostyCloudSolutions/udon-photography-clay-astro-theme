@@ -53,11 +53,65 @@ this list has been implemented yet — this is a planning record.
 ## 7. Inquire Form Redesign
 
 - Client's updated intro copy will be used (decorative hearts removed)
+
+### Client's verbatim form script
+
+The client supplied the following script for the inquiry page, reproduced
+here word for word (it was agreed the heart marks would be dropped; the
+numbered questions are implemented as form fields rather than repeated as
+text):
+
+> Hi there! Thank you so much for your interest in Udon Studio. ✨
+>
+> Before we move forward, could you please take a moment to answer the
+> following questions?
+>
+> ❤️
+>
+> 1. What type of session are you looking for?
+> 2. Will the shoot take place in Sydney, Melbourne, or another city?
+> 3. When are you hoping to have the session, and how many people will be
+>    participating?
+> 4. If this is a maternity session, how many weeks pregnant are you
+>    currently?
+> 5. If this is a wedding or pre-wedding shoot, could you please provide
+>    the date, time, and location?
+>
+> ❤️
+>
+> Before booking, I do hope you’ve had a chance to explore my portfolio
+> and photography style, as finding the right photographer is a two-way
+> connection. It helps ensure that we’re a good fit and can create
+> something meaningful together.
+>
+> I look forward to hearing from you!
+> Udon Studio
+
+Note: the script says "Udon Studio" while the site is branded
+"Udon Photography" — kept verbatim; confirm with the client which name
+she wants in the form copy.
 - Session type / Location: already covered by existing fields
 - Requested date: change to a date-range picker
 - New "group size" dropdown: 1–2 / 3–4 / 5–6 / 7+
 - New optional numeric field for maternity sessions: "How many weeks
   pregnant are you currently?"
+
+## Addendum — Post-Call Decisions (July 16)
+
+- Wedding questions (date / start time / venue) and the maternity
+  weeks-pregnant question both appear only when their session type is
+  selected; selecting Weddings replaces the generic preferred-dates range
+  with the wedding-specific fields
+- New session-specific question for Baby sessions: how old is the baby
+  (in months) — optional numeric field, same pattern as maternity
+- "Parties & Events" category renamed to "Events" (ampersand rendered
+  awkwardly)
+- Homepage tile grid reduced to three columns to match the three
+  remaining main tiles
+- Footer location shortened to "Australia", folded into the copyright
+  line: "© YEAR Udon Photography, Australia. All rights reserved."
+- Header social icons switched to black & white to match the theme;
+  Xiaohongshu icon enlarged for legibility in header and footer
 
 ## Open Items — Pending Client Input
 

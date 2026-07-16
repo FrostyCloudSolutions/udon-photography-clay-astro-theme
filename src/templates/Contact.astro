@@ -91,6 +91,10 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
             <input type="number" name="weeks-pregnant" id="weeks-pregnant" min="1" max="45" placeholder="How many weeks pregnant are you currently? (optional)" disabled />
           </div>
 
+          <div class="col-12 baby-only" hidden>
+            <input type="number" name="baby-age-months" id="baby-age-months" min="0" max="36" placeholder="How old is your baby, in months? (optional)" disabled />
+          </div>
+
           <div class="col-6 col-12-xsmall wedding-only" hidden>
             <label for="wedding-date">Wedding date</label>
             <input type="date" name="wedding-date" id="wedding-date" required disabled />
@@ -155,6 +159,7 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
     const updateConditionalFields = () => {
       const type = sessionType?.value;
       toggleGroup('.maternity-only', type === 'Maternity');
+      toggleGroup('.baby-only', type === 'Babies');
       toggleGroup('.wedding-only', type === 'Weddings');
       toggleGroup('.date-range-only', type !== 'Weddings');
     };
