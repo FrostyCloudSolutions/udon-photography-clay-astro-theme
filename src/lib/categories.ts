@@ -5,7 +5,7 @@
 export const PORTFOLIO_CATEGORIES = [
   "Babies",
   "Maternity",
-  "Parties & Events",
+  "Events",
   "Weddings",
   "Pets",
   "Collaborative Art",

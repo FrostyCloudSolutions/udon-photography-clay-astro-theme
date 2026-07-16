@@ -264,6 +264,18 @@ footer.site-foot a {
     margin-right: 1.1rem;
 }
 
+.header-social-links a {
+    display: flex;
+    align-items: center;
+    color: var(--color-base);
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.header-social-links a:hover {
+    opacity: 1;
+}
+
 /* Mobile Nav */
 .nav-burger {
     display: none;
