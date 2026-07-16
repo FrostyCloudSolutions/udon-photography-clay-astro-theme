@@ -12,7 +12,7 @@ fieldset {
 }
 
 label {
-    color: var(--color-primary);
+    color: var(--color-base);
     display: block;
     font-size: 0.9em;
     font-weight: var(--font-bold);
