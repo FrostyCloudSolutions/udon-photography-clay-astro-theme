@@ -182,7 +182,7 @@ collections:
     folder: "src/content/work"
     create: true
     slug: "{{slug}}"
-    summary: '{{title}} — {{date | date("MMM D, YYYY")}}'
+    summary: "{{title}} — {{date | date('MMM D, YYYY')}}"
     sortable_fields: ["date", "title", "category"]
     fields:
       - {
@@ -231,7 +231,7 @@ collections:
     folder: "src/content/news"
     create: true
     slug: "{{slug}}"
-    summary: '{{title}} — {{date | date("MMM D, YYYY")}}'
+    summary: "{{title}} — {{date | date('MMM D, YYYY')}}"
     sortable_fields: ["date", "title", "category"]
     fields:
       - {
