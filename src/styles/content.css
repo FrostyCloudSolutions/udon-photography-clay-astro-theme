@@ -352,12 +352,12 @@ production stylesheet in assets/built/screen.css using gulp dev
 }
 
 
-/* Image boarder */
-.kg-image { border-radius: 10px; }
+/* Image corners -- squared per client request */
+.kg-image { border-radius: 0; }
 
-img.gatsby-resp-image-image { border-radius: 10px !important;}
+img.gatsby-resp-image-image { border-radius: 0 !important;}
 
-img {border-radius: 10px;}
+img {border-radius: 0;}
 
 /* Grid feed layout (homepage, portfolio) */
 .post-feed.grid-4 {
