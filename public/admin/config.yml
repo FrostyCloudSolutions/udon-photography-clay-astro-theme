@@ -164,6 +164,14 @@ collections:
           choose_url: false,
         }
       - {
+          label: "Gallery",
+          name: "gallery",
+          widget: "list",
+          required: false,
+          field: { label: "Image", name: "image", widget: "image", choose_url: false },
+          hint: "Extra photos shown as a click-to-fullscreen gallery on this post's page. Add as many as you like.",
+        }
+      - {
           label: "Publish Date",
           name: "date",
           widget: "datetime",

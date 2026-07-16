@@ -14,6 +14,7 @@ const commonSchema = z.object({
   number: z.number().optional(),
   pagetype: z.array(z.string()).optional(),
   category: z.string().optional(),
+  gallery: z.array(z.string()).optional(),
 }).partial();
 
 const work = defineCollection({
