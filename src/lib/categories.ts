@@ -3,12 +3,12 @@
 // public/admin/config.yml -- adding a new category means updating both places.
 
 export const PORTFOLIO_CATEGORIES = [
-  "In-Home",
-  "Outdoor",
+  "Babies",
   "Maternity",
-  "Pet",
   "Parties & Events",
-  "Fine Art Projects",
+  "Weddings",
+  "Pets",
+  "Collaborative Art",
   "Commercial Work",
   "Workshops",
 ];

@@ -1,7 +1,7 @@
 ---
 templateKey: work-sub-page
 title: Studio Portraits with Momo
-category: "Pet"
+category: "Pets"
 date: 2026-06-26T09:00:00-05:00
 thumbnail: /img/clay-images-8.jpg
 description: A playful studio session with a very good dog.

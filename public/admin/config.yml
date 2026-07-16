@@ -147,12 +147,12 @@ collections:
           widget: "select",
           options:
             [
-              "In-Home",
-              "Outdoor",
+              "Babies",
               "Maternity",
-              "Pet",
               "Parties & Events",
-              "Fine Art Projects",
+              "Weddings",
+              "Pets",
+              "Collaborative Art",
               "Commercial Work",
               "Workshops",
             ],
