@@ -5,11 +5,10 @@ import { getCollection } from 'astro:content';
 
 // Fetch all collections
 const allPages = await getCollection('pages');
-const allNews = await getCollection('news');
 const allWork = await getCollection('work');
 
 // Combine for filtering
-const allContent = [...allPages, ...allNews, ...allWork];
+const allContent = [...allPages, ...allWork];
 
 // Filter for pagetype containing 'main' and sort by number
 const posts = allContent.filter(item => {
@@ -45,11 +44,6 @@ let postCounter = 0;
 
             let slug = post.slug;
             if (post.collection === 'work') slug = `portfolio/${post.slug}`;
-            if (post.collection === 'news') slug = `journal/${post.slug}`;
-
-            // Wait, legacy slug split logic:
-            // src/pages/bio/index.md -> /bio.
-            // content/work/work-1.md -> /work/work-1.
 
             return (
                 <PostCard

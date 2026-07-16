@@ -16,11 +16,6 @@ const commonSchema = z.object({
   category: z.string().optional(),
 }).partial();
 
-const news = defineCollection({
-  type: 'content',
-  schema: commonSchema,
-});
-
 const work = defineCollection({
   type: 'content',
   schema: commonSchema,
@@ -32,7 +27,6 @@ const pages = defineCollection({
 });
 
 export const collections = {
-  news,
   work,
   pages,
 };

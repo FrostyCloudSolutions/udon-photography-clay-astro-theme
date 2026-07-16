@@ -3,23 +3,17 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import Page from "../templates/Page.astro";
 import Contact from "../templates/Contact.astro";
 import List from "../templates/List.astro";
-import { PORTFOLIO_CATEGORIES, JOURNAL_CATEGORIES } from "../lib/categories";
+import { PORTFOLIO_CATEGORIES } from "../lib/categories";
 // import Elements from '../templates/Elements.astro';
 
 export async function getStaticPaths() {
   const pages = await getCollection("pages");
-
-  // Pre-fetch other collections for index pages
-  const journalEntries = await getCollection("news");
   const portfolioEntries = await getCollection("work");
 
-  // Combine types for sorting and lists
-  type SortableEntry = CollectionEntry<"news" | "work">;
+  type SortableEntry = CollectionEntry<"work">;
 
-  // Sort them
   const sortDate = (a: SortableEntry, b: SortableEntry) =>
     new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime();
-  const sortedNews = journalEntries.sort(sortDate);
   const sortedWork = portfolioEntries.sort(sortDate);
 
   return pages
@@ -31,11 +25,7 @@ export async function getStaticPaths() {
       let baseSlug = "";
       let categories: string[] = [];
 
-      if (entry.data.templateKey === "journal-page") {
-        items = sortedNews;
-        baseSlug = "journal";
-        categories = JOURNAL_CATEGORIES;
-      } else if (entry.data.templateKey === "portfolio-page") {
+      if (entry.data.templateKey === "portfolio-page") {
         items = sortedWork;
         baseSlug = "portfolio";
         categories = PORTFOLIO_CATEGORIES;
@@ -46,10 +36,6 @@ export async function getStaticPaths() {
         // If slug is 'index', it creates undefined path, which matches root '/'.
         // BUT we have src/pages/index.astro, which takes precedence.
         // So this route will NOT handle root.
-        // Wait, getStaticPaths params: { slug: undefined } works for [...slug] to match root?
-        // Yes, but index.astro (file) > [...slug].astro (dynamic).
-        // So it's safe.
-        // For 'bio', slug is 'bio'.
         props: { ...props, items, baseSlug, categories },
       };
     });
@@ -62,8 +48,7 @@ const templateKey = entry.data.templateKey;
 {
   templateKey === "inquire-page" ? (
     <Contact entry={entry} />
-  ) : templateKey === "journal-page" ||
-    templateKey === "portfolio-page" ? (
+  ) : templateKey === "portfolio-page" ? (
     <List entry={entry} items={items} baseSlug={baseSlug} categories={categories} />
   ) : (
     <Page entry={entry} />

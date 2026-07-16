@@ -14,7 +14,7 @@ const { entry, items = [], baseSlug, categories = [] } = Astro.props;
 
 const { title, description } = entry.data;
 
-const useGrid = baseSlug === 'portfolio' || baseSlug === 'journal';
+const useGrid = baseSlug === 'portfolio';
 
 let postCounter = 0;
 ---
