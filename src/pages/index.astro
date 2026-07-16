@@ -32,7 +32,7 @@ let postCounter = 0;
     <h1 class="post-content-title">{title}</h1>
         {description && <p class="post-content-excerpt">{description}</p>}
     </header>
-    <div class="post-feed grid-4">
+    <div class="post-feed grid-3">
         {posts.map((post) => {
             postCounter++;
             // Calculate slug. If it's from 'pages', slug is just slug (or flattened).
