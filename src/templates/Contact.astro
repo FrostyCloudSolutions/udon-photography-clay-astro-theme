@@ -39,7 +39,7 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
 
       <form id="inquiry-form" name="inquiry" method="POST" action="https://api.web3forms.com/submit">
         <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-        <input type="hidden" name="subject" value="New Inquiry - Udon Photography" />
+        <input type="hidden" name="subject" value="New Inquiry - Udon Studio" />
         <input type="hidden" name="replyto" value="" />
         <input type="hidden" name="redirect" value="https://udonphoto.com/inquire/thanks/" />
         <input type="checkbox" name="botcheck" style="display:none" />
@@ -191,7 +191,7 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
         const requesterEmail = (formData.get('email') || '').toString().trim();
         formData.set(
           'subject',
-          requesterName ? `New Inquiry from ${requesterName} - Udon Photography` : 'New Inquiry - Udon Photography'
+          requesterName ? `New Inquiry from ${requesterName} - Udon Studio` : 'New Inquiry - Udon Studio'
         );
         formData.set('replyto', requesterEmail);
 

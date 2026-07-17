@@ -1,8 +1,8 @@
 ---
 templateKey: index-page
-title: Udon Photography
+title: Udon Studio
 image: /img/clay-images-7.jpg
-description: Welcome to the fascinating world of Udon Photography Where tiny moments become forever!
+description: Welcome to the fascinating world of Udon Studio Where tiny moments become forever!
 thumbnail: /img/clay-images-7.jpg
 heading: Main Heading
 subheading: Sub HEading

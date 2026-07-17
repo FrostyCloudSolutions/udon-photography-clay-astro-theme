@@ -116,9 +116,11 @@ she wants in the form copy.
 ## Open Items — Pending Client Input
 
 - Which footer additions above should actually be included?
-- Brand name in the inquiry copy: her script says "Udon Studio" but the
-  site is branded "Udon Photography" — question sent to the client
-  July 16, awaiting her reply
+- ~~Brand name in the inquiry copy: her script says "Udon Studio" but
+  the site is branded "Udon Photography" — question sent to the client
+  July 16~~ resolved July 16: client confirmed the site is renamed to
+  "Udon Studio"; applied across page titles, header logo, footer brand
+  and copyright, homepage copy, and inquiry email subjects
 - ~~Wedding questions (date/time/location)~~ resolved: shown
   conditionally when the Weddings session type is selected (see Addendum)
 - ~~Official social media icons~~ resolved: sourced from Simple Icons
