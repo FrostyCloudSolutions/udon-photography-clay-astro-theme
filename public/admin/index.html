@@ -39,6 +39,32 @@
         return data;
       },
     });
+
+    // Make the per-photo "use as thumbnail" toggles behave like radio
+    // buttons in the editor: switching one on switches the others off.
+    // (The preSave hook above remains the data-level guarantee.)
+    new MutationObserver(function (mutations) {
+      if (!/\/collections\/portfolio\//.test(window.location.hash)) return;
+      mutations.forEach(function (mutation) {
+        const flipped = mutation.target;
+        if (
+          mutation.attributeName !== 'aria-checked' ||
+          flipped.getAttribute('role') !== 'switch' ||
+          flipped.getAttribute('aria-checked') !== 'true' ||
+          mutation.oldValue === 'true'
+        ) {
+          return;
+        }
+        document.querySelectorAll('[role="switch"][aria-checked="true"]').forEach(function (other) {
+          if (other !== flipped) other.click();
+        });
+      });
+    }).observe(document.body, {
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['aria-checked'],
+      attributeOldValue: true,
+    });
   </script>
 </body>
 </html>
