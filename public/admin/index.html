@@ -31,6 +31,15 @@
               return photo;
             })
           );
+          // Mirror the flagged (or first) photo into the top-level
+          // thumbnail so the CMS grid cards have an image to show.
+          const cover =
+            data.get('photos').find(function (photo) {
+              return photo && photo.get && photo.get('thumbnail');
+            }) || data.get('photos').first();
+          if (cover && cover.get) {
+            data = data.set('thumbnail', cover.get('image'));
+          }
         }
 
         if (!data.get('date')) {
@@ -65,6 +74,16 @@
       attributeFilter: ['aria-checked'],
       attributeOldValue: true,
     });
+
+    // Hide the auto-managed "Thumbnail (auto)" control from the editor
+    // form; it only exists so the collection cards have an image field.
+    new MutationObserver(function () {
+      document.querySelectorAll('label').forEach(function (label) {
+        if (label.textContent.indexOf('Thumbnail (auto)') !== 0) return;
+        const control = label.closest('[class*="ControlContainer"]');
+        if (control && control.style.display !== 'none') control.style.display = 'none';
+      });
+    }).observe(document.body, { subtree: true, childList: true });
   </script>
 </body>
 </html>

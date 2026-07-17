@@ -3,6 +3,7 @@ templateKey: work-sub-page
 title: Spring Photography Workshop
 category: "Workshops"
 date: 2026-06-02T09:00:00-05:00
+thumbnail: /img/clay-image-1.jpg
 photos:
   - image: /img/clay-image-1.jpg
     thumbnail: true

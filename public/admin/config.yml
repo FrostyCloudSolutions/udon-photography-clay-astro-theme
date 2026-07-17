@@ -167,6 +167,18 @@ collections:
               "Workshops",
             ],
         }
+      # Auto-managed mirror of the flagged photo (or the first photo).
+      # Kept in sync by the preSave hook in admin/index.html; it exists so
+      # the CMS entry cards and grid view have a top-level image to show.
+      # It must be an image widget for the cards to use it, so a script in
+      # admin/index.html hides it from the editor form instead.
+      - {
+          label: "Thumbnail (auto)",
+          name: "thumbnail",
+          widget: "image",
+          required: false,
+          choose_url: false,
+        }
       - label: "Photos"
         name: "photos"
         widget: "list"

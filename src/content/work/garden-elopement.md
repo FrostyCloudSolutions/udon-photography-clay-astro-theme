@@ -3,6 +3,7 @@ templateKey: work-sub-page
 title: Garden Elopement
 category: "Weddings"
 date: 2026-06-20T09:00:00-05:00
+thumbnail: /img/clay-images-3.jpg
 photos:
   - image: /img/clay-images-3.jpg
     thumbnail: true

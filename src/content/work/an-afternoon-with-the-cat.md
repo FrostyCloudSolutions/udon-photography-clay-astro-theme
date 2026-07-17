@@ -3,6 +3,7 @@ templateKey: work-sub-page
 title: An Afternoon with the Cat
 category: "Pets"
 date: 2026-06-23T09:00:00-05:00
+thumbnail: /img/clay-images-10.jpg
 photos:
   - image: /img/clay-images-10.jpg
     thumbnail: true

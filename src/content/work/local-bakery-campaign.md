@@ -3,6 +3,7 @@ templateKey: work-sub-page
 title: Local Bakery Campaign
 category: "Commercial Work"
 date: 2026-06-08T09:00:00-05:00
+thumbnail: /img/clay-images-17.jpg
 photos:
   - image: /img/clay-images-17.jpg
     thumbnail: true

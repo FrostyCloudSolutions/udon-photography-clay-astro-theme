@@ -3,6 +3,7 @@ templateKey: work-sub-page
 title: Six-Month Milestones
 category: "Babies"
 date: 2026-06-28T09:00:00-05:00
+thumbnail: /img/clay-images-2.jpg
 photos:
   - image: /img/clay-images-2.jpg
     thumbnail: true
