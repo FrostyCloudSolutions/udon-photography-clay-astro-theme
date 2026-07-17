@@ -1,4 +1,6 @@
 ---
+import { postThumbnail } from '../lib/postImages';
+
 export interface Props {
   count: number;
   post: any; // using any for now, better to use CollectionEntry
@@ -6,7 +8,7 @@ export interface Props {
 }
 
 const { count, post, slug } = Astro.props;
-const thumbnail = post.data.thumbnail;
+const thumbnail = postThumbnail(post.data);
 const title = post.data.title;
 const category = post.data.category;
 const isLarge = count % 3 === 0;

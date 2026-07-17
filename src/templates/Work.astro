@@ -16,14 +16,14 @@ const { entry, next, prev, baseSlug, categories = [], sectionTitle, sectionDescr
 const { Content } = await entry.render();
 
 const { title, description, thumbnail, date, category } = entry.data;
-const gallery = entry.data.gallery ?? [];
+const photos = entry.data.photos ?? [];
 const formattedDate = date
   ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   : null;
 ---
 
 <Layout title={title} description={description}>
-  <article class={`post-content ${thumbnail ? '' : 'no-image'}`}>
+  <article class={`post-content ${photos.length > 0 || thumbnail ? '' : 'no-image'}`}>
     {sectionTitle && (
       <header class="post-content-header">
         <h1 class="post-content-title">{sectionTitle}</h1>
@@ -60,23 +60,35 @@ const formattedDate = date
       <p class="post-content-excerpt">{description}</p>
     )}
 
-    {thumbnail && (
+    {photos.length > 0 ? (
+      <div class="post-gallery" data-gallery>
+        <button class="gallery-stage" aria-label="View this photo fullscreen">
+          <img
+            class="gallery-stage-image"
+            src={photos[0].image}
+            alt={`${title} — photo 1`}
+          />
+        </button>
+        {photos.length > 1 && (
+          <div class="gallery-strip-row">
+            <button class="gallery-arrow gallery-prev" aria-label="Previous photos" hidden>&#8249;</button>
+            <div class="gallery-strip">
+              {photos.map((photo, i) => (
+                <button
+                  class={`gallery-thumb ${i === 0 ? 'is-current' : ''}`}
+                  aria-label={`Show photo ${i + 1} of ${photos.length}`}
+                >
+                  <img src={photo.image} alt={`${title} — photo ${i + 1}`} loading="lazy" />
+                </button>
+              ))}
+            </div>
+            <button class="gallery-arrow gallery-next" aria-label="Next photos" hidden>&#8250;</button>
+          </div>
+        )}
+      </div>
+    ) : thumbnail && (
       <div class="post-content-image">
         <img src={thumbnail} class="kg-image" alt={title} />
-      </div>
-    )}
-
-    {gallery.length > 0 && (
-      <div class="post-gallery" data-gallery>
-        <button class="gallery-arrow gallery-prev" aria-label="Previous photos" hidden>&#8249;</button>
-        <div class="gallery-strip">
-          {gallery.map((src, i) => (
-            <button class="gallery-thumb" aria-label={`View photo ${i + 1} of ${gallery.length} fullscreen`}>
-              <img src={src} alt={`${title} — photo ${i + 1}`} loading="lazy" />
-            </button>
-          ))}
-        </div>
-        <button class="gallery-arrow gallery-next" aria-label="Next photos" hidden>&#8250;</button>
       </div>
     )}
 
@@ -103,7 +115,7 @@ const formattedDate = date
 
   </article>
 
-  {gallery.length > 0 && (
+  {photos.length > 0 && (
     <div class="lightbox" id="gallery-lightbox" hidden>
       <button class="lightbox-control lightbox-close" aria-label="Close fullscreen view">&times;</button>
       <button class="lightbox-control lightbox-arrow lightbox-prev" aria-label="Previous photo">&#8249;</button>
@@ -120,10 +132,33 @@ const formattedDate = date
   /* Filmstrip gallery. The !important flags counter the global button
      reset in buttons.css (black background, white text, inset shadow). */
   .post-gallery {
+    margin: 4vw 0;
+  }
+
+  .gallery-stage {
+    display: block;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    line-height: 0;
+    cursor: zoom-in;
+  }
+  .gallery-stage-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .gallery-strip-row {
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    margin: 3vw 0;
+    margin-top: 0.8rem;
   }
 
   .gallery-strip {
@@ -157,10 +192,16 @@ const formattedDate = date
     height: 100%;
     object-fit: cover;
     border-radius: 0;
+    opacity: 0.7;
     transition: opacity 0.2s ease;
   }
-  .gallery-thumb:hover img {
-    opacity: 0.8;
+  .gallery-thumb:hover img,
+  .gallery-thumb.is-current img {
+    opacity: 1;
+  }
+  .gallery-thumb.is-current {
+    outline: 2px solid var(--color-base);
+    outline-offset: -2px;
   }
   @media (max-width: 700px) {
     .gallery-thumb {
@@ -282,45 +323,59 @@ const formattedDate = date
     if (!gallery || !lightbox || gallery.dataset.enhanced === '1') return;
     gallery.dataset.enhanced = '1';
 
-    const strip = gallery.querySelector<HTMLElement>('.gallery-strip')!;
+    const stage = gallery.querySelector<HTMLButtonElement>('.gallery-stage')!;
+    const stageImage = stage.querySelector<HTMLImageElement>('.gallery-stage-image')!;
+    const strip = gallery.querySelector<HTMLElement>('.gallery-strip');
     const thumbs = [...gallery.querySelectorAll<HTMLButtonElement>('.gallery-thumb')];
-    const images = thumbs.map((t) => t.querySelector('img')!);
+    const images = thumbs.length > 0 ? thumbs.map((t) => t.querySelector('img')!) : [stageImage];
+    let current = 0;
+
+    // Clicking a thumbnail swaps that photo onto the stage.
+    const setCurrent = (index: number) => {
+      current = (index + images.length) % images.length;
+      stageImage.src = images[current].getAttribute('src') || '';
+      stageImage.alt = images[current].alt;
+      thumbs.forEach((t, i) => t.classList.toggle('is-current', i === current));
+    };
+    thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => setCurrent(index)));
 
     // Filmstrip paging: arrows appear only when the strip overflows, and
     // scroll it one full "page" (the visible width) at a time.
-    const prevBtn = gallery.querySelector<HTMLButtonElement>('.gallery-prev')!;
-    const nextBtn = gallery.querySelector<HTMLButtonElement>('.gallery-next')!;
-    const updateArrows = () => {
-      const overflows = strip.scrollWidth > strip.clientWidth + 1;
-      prevBtn.hidden = nextBtn.hidden = !overflows;
-      if (overflows) {
-        prevBtn.disabled = strip.scrollLeft <= 1;
-        nextBtn.disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1;
-      }
-    };
-    // Page by whole thumbnails so the target lands exactly on a snap
-    // point (smooth scrolling to a non-aligned offset fights the
-    // mandatory scroll snap in some browsers).
-    const pageBy = (direction: number) => {
-      const unit = thumbs[0].offsetWidth + parseFloat(getComputedStyle(strip).gap || '0');
-      const perPage = Math.max(1, Math.floor(strip.clientWidth / unit));
-      const max = strip.scrollWidth - strip.clientWidth;
-      const target = Math.max(0, Math.min(strip.scrollLeft + direction * perPage * unit, max));
-      strip.scrollTo({ left: target, behavior: 'smooth' });
-    };
-    prevBtn.addEventListener('click', () => pageBy(-1));
-    nextBtn.addEventListener('click', () => pageBy(1));
-    strip.addEventListener('scroll', updateArrows, { passive: true });
-    window.addEventListener('resize', updateArrows);
-    updateArrows();
+    if (strip) {
+      const prevBtn = gallery.querySelector<HTMLButtonElement>('.gallery-prev')!;
+      const nextBtn = gallery.querySelector<HTMLButtonElement>('.gallery-next')!;
+      const updateArrows = () => {
+        const overflows = strip.scrollWidth > strip.clientWidth + 1;
+        prevBtn.hidden = nextBtn.hidden = !overflows;
+        if (overflows) {
+          prevBtn.disabled = strip.scrollLeft <= 1;
+          nextBtn.disabled = strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1;
+        }
+      };
+      // Page by whole thumbnails so the target lands exactly on a snap
+      // point (smooth scrolling to a non-aligned offset fights the
+      // mandatory scroll snap in some browsers).
+      const pageBy = (direction: number) => {
+        const unit = thumbs[0].offsetWidth + parseFloat(getComputedStyle(strip).gap || '0');
+        const perPage = Math.max(1, Math.floor(strip.clientWidth / unit));
+        const max = strip.scrollWidth - strip.clientWidth;
+        const target = Math.max(0, Math.min(strip.scrollLeft + direction * perPage * unit, max));
+        strip.scrollTo({ left: target, behavior: 'smooth' });
+      };
+      prevBtn.addEventListener('click', () => pageBy(-1));
+      nextBtn.addEventListener('click', () => pageBy(1));
+      strip.addEventListener('scroll', updateArrows, { passive: true });
+      window.addEventListener('resize', updateArrows);
+      updateArrows();
+    }
 
-    // Lightbox
+    // Fullscreen lightbox, opened by clicking the stage. Navigating in
+    // the lightbox keeps the stage in sync.
     const lightboxImage = lightbox.querySelector<HTMLImageElement>('.lightbox-image')!;
     const counter = lightbox.querySelector<HTMLElement>('.lightbox-counter')!;
-    let current = 0;
 
     const show = (index: number) => {
-      current = (index + images.length) % images.length;
+      setCurrent(index);
       lightboxImage.src = images[current].getAttribute('src') || '';
       lightboxImage.alt = images[current].alt;
       counter.textContent = `${current + 1} / ${images.length}`;
@@ -335,7 +390,7 @@ const formattedDate = date
       document.body.style.overflow = '';
     };
 
-    thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => open(index)));
+    stage.addEventListener('click', () => open(current));
     lightbox.querySelector('.lightbox-close')!.addEventListener('click', close);
     lightbox.querySelector('.lightbox-prev')!.addEventListener('click', () => show(current - 1));
     lightbox.querySelector('.lightbox-next')!.addEventListener('click', () => show(current + 1));

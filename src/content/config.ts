@@ -14,7 +14,14 @@ const commonSchema = z.object({
   number: z.number().optional(),
   pagetype: z.array(z.string()).optional(),
   category: z.string().optional(),
-  gallery: z.array(z.string()).optional(),
+  photos: z
+    .array(
+      z.object({
+        image: z.string(),
+        thumbnail: z.boolean().optional(),
+      })
+    )
+    .optional(),
 }).partial();
 
 const work = defineCollection({
