@@ -62,13 +62,6 @@ const formattedDate = date
 
     {photos.length > 0 ? (
       <div class="post-gallery" data-gallery>
-        <button class="gallery-stage" aria-label="View this photo fullscreen">
-          <img
-            class="gallery-stage-image"
-            src={photos[0].image}
-            alt={`${title} — photo 1`}
-          />
-        </button>
         {photos.length > 1 && (
           <div class="gallery-strip-row">
             <button class="gallery-arrow gallery-prev" aria-label="Previous photos" hidden>&#8249;</button>
@@ -85,6 +78,13 @@ const formattedDate = date
             <button class="gallery-arrow gallery-next" aria-label="Next photos" hidden>&#8250;</button>
           </div>
         )}
+        <button class="gallery-stage" aria-label="View this photo fullscreen">
+          <img
+            class="gallery-stage-image"
+            src={photos[0].image}
+            alt={`${title} — photo 1`}
+          />
+        </button>
       </div>
     ) : thumbnail && (
       <div class="post-content-image">
@@ -158,7 +158,7 @@ const formattedDate = date
     display: flex;
     align-items: center;
     gap: 0.8rem;
-    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
   }
 
   .gallery-strip {

@@ -7,5 +7,38 @@
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+    // Portfolio-post save rules the widget config can't express:
+    // only one photo may be flagged as the listing thumbnail (the first
+    // flagged one wins), and a blank publish date becomes "now" -- this
+    // Decap version leaves the datetime field empty on new entries.
+    CMS.registerEventListener({
+      name: 'preSave',
+      handler: function ({ entry }) {
+        if (entry.get('collection') !== 'portfolio') return;
+        let data = entry.get('data');
+
+        const photos = data.get('photos');
+        if (photos && photos.map) {
+          let seen = false;
+          data = data.set(
+            'photos',
+            photos.map(function (photo) {
+              if (photo && photo.get && photo.get('thumbnail')) {
+                if (seen) return photo.set('thumbnail', false);
+                seen = true;
+              }
+              return photo;
+            })
+          );
+        }
+
+        if (!data.get('date')) {
+          data = data.set('date', new Date().toISOString());
+        }
+        return data;
+      },
+    });
+  </script>
 </body>
 </html>

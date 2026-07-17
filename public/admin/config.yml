@@ -141,6 +141,16 @@ collections:
           widget: "hidden",
           default: "work-sub-page",
         }
+      - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "Publish Date",
+          name: "date",
+          widget: "datetime",
+          date_format: "DD/MM/YYYY",
+          time_format: "hh:mm a",
+          format: "YYYY-MM-DDTHH:mm:ssZ",
+          picker_utc: false,
+        }
       - {
           label: "Category",
           name: "category",
@@ -172,15 +182,5 @@ collections:
               default: false,
               required: false,
             }
-      - {
-          label: "Publish Date",
-          name: "date",
-          widget: "datetime",
-          date_format: "DD/MM/YYYY",
-          time_format: "hh:mm a",
-          format: "YYYY-MM-DDTHH:mm:ssZ",
-          picker_utc: false,
-        }
-      - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Body", name: "body", widget: "markdown" }
