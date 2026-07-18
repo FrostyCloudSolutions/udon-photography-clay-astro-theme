@@ -84,6 +84,35 @@
         if (control && control.style.display !== 'none') control.style.display = 'none';
       });
     }).observe(document.body, { subtree: true, childList: true });
+
+    // A freshly uploaded photo's editor preview points at its final site
+    // URL (/img/...), which 404s until the entry is published and the
+    // site redeploys -- Decap doesn't resolve draft uploads to their
+    // local blob inside list fields. Swap the resulting broken/blank
+    // preview for an informative placeholder so uploads don't look lost.
+    const PREVIEW_PLACEHOLDER =
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="240" height="160">' +
+          '<rect width="240" height="160" fill="#eceef1"/>' +
+          '<text x="120" y="72" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#444">Photo attached</text>' +
+          '<text x="120" y="96" text-anchor="middle" font-family="sans-serif" font-size="11" fill="#777">preview appears after publish</text>' +
+          '</svg>'
+      );
+    const swapBrokenPreview = function (img) {
+      if (img.src && img.src.indexOf('data:') !== 0) img.src = PREVIEW_PLACEHOLDER;
+    };
+    new MutationObserver(function () {
+      document.querySelectorAll('img:not([data-broken-preview-bound])').forEach(function (img) {
+        img.setAttribute('data-broken-preview-bound', '1');
+        img.addEventListener('error', function () {
+          swapBrokenPreview(img);
+        });
+        if (img.complete && img.naturalWidth === 0 && img.src && !/^(data|blob):/.test(img.src)) {
+          swapBrokenPreview(img);
+        }
+      });
+    }).observe(document.body, { subtree: true, childList: true });
   </script>
 </body>
 </html>

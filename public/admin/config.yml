@@ -13,8 +13,11 @@ backend:
     create: 'Create {{collection}} {{slug}}'
     update: 'Update {{collection}} {{slug}}'
     delete: 'Delete {{collection}} {{slug}}'
-    uploadMedia: '[skip ci] Upload {{path}}'
-    deleteMedia: '[skip ci] Delete {{path}}'
+    # No [skip ci] here: media commits must trigger a Cloudflare Pages
+    # build, or uploaded images never reach the live site and previews
+    # that point at /img/... stay broken.
+    uploadMedia: 'Upload {{path}}'
+    deleteMedia: 'Delete {{path}}'
 
 # local_backend: true
 # removed local_backend: true to transfer compatibility from Netlify to cloudflare pages
@@ -184,7 +187,7 @@ collections:
         widget: "list"
         label_singular: "photo"
         summary: "{{fields.image}}"
-        hint: "All photos for this post, in display order (drag to rearrange). Tick 'Use as thumbnail' on the one that should represent the post in the portfolio grid; otherwise the first photo is used."
+        hint: "All photos for this post, in display order (drag to rearrange). Tick 'Use as thumbnail' on the one that should represent the post in the portfolio grid; otherwise the first photo is used. Newly uploaded photos show an 'attached' placeholder here until the post is published and the site finishes updating (a minute or two) — that's normal."
         fields:
           - { label: "Image", name: "image", widget: "image", choose_url: false }
           - {
