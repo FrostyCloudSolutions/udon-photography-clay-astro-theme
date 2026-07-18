@@ -1,6 +1,6 @@
 # Udon Studio — Client Testing Feedback & Functionality Bugs
 
-**Date:** July 18, 2026
+**Date:** July 17, 2026
 **Participants:** Frosty Cloud Solutions (Sammy); Udon Studio (client, "Udon小章鱼🐙")
 
 Context: the client signed off on the website's **visual appearance** at the
