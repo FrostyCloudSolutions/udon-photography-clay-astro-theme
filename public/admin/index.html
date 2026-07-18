@@ -85,6 +85,23 @@
       });
     }).observe(document.body, { subtree: true, childList: true });
 
+    // The datetime widget starts empty on new entries in this Decap
+    // version, so click its own "Set date to now" button when an empty
+    // date field mounts -- the publish date then visibly defaults to
+    // now. Runs once per field mount, so deliberately clearing the date
+    // afterwards is respected. The preSave hook stays as the fallback.
+    new MutationObserver(function () {
+      document.querySelectorAll('input[type="datetime-local"]').forEach(function (input) {
+        if (input.dataset.nowDefaulted === '1' || input.value) return;
+        input.dataset.nowDefaulted = '1';
+        const control = input.closest('[class*="ControlContainer"]') || document;
+        const nowButton = [...control.querySelectorAll('button')].find(function (button) {
+          return button.textContent.trim() === 'Now';
+        });
+        if (nowButton) nowButton.click();
+      });
+    }).observe(document.body, { subtree: true, childList: true });
+
     // A freshly uploaded photo's editor preview points at its final site
     // URL (/img/...), which 404s until the entry is published and the
     // site redeploys -- Decap doesn't resolve draft uploads to their
