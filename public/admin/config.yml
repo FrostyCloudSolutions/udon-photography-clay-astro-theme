@@ -187,7 +187,7 @@ collections:
         widget: "list"
         label_singular: "photo"
         summary: "{{fields.image}}"
-        hint: "All photos for this post, in display order (drag to rearrange). Tick 'Use as thumbnail' on the one that should represent the post in the portfolio grid; otherwise the first photo is used. Newly uploaded photos show an 'attached' placeholder here until the post is published and the site finishes updating (a minute or two) — that's normal."
+        hint: "All photos for this post, in display order (drag to rearrange). Tick 'Use as thumbnail' on the one that should represent the post in the portfolio grid; otherwise the first photo is used. If a gray 'Photo attached' box ever appears in place of a preview, the photo is still attached — it will display normally once the post is published and the site finishes updating."
         fields:
           - { label: "Image", name: "image", widget: "image", choose_url: false }
           - {

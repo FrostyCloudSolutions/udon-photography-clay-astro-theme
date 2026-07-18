@@ -104,9 +104,29 @@
 
     // A freshly uploaded photo's editor preview points at its final site
     // URL (/img/...), which 404s until the entry is published and the
-    // site redeploys -- Decap doesn't resolve draft uploads to their
-    // local blob inside list fields. Swap the resulting broken/blank
-    // preview for an informative placeholder so uploads don't look lost.
+    // site redeploys -- Decap resolves draft uploads to a local blob for
+    // top-level image fields but not for image fields nested in a list.
+    // Remember an object URL for every file uploaded this session and
+    // use it as the preview whenever Decap's resolution comes up broken,
+    // so the real photo shows before publish. If the upload isn't from
+    // this session (e.g. a restored draft after a reload), fall back to
+    // an informative placeholder instead of a blank box.
+    const uploadedPreviews = {};
+    document.addEventListener(
+      'change',
+      function (event) {
+        const input = event.target;
+        if (!input || input.type !== 'file' || !input.files) return;
+        [...input.files].forEach(function (file) {
+          const url = URL.createObjectURL(file);
+          const name = file.name.toLowerCase();
+          uploadedPreviews[name] = url;
+          uploadedPreviews[name.replace(/\s+/g, '-')] = url;
+        });
+      },
+      true
+    );
+
     const PREVIEW_PLACEHOLDER =
       'data:image/svg+xml,' +
       encodeURIComponent(
@@ -117,7 +137,13 @@
           '</svg>'
       );
     const swapBrokenPreview = function (img) {
-      if (img.src && img.src.indexOf('data:') !== 0) img.src = PREVIEW_PLACEHOLDER;
+      if (!img.src || img.src.indexOf('data:') === 0 || img.src.indexOf('blob:') === 0) return;
+      let replacement = PREVIEW_PLACEHOLDER;
+      try {
+        const base = decodeURIComponent(img.src.split('/').pop()).toLowerCase();
+        if (uploadedPreviews[base]) replacement = uploadedPreviews[base];
+      } catch (ignore) {}
+      img.src = replacement;
     };
     new MutationObserver(function () {
       document.querySelectorAll('img:not([data-broken-preview-bound])').forEach(function (img) {
@@ -125,7 +151,7 @@
         img.addEventListener('error', function () {
           swapBrokenPreview(img);
         });
-        if (img.complete && img.naturalWidth === 0 && img.src && !/^(data|blob):/.test(img.src)) {
+        if (img.complete && img.naturalWidth === 0) {
           swapBrokenPreview(img);
         }
       });
