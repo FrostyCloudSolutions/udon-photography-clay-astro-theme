@@ -3,7 +3,7 @@ templateKey: work-sub-page
 title: Side by Side
 date: 2026-07-19T19:34:00+10:00
 category: Babies
-thumbnail: /img/img_8628.jpg
+thumbnail: /img/20230528-0e0a5039.jpg
 photos:
   - thumbnail: false
     image: /img/img_8628.jpg
@@ -17,6 +17,16 @@ photos:
     image: /img/img_8630.jpg
   - thumbnail: false
     image: /img/img_8637.jpg
+  - thumbnail: false
+    image: /img/20230528-0e0a5067.jpg
+  - thumbnail: false
+    image: /img/20230528-0e0a5066.jpg
+  - thumbnail: true
+    image: /img/20230528-0e0a5039.jpg
+  - thumbnail: false
+    image: /img/20230528-0e0a5000.jpg
+  - thumbnail: false
+    image: /img/20230528-0e0a4974.jpg
 description: Nian Gao has the sweetest name, and a childhood that already feels
   full of warmth.
 ---
