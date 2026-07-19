@@ -116,6 +116,14 @@ she wants in the form copy.
 ## Open Items — Pending Client Input
 
 - Which footer additions above should actually be included?
+  - Partially resolved July 19: the "Site by Frosty Cloud Solutions"
+    credit is approved. Client, verbatim: "I think it would be fine if
+    it was just a line of small text at the bottom - I just don't want
+    it to disrupt the overall layout and design". Implemented as a
+    small muted "Website by Frosty Cloud Solutions" line (linking to
+    frostycloud.net) under the copyright line. Other footer additions
+    (service area, tagline, nav links, phone, privacy policy, ABN)
+    remain pending.
 - ~~Brand name in the inquiry copy: her script says "Udon Studio" but
   the site is branded "Udon Photography" — question sent to the client
   July 16~~ resolved July 16: client confirmed the site is renamed to
