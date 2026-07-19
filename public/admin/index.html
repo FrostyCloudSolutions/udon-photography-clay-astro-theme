@@ -60,13 +60,18 @@
           mutation.attributeName !== 'aria-checked' ||
           flipped.getAttribute('role') !== 'switch' ||
           flipped.getAttribute('aria-checked') !== 'true' ||
-          mutation.oldValue === 'true'
+          mutation.oldValue === 'true' ||
+          // Only photo-item toggles are radios; leave every other
+          // switch in the editor (e.g. pane toggles) alone.
+          !flipped.closest('[class*="SortableListItem"]')
         ) {
           return;
         }
-        document.querySelectorAll('[role="switch"][aria-checked="true"]').forEach(function (other) {
-          if (other !== flipped) other.click();
-        });
+        document
+          .querySelectorAll('[class*="SortableListItem"] [role="switch"][aria-checked="true"]')
+          .forEach(function (other) {
+            if (other !== flipped) other.click();
+          });
       });
     }).observe(document.body, {
       subtree: true,
