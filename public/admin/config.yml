@@ -27,6 +27,8 @@ public_folder: /img
 collections:
   - name: "pages"
     label: "Pages"
+    editor:
+      preview: false
     files:
       - file: "src/content/pages/index.md"
         label: "Home"
@@ -134,6 +136,10 @@ collections:
     label: "Portfolio Posts"
     folder: "src/content/work"
     create: true
+    # Hide Decap's default entry-preview pane: it was never configured
+    # and just dumps raw field labels next to the form.
+    editor:
+      preview: false
     slug: "{{slug}}"
     summary: "{{title}} — {{date | date('MMM D, YYYY')}}"
     sortable_fields: ["date", "title", "category"]
@@ -186,6 +192,7 @@ collections:
         name: "photos"
         widget: "list"
         label_singular: "photo"
+        collapsed: false
         summary: "{{fields.image}}"
         hint: "All photos for this post, in display order (drag to rearrange). Tick 'Use as thumbnail' on the one that should represent the post in the portfolio grid; otherwise the first photo is used. If a gray 'Photo attached' box ever appears in place of a preview, the photo is still attached — it will display normally once the post is published and the site finishes updating."
         fields:

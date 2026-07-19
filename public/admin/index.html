@@ -208,6 +208,23 @@
       });
     }).observe(document.body, { subtree: true, childList: true });
 
+    // Decap puts the "Add photo" button in a bar above the photo list,
+    // but adding flows downward -- reorder that bar below the items
+    // (style-only, so React's DOM is untouched).
+    new MutationObserver(function () {
+      document.querySelectorAll('[class*="ObjectWidgetTopBar"]:not([data-moved-below])').forEach(function (topBar) {
+        const hasAdd = [...topBar.querySelectorAll('button')].some(function (button) {
+          return button.textContent.trim() === 'Add photo';
+        });
+        if (!hasAdd) return;
+        topBar.setAttribute('data-moved-below', '1');
+        const container = topBar.parentElement;
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        topBar.style.order = '99';
+      });
+    }).observe(document.body, { subtree: true, childList: true });
+
     // The media library renders draft uploads from their in-memory
     // bytes; harvest those object URLs as another preview source (this
     // covers drafts restored after a reload once the library opens).
