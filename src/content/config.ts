@@ -18,6 +18,7 @@ const commonSchema = z.object({
     .array(
       z.object({
         image: z.string(),
+        caption: z.string().optional(),
         thumbnail: z.boolean().optional(),
       })
     )

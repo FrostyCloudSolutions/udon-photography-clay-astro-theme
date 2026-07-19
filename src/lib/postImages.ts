@@ -4,6 +4,7 @@
 
 export interface PostPhoto {
   image: string;
+  caption?: string;
   thumbnail?: boolean;
 }
 

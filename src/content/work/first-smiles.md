@@ -8,6 +8,7 @@ photos:
   - image: /img/clay-image-1.jpg
     thumbnail: true
   - image: /img/clay-images-2.jpg
+    caption: A quiet moment between takes.
   - image: /img/clay-images-3.jpg
   - image: /img/clay-images-4.jpg
   - image: /img/clay-images-6.jpg

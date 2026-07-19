@@ -191,6 +191,12 @@ collections:
         fields:
           - { label: "Image", name: "image", widget: "image", choose_url: false }
           - {
+              label: "Caption (optional)",
+              name: "caption",
+              widget: "string",
+              required: false,
+            }
+          - {
               label: "Use as thumbnail in the portfolio grid",
               name: "thumbnail",
               widget: "boolean",

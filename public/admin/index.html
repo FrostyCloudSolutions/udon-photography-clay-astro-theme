@@ -112,20 +112,91 @@
     // this session (e.g. a restored draft after a reload), fall back to
     // an informative placeholder instead of a blank box.
     const uploadedPreviews = {};
+    const registerPreview = function (name, url) {
+      const key = name.toLowerCase();
+      uploadedPreviews[key] = url;
+      uploadedPreviews[key.replace(/\s+/g, '-')] = url;
+      // Re-resolve any previews that already fell back to the placeholder.
+      document.querySelectorAll('img[data-broken-base]').forEach(function (img) {
+        const base = img.getAttribute('data-broken-base');
+        if (uploadedPreviews[base]) img.src = uploadedPreviews[base];
+      });
+    };
+
+    const pendingUploadNames = [];
     document.addEventListener(
       'change',
       function (event) {
         const input = event.target;
         if (!input || input.type !== 'file' || !input.files) return;
         [...input.files].forEach(function (file) {
-          const url = URL.createObjectURL(file);
-          const name = file.name.toLowerCase();
-          uploadedPreviews[name] = url;
-          uploadedPreviews[name.replace(/\s+/g, '-')] = url;
+          registerPreview(file.name, URL.createObjectURL(file));
+          pendingUploadNames.push(file.name.toLowerCase().replace(/\s+/g, '-'));
         });
       },
       true
     );
+
+    // After an upload, Decap enables "Choose selected" without the new
+    // card actually being selected, so choosing silently inserts
+    // nothing. Click the fresh card for real once it renders.
+    new MutationObserver(function () {
+      if (!pendingUploadNames.length) return;
+      document.querySelectorAll('[class*="-Card"]:not([data-auto-selected])').forEach(function (card) {
+        const label = card.querySelector('p:last-of-type');
+        if (!label) return;
+        const name = label.textContent.trim().toLowerCase();
+        const index = pendingUploadNames.indexOf(name);
+        if (index === -1) return;
+        pendingUploadNames.splice(index, 1);
+        card.setAttribute('data-auto-selected', '1');
+        ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'].forEach(function (type) {
+          card.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
+        });
+      });
+    }).observe(document.body, { subtree: true, childList: true });
+
+    // The media library renders draft uploads from their in-memory
+    // bytes; harvest those object URLs as another preview source (this
+    // covers drafts restored after a reload once the library opens).
+    new MutationObserver(function () {
+      document.querySelectorAll('img[src^="blob:"]:not([data-harvested])').forEach(function (img) {
+        img.setAttribute('data-harvested', '1');
+        const card = img.closest('[class*="-Card"]');
+        const label = card && card.querySelector('p:last-of-type');
+        const name = label && label.textContent.trim();
+        if (name && !uploadedPreviews[name.toLowerCase()]) registerPreview(name, img.src);
+      });
+    }).observe(document.body, { subtree: true, childList: true });
+
+    // Decap backs up draft entries -- including the uploaded file bytes
+    // -- in IndexedDB. Read those bytes back on load and register
+    // object URLs, so drafts restored from a previous session show real
+    // previews without waiting for the media library to open.
+    (function hydratePreviewsFromBackups() {
+      try {
+        const open = indexedDB.open('localforage');
+        open.onsuccess = function () {
+          const db = open.result;
+          if (!db.objectStoreNames.contains('keyvaluepairs')) return;
+          const cursorReq = db.transaction('keyvaluepairs', 'readonly').objectStore('keyvaluepairs').openCursor();
+          cursorReq.onsuccess = function () {
+            const cursor = cursorReq.result;
+            if (!cursor) return;
+            const value = cursor.value;
+            if (value && value.mediaFiles && value.mediaFiles.forEach) {
+              value.mediaFiles.forEach(function (mediaFile) {
+                const blob = mediaFile && (mediaFile.file || mediaFile.blob);
+                if (blob instanceof Blob && mediaFile.name) {
+                  registerPreview(mediaFile.name, URL.createObjectURL(blob));
+                }
+              });
+            }
+            cursor.continue();
+          };
+        };
+      } catch (ignore) {}
+    })();
 
     const PREVIEW_PLACEHOLDER =
       'data:image/svg+xml,' +
@@ -141,6 +212,9 @@
       let replacement = PREVIEW_PLACEHOLDER;
       try {
         const base = decodeURIComponent(img.src.split('/').pop()).toLowerCase();
+        // Remember which file this preview wanted, so registerPreview can
+        // upgrade the placeholder to the real image when the bytes arrive.
+        img.setAttribute('data-broken-base', base);
         if (uploadedPreviews[base]) replacement = uploadedPreviews[base];
       } catch (ignore) {}
       img.src = replacement;

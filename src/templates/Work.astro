@@ -69,9 +69,10 @@ const formattedDate = date
               {photos.map((photo, i) => (
                 <button
                   class={`gallery-thumb ${i === 0 ? 'is-current' : ''}`}
+                  data-caption={photo.caption || ''}
                   aria-label={`Show photo ${i + 1} of ${photos.length}`}
                 >
-                  <img src={photo.image} alt={`${title} — photo ${i + 1}`} loading="lazy" />
+                  <img src={photo.image} alt={photo.caption || `${title} — photo ${i + 1}`} loading="lazy" />
                 </button>
               ))}
             </div>
@@ -82,9 +83,10 @@ const formattedDate = date
           <img
             class="gallery-stage-image"
             src={photos[0].image}
-            alt={`${title} — photo 1`}
+            alt={photos[0].caption || `${title} — photo 1`}
           />
         </button>
+        <p class="gallery-stage-caption" hidden={!photos[0].caption}>{photos[0].caption}</p>
       </div>
     ) : thumbnail && (
       <div class="post-content-image">
@@ -121,6 +123,7 @@ const formattedDate = date
       <button class="lightbox-control lightbox-arrow lightbox-prev" aria-label="Previous photo">&#8249;</button>
       <figure class="lightbox-figure">
         <img class="lightbox-image" src="" alt="" />
+        <div class="lightbox-caption" hidden></div>
         <figcaption class="lightbox-counter"></figcaption>
       </figure>
       <button class="lightbox-control lightbox-arrow lightbox-next" aria-label="Next photo">&#8250;</button>
@@ -152,6 +155,18 @@ const formattedDate = date
     width: 100%;
     height: auto;
     border-radius: 0;
+  }
+
+  .gallery-stage-caption {
+    margin: 0.8rem 0 0;
+    font-family: var(--font-sans-serif);
+    font-size: 1.5rem;
+    text-align: center;
+    color: var(--color-base);
+    opacity: 0.7;
+  }
+  .gallery-stage-caption[hidden] {
+    display: none;
   }
 
   .gallery-strip-row {
@@ -254,6 +269,16 @@ const formattedDate = date
     max-height: 84vh;
     object-fit: contain;
   }
+  .lightbox-caption {
+    margin-top: 1.2rem;
+    color: #fff;
+    opacity: 0.85;
+    font-family: var(--font-sans-serif);
+    font-size: 1.6rem;
+  }
+  .lightbox-caption[hidden] {
+    display: none;
+  }
   .lightbox-counter {
     margin-top: 1.2rem;
     color: #fff;
@@ -325,9 +350,12 @@ const formattedDate = date
 
     const stage = gallery.querySelector<HTMLButtonElement>('.gallery-stage')!;
     const stageImage = stage.querySelector<HTMLImageElement>('.gallery-stage-image')!;
+    const stageCaption = gallery.querySelector<HTMLElement>('.gallery-stage-caption');
     const strip = gallery.querySelector<HTMLElement>('.gallery-strip');
     const thumbs = [...gallery.querySelectorAll<HTMLButtonElement>('.gallery-thumb')];
     const images = thumbs.length > 0 ? thumbs.map((t) => t.querySelector('img')!) : [stageImage];
+    const captions =
+      thumbs.length > 0 ? thumbs.map((t) => t.dataset.caption || '') : [stageCaption?.textContent?.trim() || ''];
     let current = 0;
 
     // Clicking a thumbnail swaps that photo onto the stage.
@@ -335,6 +363,10 @@ const formattedDate = date
       current = (index + images.length) % images.length;
       stageImage.src = images[current].getAttribute('src') || '';
       stageImage.alt = images[current].alt;
+      if (stageCaption) {
+        stageCaption.textContent = captions[current];
+        stageCaption.hidden = !captions[current];
+      }
       thumbs.forEach((t, i) => t.classList.toggle('is-current', i === current));
     };
     thumbs.forEach((thumb, index) => thumb.addEventListener('click', () => setCurrent(index)));
@@ -372,12 +404,15 @@ const formattedDate = date
     // Fullscreen lightbox, opened by clicking the stage. Navigating in
     // the lightbox keeps the stage in sync.
     const lightboxImage = lightbox.querySelector<HTMLImageElement>('.lightbox-image')!;
+    const lightboxCaption = lightbox.querySelector<HTMLElement>('.lightbox-caption')!;
     const counter = lightbox.querySelector<HTMLElement>('.lightbox-counter')!;
 
     const show = (index: number) => {
       setCurrent(index);
       lightboxImage.src = images[current].getAttribute('src') || '';
       lightboxImage.alt = images[current].alt;
+      lightboxCaption.textContent = captions[current];
+      lightboxCaption.hidden = !captions[current];
       counter.textContent = `${current + 1} / ${images.length}`;
     };
     const open = (index: number) => {
