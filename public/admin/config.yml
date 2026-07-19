@@ -190,8 +190,10 @@ collections:
         hint: "All photos for this post, in display order (drag to rearrange). Tick 'Use as thumbnail' on the one that should represent the post in the portfolio grid; otherwise the first photo is used. If a gray 'Photo attached' box ever appears in place of a preview, the photo is still attached — it will display normally once the post is published and the site finishes updating."
         fields:
           - { label: "Image", name: "image", widget: "image", choose_url: false }
+          # Decap itself appends "(optional)" to non-required fields, so
+          # keep the label bare to avoid "(optional) (optional)".
           - {
-              label: "Caption (optional)",
+              label: "Caption",
               name: "caption",
               widget: "string",
               required: false,

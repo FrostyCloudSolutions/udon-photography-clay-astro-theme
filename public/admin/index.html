@@ -90,7 +90,18 @@
     // date field mounts -- the publish date then visibly defaults to
     // now. Runs once per field mount, so deliberately clearing the date
     // afterwards is respected. The preSave hook stays as the fallback.
-    new MutationObserver(function () {
+    // Held back until the draft-backup scan (below) finishes: clicking
+    // "Now" dirties the fresh empty entry, and Decap then overwrites the
+    // stored draft backup with that empty entry before it can be
+    // restored. When a restorable backup exists for the entry, skip the
+    // prefill entirely -- the backup carries its own date, and preSave
+    // still defaults a blank date on publish.
+    let backupScanDone = false;
+    const backupKeys = new Set();
+    const applyNowDefault = function () {
+      if (!backupScanDone) return;
+      const route = window.location.hash.match(/\/collections\/([^/]+)\/new\b/);
+      if (route && backupKeys.has('backup.' + decodeURIComponent(route[1]))) return;
       document.querySelectorAll('input[type="datetime-local"]').forEach(function (input) {
         if (input.dataset.nowDefaulted === '1' || input.value) return;
         input.dataset.nowDefaulted = '1';
@@ -100,7 +111,8 @@
         });
         if (nowButton) nowButton.click();
       });
-    }).observe(document.body, { subtree: true, childList: true });
+    };
+    new MutationObserver(applyNowDefault).observe(document.body, { subtree: true, childList: true });
 
     // A freshly uploaded photo's editor preview points at its final site
     // URL (/img/...), which 404s until the entry is published and the
@@ -123,36 +135,76 @@
       });
     };
 
+    const normalizeName = function (name) {
+      return name.trim().toLowerCase().replace(/\s+/g, '-');
+    };
     const pendingUploadNames = [];
+    const registerLocalFiles = function (files) {
+      [...files].forEach(function (file) {
+        registerPreview(file.name, URL.createObjectURL(file));
+        pendingUploadNames.push(normalizeName(file.name));
+      });
+    };
     document.addEventListener(
       'change',
       function (event) {
         const input = event.target;
         if (!input || input.type !== 'file' || !input.files) return;
-        [...input.files].forEach(function (file) {
-          registerPreview(file.name, URL.createObjectURL(file));
-          pendingUploadNames.push(file.name.toLowerCase().replace(/\s+/g, '-'));
-        });
+        registerLocalFiles(input.files);
+      },
+      true
+    );
+    // Drag-and-drop uploads never touch the file input, so no change
+    // event fires; catch the dropped files too.
+    document.addEventListener(
+      'drop',
+      function (event) {
+        const files = event.dataTransfer && event.dataTransfer.files;
+        if (files && files.length) registerLocalFiles(files);
       },
       true
     );
 
+    // A media library card is the parent of its filename label. Draft
+    // uploads add a "Draft" badge <p> inside the card, and generic
+    // selectors like [class*="-Card"] also match the grid container and
+    // the card's inner wrappers, so anchor on the CardText label.
+    const eachMediaCard = function (callback) {
+      document.querySelectorAll('p[class*="CardText"]').forEach(function (label) {
+        if (label.parentElement) callback(label.parentElement, label.textContent);
+      });
+    };
+
     // After an upload, Decap enables "Choose selected" without the new
     // card actually being selected, so choosing silently inserts
-    // nothing. Click the fresh card for real once it renders.
+    // nothing. Click the fresh card for real once it renders. The click
+    // can race the library's own selection reset while the modal is
+    // still settling, so verify the insert button actually enabled and
+    // retry a few times if not.
+    const clickMediaCard = function (card) {
+      ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'].forEach(function (type) {
+        card.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
+      });
+    };
+    const selectMediaCard = function (card, attempt) {
+      clickMediaCard(card);
+      if (attempt >= 5) return;
+      setTimeout(function () {
+        const choose = [...document.querySelectorAll('button')].find(function (button) {
+          return button.textContent.trim() === 'Choose selected';
+        });
+        if (choose && choose.disabled && document.contains(card)) selectMediaCard(card, attempt + 1);
+      }, 400);
+    };
     new MutationObserver(function () {
       if (!pendingUploadNames.length) return;
-      document.querySelectorAll('[class*="-Card"]:not([data-auto-selected])').forEach(function (card) {
-        const label = card.querySelector('p:last-of-type');
-        if (!label) return;
-        const name = label.textContent.trim().toLowerCase();
-        const index = pendingUploadNames.indexOf(name);
+      eachMediaCard(function (card, name) {
+        if (card.getAttribute('data-auto-selected')) return;
+        const index = pendingUploadNames.indexOf(normalizeName(name));
         if (index === -1) return;
         pendingUploadNames.splice(index, 1);
         card.setAttribute('data-auto-selected', '1');
-        ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'].forEach(function (type) {
-          card.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
-        });
+        selectMediaCard(card, 1);
       });
     }).observe(document.body, { subtree: true, childList: true });
 
@@ -160,11 +212,11 @@
     // bytes; harvest those object URLs as another preview source (this
     // covers drafts restored after a reload once the library opens).
     new MutationObserver(function () {
-      document.querySelectorAll('img[src^="blob:"]:not([data-harvested])').forEach(function (img) {
+      eachMediaCard(function (card, name) {
+        const img = card.querySelector('img[src^="blob:"]:not([data-harvested])');
+        if (!img) return;
         img.setAttribute('data-harvested', '1');
-        const card = img.closest('[class*="-Card"]');
-        const label = card && card.querySelector('p:last-of-type');
-        const name = label && label.textContent.trim();
+        name = name.trim();
         if (name && !uploadedPreviews[name.toLowerCase()]) registerPreview(name, img.src);
       });
     }).observe(document.body, { subtree: true, childList: true });
@@ -173,17 +225,27 @@
     // -- in IndexedDB. Read those bytes back on load and register
     // object URLs, so drafts restored from a previous session show real
     // previews without waiting for the media library to open.
+    // The scan also records which backup keys exist, so the publish-date
+    // prefill above knows when a draft is waiting to be restored.
     (function hydratePreviewsFromBackups() {
+      const finish = function () {
+        if (backupScanDone) return;
+        backupScanDone = true;
+        applyNowDefault();
+      };
       try {
         const open = indexedDB.open('localforage');
+        open.onerror = finish;
         open.onsuccess = function () {
           const db = open.result;
-          if (!db.objectStoreNames.contains('keyvaluepairs')) return;
+          if (!db.objectStoreNames.contains('keyvaluepairs')) return finish();
           const cursorReq = db.transaction('keyvaluepairs', 'readonly').objectStore('keyvaluepairs').openCursor();
+          cursorReq.onerror = finish;
           cursorReq.onsuccess = function () {
             const cursor = cursorReq.result;
-            if (!cursor) return;
+            if (!cursor) return finish();
             const value = cursor.value;
+            if (value && value.raw && typeof cursor.key === 'string') backupKeys.add(cursor.key);
             if (value && value.mediaFiles && value.mediaFiles.forEach) {
               value.mediaFiles.forEach(function (mediaFile) {
                 const blob = mediaFile && (mediaFile.file || mediaFile.blob);
@@ -195,7 +257,9 @@
             cursor.continue();
           };
         };
-      } catch (ignore) {}
+      } catch (ignore) {
+        finish();
+      }
     })();
 
     const PREVIEW_PLACEHOLDER =

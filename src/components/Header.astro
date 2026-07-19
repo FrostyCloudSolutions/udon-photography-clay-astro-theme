@@ -102,4 +102,15 @@ const { title } = Astro.props;
         padding: 0.4rem 1rem;
         white-space: nowrap;
     }
+
+    /* In the mobile open menu the submenu must flow with the list, not
+       float over the social icons and footer below it. */
+    @media (max-width: 850px) {
+        .nav-submenu {
+            position: static;
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+        }
+    }
 </style>
