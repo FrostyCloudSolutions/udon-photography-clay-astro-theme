@@ -3,10 +3,10 @@ templateKey: work-sub-page
 title: How Time Flies
 date: 2026-07-19T19:50:00+10:00
 category: Babies
-thumbnail: /img/8892af2f-42ed-41e0-8f53-19a00f9a84ab.jpg
+thumbnail: /img/f6581084-048e-4672-a021-006522f5c6d7.jpg
 photos:
   - thumbnail: true
-    image: /img/8892af2f-42ed-41e0-8f53-19a00f9a84ab.jpg
+    image: /img/f6581084-048e-4672-a021-006522f5c6d7.jpg
     caption: ""
   - thumbnail: false
     image: /img/4ec3522b-f6c3-4d80-84e8-dc594a05b34d.jpg
