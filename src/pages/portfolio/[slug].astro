@@ -1,63 +1,31 @@
 ---
-import { getCollection } from 'astro:content';
 import WorkTemplate from '../../templates/Work.astro';
 import { PORTFOLIO_CATEGORIES } from '../../lib/categories';
+import { getPage, getPostsFull } from '../../lib/sanity';
 
 export async function getStaticPaths() {
-  const pages = await getCollection('pages');
-  const sectionEntry = pages.find((p) => p.slug === 'portfolio');
-  const sectionTitle = sectionEntry?.data.title ?? 'Portfolio';
-  const sectionDescription = sectionEntry?.data.description ?? '';
+  const section = await getPage('page-portfolio');
+  const posts = await getPostsFull(); // newest first
 
-  const workEntries = await getCollection('work');
-  // Sort by date or number if needed? Legacy sorted by date DESC in gatsby-node but actually didn't sort, just list.
-  // Actually gatsby-node sorted `allMarkdownRemark(limit: 1000, sort: {frontmatter: {date: DESC}})`
-  // So next/prev logic relies on this sort order.
-
-  const sortedEntries = workEntries.sort((a, b) => {
-    return new Date(b.data.date || 0).getTime() - new Date(a.data.date || 0).getTime();
-  });
-
-  return sortedEntries.map((entry, index) => {
-    const prev = index === 0 ? null : sortedEntries[index - 1]; // Newer post (Previous in list?)
-    // In Gatsby logic: index 0 is newest.
-    // previous = index === length - 1 ? null : sortedEntries[index+1] (Next older post?)
-    // Wait, let's check legacy gatsby-node.
-    // const previous = index === blogPost.length - 1 ? null : blogPost[index + 1].node
-    // const next = index === 0 ? null : blogPost[index - 1].node
-
-    // So 'previous' variable holds the OLDER post (index + 1).
-    // 'next' variable holds the NEWER post (index - 1).
-
-    // In the template UI:
-    // Left Icon (Prev?) -> href={nextSlug} (Wait. NextSlug variable comes from pageContext.next?)
-    // pageContext.next = next (Newer post).
-    // Left Icon -> Next (Newer).
-    // Right Icon -> Previous (Older).
-
-    // So Left = Newer, Right = Older.
-
-    const newer = index === 0 ? null : sortedEntries[index - 1];
-    const older = index === sortedEntries.length - 1 ? null : sortedEntries[index + 1];
-
-    return {
-      params: { slug: entry.slug },
-      props: {
-        entry,
-        next: newer, // Left
-        prev: older, // Right
-        sectionTitle,
-        sectionDescription,
-      },
-    };
-  });
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      // Left arrow walks to the newer post, right arrow to the older
+      // one (same convention as the previous implementation).
+      next: index === 0 ? null : posts[index - 1],
+      prev: index === posts.length - 1 ? null : posts[index + 1],
+      sectionTitle: section?.title ?? 'Portfolio',
+      sectionDescription: section?.description ?? '',
+    },
+  }));
 }
 
-const { entry, next, prev, sectionTitle, sectionDescription } = Astro.props;
+const { post, next, prev, sectionTitle, sectionDescription } = Astro.props;
 ---
 
 <WorkTemplate
-  entry={entry}
+  post={post}
   next={next}
   prev={prev}
   baseSlug="portfolio"

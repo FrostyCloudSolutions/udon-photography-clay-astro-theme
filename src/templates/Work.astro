@@ -1,29 +1,36 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { type CollectionEntry } from 'astro:content';
+import { thumbImage, largeImage, type PostFull } from '../lib/sanity';
 
 interface Props {
-  entry: CollectionEntry<'work'>;
-  next?: any;
-  prev?: any;
-  baseSlug?: string; // e.g. 'work'
+  post: PostFull;
+  next?: PostFull | null;
+  prev?: PostFull | null;
+  baseSlug?: string; // e.g. 'portfolio'
   categories?: string[];
   sectionTitle?: string;
   sectionDescription?: string;
 }
 
-const { entry, next, prev, baseSlug, categories = [], sectionTitle, sectionDescription } = Astro.props;
-const { Content } = await entry.render();
+const { post, next, prev, baseSlug, categories = [], sectionTitle, sectionDescription } = Astro.props;
 
-const { title, description, thumbnail, date, category } = entry.data;
-const photos = entry.data.photos ?? [];
+const { title, description, date, category } = post;
+// Pre-build both derivative sizes per photo: the 400px thumb renders
+// in the filmstrip, the 1600px full feeds the stage and lightbox via
+// the data-full attribute the gallery script reads.
+const photos = (post.photos ?? []).map((photo, index) => ({
+  thumb: thumbImage(photo),
+  full: largeImage(photo),
+  caption: photo.caption ?? '',
+  alt: photo.caption || `${title} — photo ${index + 1}`,
+}));
 const formattedDate = date
   ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   : null;
 ---
 
 <Layout title={title} description={description}>
-  <article class={`post-content ${photos.length > 0 || thumbnail ? '' : 'no-image'}`}>
+  <article class={`post-content ${photos.length > 0 ? '' : 'no-image'}`}>
     {sectionTitle && (
       <header class="post-content-header">
         <h1 class="post-content-title">{sectionTitle}</h1>
@@ -72,7 +79,7 @@ const formattedDate = date
                   data-caption={photo.caption || ''}
                   aria-label={`Show photo ${i + 1} of ${photos.length}`}
                 >
-                  <img src={photo.image} alt={photo.caption || `${title} — photo ${i + 1}`} loading="lazy" />
+                  <img src={photo.thumb} data-full={photo.full} alt={photo.alt} loading="lazy" />
                 </button>
               ))}
             </div>
@@ -82,34 +89,26 @@ const formattedDate = date
         <button class="gallery-stage" aria-label="View this photo fullscreen">
           <img
             class="gallery-stage-image"
-            src={photos[0].image}
-            alt={photos[0].caption || `${title} — photo 1`}
+            src={photos[0].full}
+            alt={photos[0].alt}
           />
         </button>
         <p class="gallery-stage-caption" hidden={!photos[0].caption}>{photos[0].caption}</p>
       </div>
-    ) : thumbnail && (
-      <div class="post-content-image">
-        <img src={thumbnail} class="kg-image" alt={title} />
-      </div>
-    )}
-
-    <div class="post-content-body">
-      <Content />
-    </div>
+    ) : null}
 
     <div class="post-link">
       <div>
         {next && (
             <a style="display: flex; align-items: center; color: #131313; font-size: 2rem;" href={`/${baseSlug}/${next.slug}`}>
-               <span>&larr; {next.data.title}</span>
+               <span>&larr; {next.title}</span>
             </a>
         )}
       </div>
       <div>
         {prev && (
             <a style="display: flex; align-items: center; color: #131313; font-size: 2rem;" href={`/${baseSlug}/${prev.slug}`}>
-               <span>{prev.data.title} &rarr;</span>
+               <span>{prev.title} &rarr;</span>
             </a>
         )}
       </div>
@@ -358,10 +357,15 @@ const formattedDate = date
       thumbs.length > 0 ? thumbs.map((t) => t.dataset.caption || '') : [stageCaption?.textContent?.trim() || ''];
     let current = 0;
 
+    // Thumbnails render a small derivative; the stage and lightbox use
+    // the large one carried in data-full (single-photo posts have no
+    // strip, so the stage image itself is already the large size).
+    const fullSrc = (img: HTMLImageElement) => img.dataset.full || img.getAttribute('src') || '';
+
     // Clicking a thumbnail swaps that photo onto the stage.
     const setCurrent = (index: number) => {
       current = (index + images.length) % images.length;
-      stageImage.src = images[current].getAttribute('src') || '';
+      stageImage.src = fullSrc(images[current]);
       stageImage.alt = images[current].alt;
       if (stageCaption) {
         stageCaption.textContent = captions[current];
@@ -409,7 +413,7 @@ const formattedDate = date
 
     const show = (index: number) => {
       setCurrent(index);
-      lightboxImage.src = images[current].getAttribute('src') || '';
+      lightboxImage.src = fullSrc(images[current]);
       lightboxImage.alt = images[current].alt;
       lightboxCaption.textContent = captions[current];
       lightboxCaption.hidden = !captions[current];

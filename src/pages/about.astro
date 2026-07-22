@@ -1,0 +1,13 @@
+---
+import PageTemplate from '../templates/Page.astro';
+import { getPage, largeImage } from '../lib/sanity';
+
+const page = await getPage('page-about');
+---
+
+<PageTemplate
+  title={page?.title ?? 'About'}
+  description={page?.description}
+  image={page?.image ? largeImage(page.image) : undefined}
+  body={page?.body}
+/>

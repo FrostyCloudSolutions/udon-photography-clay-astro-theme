@@ -1,19 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { type CollectionEntry } from 'astro:content';
+import { PortableText } from 'astro-portabletext';
 
 interface Props {
-  entry: CollectionEntry<'pages'>;
+  title: string;
+  description?: string | null;
+  image?: string | null; // pre-built CDN URL
+  body?: unknown | null; // portable text blocks
 }
 
-const { entry } = Astro.props;
-const { Content } = await entry.render();
-
-const { title, description, thumbnail } = entry.data;
+const { title, description, image, body } = Astro.props;
 ---
 
-<Layout title={title} description={description}>
-  <article class={`post-content ${thumbnail ? '' : 'no-image'}`}>
+<Layout title={title} description={description ?? undefined}>
+  <article class={`post-content ${image ? '' : 'no-image'}`}>
     <header class="post-content-header">
       <h1 class="post-content-title">{title}</h1>
     </header>
@@ -22,14 +22,14 @@ const { title, description, thumbnail } = entry.data;
       <p class="post-content-excerpt">{description}</p>
     )}
 
-    {thumbnail && (
+    {image && (
       <div class="post-content-image">
-        <img src={thumbnail} class="kg-image" alt={title} />
+        <img src={image} class="kg-image" alt={title} />
       </div>
     )}
 
     <div class="post-content-body">
-      <Content />
+      {body && <PortableText value={body} />}
     </div>
 
     <footer class="post-content-footer">
