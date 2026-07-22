@@ -162,10 +162,12 @@ shims), `src/content/` (markdown + collections config),
 
 ## Sign-off checklist (differences from today worth blessing)
 
-- [ ] Explicit routes replace `templateKey` dispatch.
-- [ ] Homepage tiles hardcoded to About/Portfolio/Inquire (no
+Signed off by Frosty Cloud July 22, 2026.
+
+- [x] Explicit routes replace `templateKey` dispatch.
+- [x] Homepage tiles hardcoded to About/Portfolio/Inquire (no
       `pagetype`/`number` content mechanism).
-- [ ] Pages get one optional `image` + portable-text `body`.
-- [ ] Posts: description-only pending the client's answer
-      (gallery-with-intro vs article-style).
-- [ ] Studio hostname `udon-studio.sanity.studio`.
+- [x] Pages get one optional `image` + portable-text `body`.
+- [x] Posts: description-only; if the client answers "article-style",
+      a portable-text body is added later (additive change).
+- [x] Studio hostname `udon-studio.sanity.studio`.
