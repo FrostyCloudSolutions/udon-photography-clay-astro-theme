@@ -1,6 +1,6 @@
 # Udon Studio — Sanity Migration: Decisions, Plan, and Consolidated Action Items
 
-**Date:** July 19, 2026
+**Date:** July 22, 2026
 **Status:** Concept phase agreed (one open client question); technical
 expansion pass is the next gate before any implementation.
 
