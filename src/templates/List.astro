@@ -1,22 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
-import { type CollectionEntry } from 'astro:content';
+import { cardImage, type PostSummary } from '../lib/sanity';
 
 interface Props {
-  entry: CollectionEntry<'pages'>;
-  items?: any[]; // The list of items to display
+  title: string;
+  description?: string | null;
+  posts?: PostSummary[];
   baseSlug?: string;
   categories?: string[]; // Fixed category filter options, if this list supports filtering
 }
 
-const { entry, items = [], baseSlug, categories = [] } = Astro.props;
-
-const { title, description } = entry.data;
+const { title, description, posts = [], baseSlug, categories = [] } = Astro.props;
 
 const useGrid = baseSlug === 'portfolio';
-
-let postCounter = 0;
 ---
 
 <Layout title={title} description={description}>
@@ -39,16 +36,15 @@ let postCounter = 0;
     )}
 
     <div class={`post-feed ${useGrid ? 'grid-4' : ''}`} data-filterable={categories.length > 0}>
-        {items.map((post) => {
-            postCounter++;
-            return (
-                <PostCard
-                    count={postCounter}
-                    post={post}
-                    slug={baseSlug ? `${baseSlug}/${post.slug}` : post.slug}
-                />
-            );
-        })}
+        {posts.map((post, index) => (
+            <PostCard
+                count={index + 1}
+                title={post.title}
+                category={post.category}
+                thumbnail={post.cover ? cardImage(post.cover) : undefined}
+                slug={baseSlug ? `${baseSlug}/${post.slug}` : post.slug}
+            />
+        ))}
     </div>
   </article>
 </Layout>

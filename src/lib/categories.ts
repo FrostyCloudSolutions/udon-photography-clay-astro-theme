@@ -1,6 +1,7 @@
 // Fixed category options for Portfolio filtering.
-// Kept in sync manually with the "Category" select field options in
-// public/admin/config.yml -- adding a new category means updating both places.
+// Kept in sync manually with the Category options in the Sanity
+// studio schema (../studio-udon-studio/schemaTypes/portfolioPost.ts).
+// "Other" exists in the CMS but is deliberately not a filter here.
 
 export const PORTFOLIO_CATEGORIES = [
   "Babies",

@@ -1,0 +1,13 @@
+---
+import ContactTemplate from '../../templates/Contact.astro';
+import { getPage, largeImage } from '../../lib/sanity';
+
+const page = await getPage('page-inquire');
+---
+
+<ContactTemplate
+  title={page?.title ?? 'Inquire'}
+  description={page?.description}
+  image={page?.image ? largeImage(page.image) : undefined}
+  body={page?.body}
+/>

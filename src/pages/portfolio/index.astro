@@ -1,0 +1,16 @@
+---
+import ListTemplate from '../../templates/List.astro';
+import { PORTFOLIO_CATEGORIES } from '../../lib/categories';
+import { getPage, getPostSummaries } from '../../lib/sanity';
+
+const page = await getPage('page-portfolio');
+const posts = await getPostSummaries();
+---
+
+<ListTemplate
+  title={page?.title ?? 'Portfolio'}
+  description={page?.description}
+  posts={posts}
+  baseSlug="portfolio"
+  categories={PORTFOLIO_CATEGORIES}
+/>

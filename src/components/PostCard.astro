@@ -1,16 +1,13 @@
 ---
-import { postThumbnail } from '../lib/postImages';
-
 export interface Props {
   count: number;
-  post: any; // using any for now, better to use CollectionEntry
+  title: string;
   slug: string;
+  category?: string;
+  thumbnail?: string; // pre-built CDN URL
 }
 
-const { count, post, slug } = Astro.props;
-const thumbnail = postThumbnail(post.data);
-const title = post.data.title;
-const category = post.data.category;
+const { count, title, slug, category, thumbnail } = Astro.props;
 const isLarge = count % 3 === 0;
 
 // Construct background image style

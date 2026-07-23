@@ -1,30 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PostCard from '../components/PostCard.astro';
-import { getCollection } from 'astro:content';
+import { getPage, getHomeTiles, cardImage } from '../lib/sanity';
 
-// Fetch all collections
-const allPages = await getCollection('pages');
-const allWork = await getCollection('work');
+const home = await getPage('page-home');
+const title = home?.title ?? 'Udon Studio';
+const description = home?.description ?? undefined;
 
-// Combine for filtering
-const allContent = [...allPages, ...allWork];
-
-// Filter for pagetype containing 'main' and sort by number
-const posts = allContent.filter(item => {
-    return item.data.pagetype && item.data.pagetype.includes('main');
-}).sort((a, b) => {
-    const numA = a.data.number || 9999;
-    const numB = b.data.number || 9999;
-    return numA - numB;
-});
-
-// Get index-page metadata (from pages collection)
-const indexPage = allPages.find(p => p.slug === 'index');
-const title = indexPage?.data.title || 'Clay';
-const description = indexPage?.data.description;
-
-let postCounter = 0;
+// The three tiles (About / Portfolio / Inquire) are a design constant;
+// each shows that page's own image and title from Sanity.
+const tiles = await getHomeTiles();
 ---
 
 <Layout title={title} description={description}>
@@ -33,25 +18,13 @@ let postCounter = 0;
         {description && <p class="post-content-excerpt">{description}</p>}
     </header>
     <div class="post-feed grid-3">
-        {posts.map((post) => {
-            postCounter++;
-            // Calculate slug. If it's from 'pages', slug is just slug (or flattened).
-            // content/pages/bio.md -> slug 'bio'.
-            // content/work/work-1.md -> slug 'work-1'? No, in config.ts, work collection.
-            // But legacy mapped work/work-1.md -> /work/work-1
-            // My [...slug].astro will handle mapping.
-            // Here I need to generate the same link.
-
-            let slug = post.slug;
-            if (post.collection === 'work') slug = `portfolio/${post.slug}`;
-
-            return (
-                <PostCard
-                    count={postCounter}
-                    post={post}
-                    slug={slug}
-                />
-            );
-        })}
+        {tiles.map((tile, index) => (
+            <PostCard
+                count={index + 1}
+                title={tile.title}
+                thumbnail={tile.image ? cardImage(tile.image) : undefined}
+                slug={tile.slug}
+            />
+        ))}
     </div>
 </Layout>

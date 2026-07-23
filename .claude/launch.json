@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "preview",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "npx astro preview --port $PORT"],
+      "autoPort": true,
+      "port": 4321
+    }
+  ]
+}
