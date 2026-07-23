@@ -1,6 +1,15 @@
 # Udon Studio — Sanity Migration: Decisions, Plan, and Consolidated Action Items
 
 **Date:** July 22, 2026
+**CUTOVER COMPLETED July 22, 2026 (late evening):** udonphoto.com now
+builds from Sanity. Tag `decap-cms-final` marks the last Decap-era
+commit; Decap (/admin), the markdown content, and public/img are
+removed; `_headers` cache rules shipped; a 404 page was added
+(Cloudflare Pages otherwise SPA-fallbacks unknown paths to the
+homepage with a 200). Outstanding: re-point the publish webhook from
+the sanity-cms preview deploy hook to a production (main) deploy
+hook; client rebuilds her real posts (live site shows the five
+"(demo)" placeholders until then).
 **Status:** Concept phase agreed (one open client question); technical
 expansion pass is the next gate before any implementation.
 
