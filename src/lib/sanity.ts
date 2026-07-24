@@ -26,8 +26,12 @@ const builder = imageUrlBuilder(sanityClient);
 // Derivative sizes. Sanity's image CDN resizes and re-encodes on the
 // fly (auto('format') serves WebP/AVIF per browser), which is what
 // lets the client upload 5–10MB originals without hurting the site.
+// Card/tile images request a fixed-aspect CROP: with both dimensions
+// set, the CDN centers the crop on each image's hotspot — so the
+// focal point the client sets with the Studio's crop tool controls
+// what shows in the grid thumbnails.
 export const cardImage = (source: SanityImageSource) =>
-  builder.image(source).width(1200).auto('format').url(); // grid/tile backgrounds
+  builder.image(source).width(1200).height(900).fit('crop').auto('format').url();
 export const thumbImage = (source: SanityImageSource) =>
   builder.image(source).width(400).auto('format').url(); // filmstrip thumbnails
 export const largeImage = (source: SanityImageSource) =>

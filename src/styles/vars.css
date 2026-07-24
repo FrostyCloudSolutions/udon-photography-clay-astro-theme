@@ -46,3 +46,14 @@
 
     /* Old BG--color-bg: #f8f8f8;*/
 }
+
+/* Opt out of Chrome-for-Android's "Auto Dark Theme", which force-darkens
+   light pages (dark backgrounds with un-inverted text). The site's own
+   dark mode is applied explicitly via [data-theme="dark"] only. */
+:root {
+    color-scheme: only light;
+}
+
+:root[data-theme="dark"] {
+    color-scheme: dark;
+}

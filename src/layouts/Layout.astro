@@ -120,33 +120,17 @@ const { title, description } = Astro.props;
                 initTheme();
             });
 
-            // Re-apply theme on swap to prevent flash?
-            // The is:inline script in head handles the initial check on reload.
-            // astro:after-swap handles verifying state after client-side nav.
+            // Theme policy: ALWAYS light unless the visitor explicitly
+            // chose dark via the toggle (stored choice); never follow the
+            // OS preference. Same rule as the head init script, re-applied
+            // after client-side navigation.
             document.addEventListener("astro:after-swap", () => {
-                const theme = localStorage.getItem("theme");
-                if (
-                    theme === "dark" ||
-                    (!theme &&
-                        window.matchMedia("(prefers-color-scheme: dark)")
-                            .matches)
-                ) {
+                if (localStorage.getItem("theme") === "dark") {
                     document.documentElement.setAttribute("data-theme", "dark");
                 } else {
                     document.documentElement.removeAttribute("data-theme");
                 }
             });
-        </script>
-        <script>
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-            if (!user) {
-                window.netlifyIdentity.on("login", () => {
-                document.location.href = "/admin/";
-                });
-            }
-            });
-        }
         </script>
     </body>
 </html>
