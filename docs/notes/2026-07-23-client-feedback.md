@@ -307,3 +307,50 @@ Follow-up exchange on "cover selection":
    the layout toggle explained.
 4. Phase 4 account cleanup after Sammy confirms the role/removal
    plan.
+
+## Phase 1 & 2 outcomes (appended July 23, 2026)
+
+**Phase 1 — shipped to production (commit 18053ad):** B1 (logo
+clearance), B2 (always-light default + explicit-toggle persistence +
+opt-out of Chrome-for-Android Auto Dark Theme, which was force-
+darkening pages with un-inverted text), B3 (footer icons horizontal
+on mobile), C6 site half (grid/tile thumbnails now request
+hotspot-centered crops — the Studio crop tool controls thumbnails).
+
+**Phase 2 — verification results:**
+
+- **C1 (folders): folders are NOT available on the current plan.**
+  Sanity's real folder system ("Media Library" with collections) is
+  an Enterprise add-on. The installed free plugin organizes by TAGS —
+  there is no missed setting. Workflow to teach: Media tab → select
+  image(s) → add/create a tag in the side panel (bulk-taggable) →
+  filter by tag when picking images. Tag names can mirror her mental
+  folders ("Maternity 2026", "Posters", …).
+- **C2 (bulk delete): YES.** The media browser supports selecting
+  multiple assets and deleting in bulk. Caveat: the deletion is one
+  transaction — if ANY selected asset is still used by a post, the
+  whole delete fails. Use the plugin's "in use" filter facet to
+  select only unused assets first.
+- **C3 (add many photos to a post): two confirmed paths.**
+  (a) Media tab supports batch drag-and-drop uploads into the global
+  library (documented). (b) Into a post directly: drag multiple files
+  from the computer ONTO the Photos field — one live confirmation
+  still pending (30-second test): select several files in
+  Finder, drag onto the Photos box, expect one entry per file. The
+  media picker's multi-select insert into arrays is NOT documented —
+  assume single-insert there.
+- **C4 (cancel per-file during upload): not documented** in the
+  plugin; assume unavailable. Practical mitigation: wrong uploads are
+  cheap to fix via C2 bulk delete.
+- **C5 (editing demo posts): RESOLVED with proof.** API check shows
+  the demo posts' photo arrays are fully keyed/editable — and the
+  client has in fact edited them (First Smiles title changed, photos
+  13 → 7). The early hiccup was collapsed-item UI confusion.
+
+Sources: sanity-plugin-media README (sanity-io/plugins repo); Sanity
+Media Library / pricing documentation via public docs, July 2026.
+
+**Remaining:** Phase 3 (article layout + gallery/article toggle) —
+awaiting go; Phase 4 (account cleanup) — done July 23 (client =
+single Google identity, Editor only); C3 live drag test — 30 seconds
+in any logged-in Studio session.
