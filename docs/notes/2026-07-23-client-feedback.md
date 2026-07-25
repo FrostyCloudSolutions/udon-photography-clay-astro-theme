@@ -417,3 +417,47 @@ of these thumbnails myself" (the portfolio grid order).
   affected most rules. Plugins removed, legacy color() adjustments
   rewritten as native color-mix(), hardcoded prev/next link colors
   fixed. Dark mode now inverts the whole site.
+
+## FINAL behavior spec: layout toggle & photo handling (supersedes earlier design)
+
+The implementation evolved past the original Phase 3 spec (manual
+fill button) into a fully automatic pipeline. This section is the
+authoritative description of how it works as shipped (commits
+a93b234, f823776, 38844bb, 8ef888e, 70702f0).
+
+**Layout toggle (per post):**
+- Values: Article (default for NEW posts) | Gallery slideshow.
+- Existing posts with no stored layout render as Gallery — nothing
+  changes until someone flips them. Flipping is always reversible
+  and never destroys content: Gallery mode simply ignores the
+  article body; Article mode simply doesn't render the filmstrip.
+
+**Photo pipeline in Article mode ("photos flow in through the
+Photos box"):**
+1. Body empty + photos present → the whole Photos list is written
+   into the body as Image rows of 2 (captions carried over), on
+   opening the post or on switching to Article.
+2. Body has content + new photos added to the Photos box (multi-file
+   drag, "Add many from library", or single Add item) → the new
+   photos append to the END of the body as rows of 2, shortly after
+   their uploads complete (debounced so batches land together).
+3. Hidden ledger (articleSyncedKeys field) records every photo ever
+   placed: rows the editor deletes from the body are NEVER
+   re-inserted, nothing loops, nothing duplicates.
+4. Removing a photo from the Photos box never touches the body.
+5. The first Photos entry remains the portfolio-grid cover in both
+   layouts; the crop/hotspot tool controls its framing.
+6. Site-side safety net: an article post whose body has no image
+   rows (e.g. never reopened in the Studio) renders its Photos as
+   automatic rows of 2 ahead of the body text.
+
+**Adding photos — three paths:** multi-file drag onto the Photos box
+(confirmed working July 24); "Add many from library…" custom picker
+(checkbox grid, tag/filename filter, one-click append); single Add
+item. All uploads land in the global media library regardless of
+entry point.
+
+**Image rows in bodies:** 1–3 photos per row (1 = full width,
+2/3 = columns, stacked on phones), optional captions, insertable
+anywhere in post and page bodies; all images open the shared
+fullscreen lightbox with prev/next across the whole document.
