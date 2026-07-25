@@ -114,10 +114,27 @@ const { title, description } = Astro.props;
                 }
             }
 
+            // Email links are shipped as split data attributes and
+            // assembled here, so Cloudflare's Email Obfuscation never
+            // detects/rewrites them (its decoder doesn't re-run after
+            // client-side navigation, leaving broken cdn-cgi links).
+            function initEmailLinks() {
+                document
+                    .querySelectorAll<HTMLAnchorElement>("[data-mail-user]")
+                    .forEach((link) => {
+                        const user = link.dataset.mailUser;
+                        const domain = link.dataset.mailDomain;
+                        if (user && domain) {
+                            link.href = "mailto:" + user + "@" + domain;
+                        }
+                    });
+            }
+
             // Run on view transitions (fires on initial load too)
             document.addEventListener("astro:page-load", () => {
                 initNav();
                 initTheme();
+                initEmailLinks();
             });
 
             // Theme policy: ALWAYS light unless the visitor explicitly
