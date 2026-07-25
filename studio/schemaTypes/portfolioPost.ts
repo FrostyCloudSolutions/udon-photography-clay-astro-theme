@@ -1,6 +1,7 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 import {PostFormInput} from '../components/AutoArticleRows'
+import {PhotosArrayInput} from '../components/PhotosArrayInput'
 
 /**
  * The eight site categories plus "Other". "Other" is intentionally
@@ -92,7 +93,8 @@ export const portfolioPost = defineType({
       title: 'Photos',
       type: 'array',
       description:
-        'All photos for this post, in display order — drag to rearrange. You can drop many files here at once. The FIRST photo is the thumbnail shown in the portfolio grid (in Article layout, only that first photo is used, as the cover). Click a photo to add an optional caption.',
+        'All photos for this post, in display order — drag to rearrange. You can drop many files here at once, or use "Add many from library" to pick several already-uploaded photos in one go. The FIRST photo is the thumbnail shown in the portfolio grid (in Article layout, only that first photo is used, as the cover). Click a photo to add an optional caption.',
+      components: {input: PhotosArrayInput},
       // Members are plain `image` types (with a caption field defined
       // on the image itself) rather than wrapper objects — this is
       // what keeps native multi-file drag-and-drop working: dropping
