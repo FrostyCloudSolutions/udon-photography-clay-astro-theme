@@ -394,3 +394,26 @@ of these thumbnails myself" (the portfolio grid order).
   Phase 1 (C6) — the Studio crop tool's hotspot now drives grid
   thumbnails; the rule only decides WHICH photo, the hotspot decides
   WHICH PART of it.
+
+## Phase 3 + F4 shipped; dark mode root-caused (appended July 23, late)
+
+- **Article layout live** (commits 1511f0f Studio / 654fddb site):
+  per-post Layout toggle (Gallery default | Article), Article body
+  with Image rows of 1/2/3 photos (captions supported), same
+  capability on page bodies (About), reading-measure typography,
+  fullscreen lightbox in both layouts. Verified end-to-end with a
+  temporary published article post (2-col and 3-col rows, captions,
+  data-full lightbox links all present in built HTML), then deleted.
+- **Drag-to-reorder live (F4):** Portfolio Posts list in the Studio
+  is now drag-to-order; the site follows that order. Posts never
+  dragged appear first, newest first, until positioned.
+- **Category tags pre-seeded (C1):** all nine tags exist in the
+  media browser.
+- **Dark mode (user report: black text on dark background when
+  toggled): real root cause found.** The PostCSS pipeline
+  (postcss-custom-properties preserve:false + postcss-color-function)
+  had been compiling the CSS variables into literal light-mode colors
+  at build time since the theme's origin — [data-theme=dark] never
+  affected most rules. Plugins removed, legacy color() adjustments
+  rewritten as native color-mix(), hardcoded prev/next link colors
+  fixed. Dark mode now inverts the whole site.
