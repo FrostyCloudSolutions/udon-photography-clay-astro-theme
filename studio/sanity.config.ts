@@ -2,6 +2,7 @@ import {defineConfig} from 'sanity'
 import {structureTool, type StructureBuilder} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {media} from 'sanity-plugin-media'
+import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 import {schemaTypes} from './schemaTypes'
 
 /**
@@ -33,13 +34,21 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S, context) =>
         S.list()
           .title('Content')
           .items([
             ...SITE_PAGES.map((page) => pageItem(S, page.id, page.title)),
             S.divider(),
-            S.documentTypeListItem('portfolioPost').title('Portfolio Posts'),
+            // Drag-to-reorder list: the order set here IS the site's
+            // portfolio grid order (posts never dragged yet appear
+            // newest-first at the front).
+            orderableDocumentListDeskItem({
+              type: 'portfolioPost',
+              title: 'Portfolio Posts',
+              S,
+              context,
+            }),
           ]),
     }),
     // Media browser: search, filters, and tag-based organization for

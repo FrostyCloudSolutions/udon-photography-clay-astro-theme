@@ -38,7 +38,7 @@ function toBlocks(markdown: string) {
     .map((paragraph) => paragraph.trim())
     .filter(Boolean)
     .map((paragraph) => {
-      const heading = paragraph.match(/^(#{1,3})\s+(.*)$/s)
+      const heading = paragraph.match(/^(#{1,3})\s+([\s\S]*)$/)
       const style = heading ? (heading[1].length === 1 ? 'h2' : 'h3') : 'normal'
       const text = (heading ? heading[2] : paragraph).replace(/\n/g, ' ')
       return {

@@ -1,10 +1,10 @@
 import {defineArrayMember, defineType} from 'sanity'
 
 /**
- * Shared rich-text ("portable text") definition used by page bodies.
- * Deliberately minimal: paragraphs, two heading levels, bold/italic,
- * and links. No inline images — post photos live in the dedicated
- * gallery field, not inside text.
+ * Shared rich-text ("portable text") definition used by page bodies
+ * and article-layout post bodies. Paragraphs, two heading levels,
+ * bold/italic, links — plus insertable Image rows (1–3 photos side
+ * by side), which is how photos flow through article-style content.
  */
 export const blockContent = defineType({
   name: 'blockContent',
@@ -45,5 +45,7 @@ export const blockContent = defineType({
         ],
       },
     }),
+    // Photos inside articles: 1–3 images rendered side by side.
+    defineArrayMember({type: 'imageRow'}),
   ],
 })

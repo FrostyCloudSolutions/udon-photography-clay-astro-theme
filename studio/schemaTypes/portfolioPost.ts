@@ -1,4 +1,5 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
+import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 
 /**
  * The eight site categories plus "Other". "Other" is intentionally
@@ -56,11 +57,35 @@ export const portfolioPost = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      description:
+        'How this post displays: "Gallery slideshow" shows the photo filmstrip; "Article" mixes your text and photo rows like a blog post. Photos open fullscreen in both.',
+      options: {
+        list: [
+          {title: 'Gallery slideshow', value: 'gallery'},
+          {title: 'Article (text and photos mixed)', value: 'article'},
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'gallery',
+    }),
+    defineField({
+      name: 'body',
+      title: 'Article body',
+      type: 'blockContent',
+      description:
+        'Used when Layout is "Article": write your text, and insert "Image row" blocks (1–3 photos side by side) wherever photos belong.',
+      hidden: ({document}) => document?.layout !== 'article',
+    }),
+    defineField({
       name: 'photos',
       title: 'Photos',
       type: 'array',
       description:
-        'All photos for this post, in display order — drag to rearrange. You can drop many files here at once. The FIRST photo is the thumbnail shown in the portfolio grid. Click a photo to add an optional caption.',
+        'All photos for this post, in display order — drag to rearrange. You can drop many files here at once. The FIRST photo is the thumbnail shown in the portfolio grid (in Article layout, only that first photo is used, as the cover). Click a photo to add an optional caption.',
       // Members are plain `image` types (with a caption field defined
       // on the image itself) rather than wrapper objects — this is
       // what keeps native multi-file drag-and-drop working: dropping
@@ -89,8 +114,11 @@ export const portfolioPost = defineType({
       description:
         'Intro paragraph shown between the title and the photos. Also used as the post description for search engines.',
     }),
+    // Hidden rank written by the drag-to-reorder list in the sidebar.
+    orderRankField({type: 'portfolioPost'}),
   ],
   orderings: [
+    orderRankOrdering,
     {
       name: 'dateDesc',
       title: 'Publish date (newest first)',
