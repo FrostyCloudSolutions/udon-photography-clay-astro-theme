@@ -123,6 +123,16 @@ export const portfolioPost = defineType({
       description:
         'Intro paragraph shown between the title and the photos. Also used as the post description for search engines.',
     }),
+    // Hidden ledger of photo keys already placed into the Article
+    // body by the auto-insert (see components/AutoArticleRows) — rows
+    // the editor deletes are never re-inserted.
+    defineField({
+      name: 'articleSyncedKeys',
+      title: 'Article synced photo keys (auto-managed)',
+      type: 'array',
+      of: [defineArrayMember({type: 'string'})],
+      hidden: true,
+    }),
     // Hidden rank written by the drag-to-reorder list in the sidebar.
     orderRankField({type: 'portfolioPost'}),
   ],
