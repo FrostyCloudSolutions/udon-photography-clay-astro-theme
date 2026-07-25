@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
 import ArticleImageRow from '../components/ArticleImageRow.astro';
 import Lightbox from '../components/Lightbox.astro';
-import { thumbImage, largeImage, type PostFull } from '../lib/sanity';
+import { thumbImage, largeImage, type PostFull, type PostPhoto } from '../lib/sanity';
 
 interface Props {
   post: PostFull;
@@ -32,7 +32,19 @@ const formattedDate = date
   : null;
 // Article layout: text and image rows flow as one document; the
 // gallery (filmstrip/stage) renders only in gallery layout.
-const isArticle = post.layout === 'article' && !!post.body;
+const isArticle = post.layout === 'article';
+// Until the body contains its own Image rows, an article post shows
+// its Photos list as automatic rows of 2 (photos must never vanish
+// just because the layout was switched), followed by the body text.
+const bodyBlocks = Array.isArray(post.body) ? (post.body as Array<{ _type?: string }>) : [];
+const bodyHasImageRows = bodyBlocks.some((block) => block._type === 'imageRow');
+const fallbackPairs: PostPhoto[][] = [];
+if (isArticle && !bodyHasImageRows) {
+  const rawPhotos = post.photos ?? [];
+  for (let i = 0; i < rawPhotos.length; i += 2) {
+    fallbackPairs.push(rawPhotos.slice(i, i + 2));
+  }
+}
 ---
 
 <Layout title={title} description={description}>
@@ -76,7 +88,12 @@ const isArticle = post.layout === 'article' && !!post.body;
     {isArticle ? (
       <div class="post-content-body">
         <div class="post-article">
-          <PortableText value={post.body} components={{ type: { imageRow: ArticleImageRow } }} />
+          {fallbackPairs.map((pair) => (
+            <ArticleImageRow node={{ images: pair }} />
+          ))}
+          {post.body ? (
+            <PortableText value={post.body} components={{ type: { imageRow: ArticleImageRow } }} />
+          ) : null}
         </div>
       </div>
     ) : photos.length > 0 ? (

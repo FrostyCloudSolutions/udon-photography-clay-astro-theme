@@ -1,5 +1,6 @@
 import {defineArrayMember, defineField, defineType} from 'sanity'
 import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
+import {ArticleBodyInput} from '../components/ArticleBodyInput'
 
 /**
  * The eight site categories plus "Other". "Other" is intentionally
@@ -81,7 +82,8 @@ export const portfolioPost = defineType({
       title: 'Article body',
       type: 'blockContent',
       description:
-        'Used when Layout is "Article": write your text, and insert "Image row" blocks (1–3 photos side by side) wherever photos belong.',
+        'Used when Layout is "Article": write your text, and insert "Image row" blocks (1–3 photos side by side) wherever photos belong. While this is empty, the site automatically shows the Photos list as rows of 2 — or press the "Fill with photo rows" button to turn those photos into editable rows here.',
+      components: {input: ArticleBodyInput},
       hidden: ({document}) => document?.layout !== 'article',
     }),
     defineField({
