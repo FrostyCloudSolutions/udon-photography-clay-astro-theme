@@ -64,13 +64,17 @@ export const portfolioPost = defineType({
         'How this post displays: "Gallery slideshow" shows the photo filmstrip; "Article" mixes your text and photo rows like a blog post. Photos open fullscreen in both.',
       options: {
         list: [
-          {title: 'Gallery slideshow', value: 'gallery'},
           {title: 'Article (text and photos mixed)', value: 'article'},
+          {title: 'Gallery slideshow', value: 'gallery'},
         ],
         layout: 'radio',
         direction: 'horizontal',
       },
-      initialValue: 'gallery',
+      // New posts default to article style (client preference,
+      // July 23); existing posts keep rendering as galleries until
+      // she switches them — and a post with no article body written
+      // yet falls back to the gallery on the site regardless.
+      initialValue: 'article',
     }),
     defineField({
       name: 'body',
