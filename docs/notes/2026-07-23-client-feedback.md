@@ -354,3 +354,43 @@ Media Library / pricing documentation via public docs, July 2026.
 awaiting go; Phase 4 (account cleanup) — done July 23 (client =
 single Google identity, Editor only); C3 live drag test — 30 seconds
 in any logged-in Studio session.
+
+## Additional items (July 23, later)
+
+Client messages (verbatim):
+
+> Udon小章鱼🐙: [Photo]
+> Udon小章鱼🐙: [Photo]
+> Udon小章鱼🐙: [Photo]
+> Udon小章鱼🐙: And when I click the email colum,it shows email protection
+
+Plus, from her video: "I also wanted to ask, can I arrange the order
+of these thumbnails myself" (the portfolio grid order).
+
+- **B5 — Email links broken (FIXED, commit 89497fc):** Cloudflare's
+  Email Address Obfuscation rewrites mailto: links into encoded
+  cdn-cgi links; its decoder doesn't re-run after Astro's client-side
+  navigation, so clicking landed on the "Email Protection" page.
+  Emails now ship as split data attributes assembled into the href in
+  the browser — the obfuscator never sees an email. (Dashboard
+  alternative — Scrape Shield → Email Address Obfuscation off — no
+  longer needed.)
+- **F4 — Manual ordering of portfolio posts.** Grid is date-sorted
+  today. Plan: @sanity/orderable-document-list plugin (verified
+  compatible with the Studio's Sanity v6) — she drags posts into
+  order in the Portfolio Posts list; the site orders by the plugin's
+  orderRank field. To be built alongside Phase 3.
+- **F5 — About page body styling.** Client-entered text currently
+  renders as an unrefined left-justified block under the single
+  image. The Phase 3 article work includes a typography pass on
+  portable-text bodies (measure, spacing, alignment consistent with
+  the site's serif style).
+- **Phase 3 refinement:** image rows in article bodies will support
+  **1, 2, or 3 images per row** (rendered as a 1/2/3-column tile
+  row, collapsing on mobile), per Frosty Cloud's question — not just
+  the 1–2 originally specced.
+- **Thumbnail rule blessed** (photos[0] = grid cover in both
+  layouts). Note: the client's crop/shift request is ALREADY LIVE via
+  Phase 1 (C6) — the Studio crop tool's hotspot now drives grid
+  thumbnails; the rule only decides WHICH photo, the hotspot decides
+  WHICH PART of it.
