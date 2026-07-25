@@ -1,5 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { PortableText } from 'astro-portabletext';
+import ArticleImageRow from '../components/ArticleImageRow.astro';
+import Lightbox from '../components/Lightbox.astro';
 import { thumbImage, largeImage, type PostFull } from '../lib/sanity';
 
 interface Props {
@@ -27,6 +30,9 @@ const photos = (post.photos ?? []).map((photo, index) => ({
 const formattedDate = date
   ? new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
   : null;
+// Article layout: text and image rows flow as one document; the
+// gallery (filmstrip/stage) renders only in gallery layout.
+const isArticle = post.layout === 'article' && !!post.body;
 ---
 
 <Layout title={title} description={description}>
@@ -67,7 +73,13 @@ const formattedDate = date
       <p class="post-content-excerpt">{description}</p>
     )}
 
-    {photos.length > 0 ? (
+    {isArticle ? (
+      <div class="post-content-body">
+        <div class="post-article">
+          <PortableText value={post.body} components={{ type: { imageRow: ArticleImageRow } }} />
+        </div>
+      </div>
+    ) : photos.length > 0 ? (
       <div class="post-gallery" data-gallery>
         {photos.length > 1 && (
           <div class="gallery-strip-row">
@@ -100,14 +112,14 @@ const formattedDate = date
     <div class="post-link">
       <div>
         {next && (
-            <a style="display: flex; align-items: center; color: #131313; font-size: 2rem;" href={`/${baseSlug}/${next.slug}`}>
+            <a style="display: flex; align-items: center; color: var(--color-base); font-size: 2rem;" href={`/${baseSlug}/${next.slug}`}>
                <span>&larr; {next.title}</span>
             </a>
         )}
       </div>
       <div>
         {prev && (
-            <a style="display: flex; align-items: center; color: #131313; font-size: 2rem;" href={`/${baseSlug}/${prev.slug}`}>
+            <a style="display: flex; align-items: center; color: var(--color-base); font-size: 2rem;" href={`/${baseSlug}/${prev.slug}`}>
                <span>{prev.title} &rarr;</span>
             </a>
         )}
@@ -116,18 +128,7 @@ const formattedDate = date
 
   </article>
 
-  {photos.length > 0 && (
-    <div class="lightbox" id="gallery-lightbox" hidden>
-      <button class="lightbox-control lightbox-close" aria-label="Close fullscreen view">&times;</button>
-      <button class="lightbox-control lightbox-arrow lightbox-prev" aria-label="Previous photo">&#8249;</button>
-      <figure class="lightbox-figure">
-        <img class="lightbox-image" src="" alt="" />
-        <div class="lightbox-caption" hidden></div>
-        <figcaption class="lightbox-counter"></figcaption>
-      </figure>
-      <button class="lightbox-control lightbox-arrow lightbox-next" aria-label="Next photo">&#8250;</button>
-    </div>
-  )}
+  {(isArticle || photos.length > 0) && <Lightbox />}
 </Layout>
 
 <style>
@@ -245,81 +246,6 @@ const formattedDate = date
     cursor: default;
   }
 
-  /* Fullscreen lightbox */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.93);
-  }
-  .lightbox[hidden] {
-    display: none;
-  }
-  .lightbox-figure {
-    margin: 0;
-    text-align: center;
-  }
-  .lightbox-image {
-    display: block;
-    max-width: 86vw;
-    max-height: 84vh;
-    object-fit: contain;
-  }
-  .lightbox-caption {
-    margin-top: 1.2rem;
-    color: #fff;
-    opacity: 0.85;
-    font-family: var(--font-sans-serif);
-    font-size: 1.6rem;
-  }
-  .lightbox-caption[hidden] {
-    display: none;
-  }
-  .lightbox-counter {
-    margin-top: 1.2rem;
-    color: #fff;
-    opacity: 0.7;
-    font-family: var(--font-sans-serif);
-    font-size: 1.4rem;
-    letter-spacing: 1px;
-  }
-  .lightbox-control {
-    height: auto;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 0;
-    background-color: transparent !important;
-    color: #fff !important;
-    box-shadow: none !important;
-    line-height: 1;
-    opacity: 0.7;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-  }
-  .lightbox-control:hover {
-    opacity: 1;
-  }
-  .lightbox-close {
-    position: absolute;
-    top: 1.2rem;
-    right: 1.6rem;
-    font-size: 4rem;
-  }
-  .lightbox-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 5rem;
-  }
-  .lightbox-prev {
-    left: 1.2rem;
-  }
-  .lightbox-next {
-    right: 1.2rem;
-  }
 
   .post-content-date {
     display: inline-block;
@@ -341,6 +267,8 @@ const formattedDate = date
 </style>
 
 <script>
+  import { initArticleLightbox } from '../scripts/articleLightbox';
+
   function initGallery() {
     const gallery = document.querySelector<HTMLElement>('[data-gallery]');
     const lightbox = document.getElementById('gallery-lightbox');
@@ -445,5 +373,9 @@ const formattedDate = date
   }
 
   initGallery();
-  document.addEventListener('astro:page-load', initGallery);
+  initArticleLightbox();
+  document.addEventListener('astro:page-load', () => {
+    initGallery();
+    initArticleLightbox();
+  });
 </script>

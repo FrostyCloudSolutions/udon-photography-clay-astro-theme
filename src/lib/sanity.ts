@@ -37,6 +37,15 @@ export const thumbImage = (source: SanityImageSource) =>
 export const largeImage = (source: SanityImageSource) =>
   builder.image(source).width(1600).auto('format').url(); // stage, lightbox, page images
 
+// Article image-row derivatives: sized to the column count so a
+// 3-across row doesn't download 3 full-width images.
+export const rowImage = (source: SanityImageSource, columns: number) =>
+  builder
+    .image(source)
+    .width(columns >= 3 ? 700 : columns === 2 ? 900 : 1600)
+    .auto('format')
+    .url();
+
 // ---- Pages -----------------------------------------------------------
 
 // The four fixed page documents (see studio structure builder).
@@ -88,35 +97,57 @@ export interface PostSummary {
   category: string;
   date: string;
   cover: PostPhoto | null; // first photo = grid thumbnail, by design
+  orderRank: string | null; // set by drag-to-reorder in the Studio
 }
 
 export interface PostFull extends PostSummary {
   description: string | null;
   photos: PostPhoto[] | null;
+  layout: 'gallery' | 'article' | null;
+  body: unknown | null; // portable text (article layout)
 }
 
-export function getPostSummaries(): Promise<PostSummary[]> {
-  return sanityClient.fetch(`
-    *[_type == "portfolioPost" && defined(slug.current)] | order(date desc) {
+// Grid order: posts the client has dragged into place follow her
+// order; posts never dragged (no orderRank yet — e.g. brand-new
+// ones) appear first, newest first, until she positions them.
+function sortPosts<T extends { date: string; orderRank: string | null }>(posts: T[]): T[] {
+  const ranked = posts
+    .filter((post) => post.orderRank)
+    .sort((a, b) => (a.orderRank! < b.orderRank! ? -1 : 1));
+  const unranked = posts
+    .filter((post) => !post.orderRank)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  return [...unranked, ...ranked];
+}
+
+export async function getPostSummaries(): Promise<PostSummary[]> {
+  const posts: PostSummary[] = await sanityClient.fetch(`
+    *[_type == "portfolioPost" && defined(slug.current)] {
       title,
       "slug": slug.current,
       category,
       date,
+      orderRank,
       "cover": photos[0]
     }
   `);
+  return sortPosts(posts);
 }
 
-export function getPostsFull(): Promise<PostFull[]> {
-  return sanityClient.fetch(`
-    *[_type == "portfolioPost" && defined(slug.current)] | order(date desc) {
+export async function getPostsFull(): Promise<PostFull[]> {
+  const posts: PostFull[] = await sanityClient.fetch(`
+    *[_type == "portfolioPost" && defined(slug.current)] {
       title,
       "slug": slug.current,
       category,
       date,
+      orderRank,
       description,
       photos,
+      layout,
+      body,
       "cover": photos[0]
     }
   `);
+  return sortPosts(posts);
 }

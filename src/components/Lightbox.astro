@@ -1,0 +1,93 @@
+---
+// Fullscreen photo viewer shared by the gallery layout (Work.astro's
+// gallery script) and article layouts (src/scripts/articleLightbox).
+// Only ever rendered once per page.
+---
+
+<div class="lightbox" id="gallery-lightbox" hidden>
+  <button class="lightbox-control lightbox-close" aria-label="Close fullscreen view">&times;</button>
+  <button class="lightbox-control lightbox-arrow lightbox-prev" aria-label="Previous photo">&#8249;</button>
+  <figure class="lightbox-figure">
+    <img class="lightbox-image" src="" alt="" />
+    <div class="lightbox-caption" hidden></div>
+    <figcaption class="lightbox-counter"></figcaption>
+  </figure>
+  <button class="lightbox-control lightbox-arrow lightbox-next" aria-label="Next photo">&#8250;</button>
+</div>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.93);
+  }
+  .lightbox[hidden] {
+    display: none;
+  }
+  .lightbox-figure {
+    margin: 0;
+    text-align: center;
+  }
+  .lightbox-image {
+    display: block;
+    max-width: 86vw;
+    max-height: 84vh;
+    object-fit: contain;
+  }
+  .lightbox-caption {
+    margin-top: 1.2rem;
+    color: #fff;
+    opacity: 0.85;
+    font-family: var(--font-sans-serif);
+    font-size: 1.6rem;
+  }
+  .lightbox-caption[hidden] {
+    display: none;
+  }
+  .lightbox-counter {
+    margin-top: 1.2rem;
+    color: #fff;
+    opacity: 0.7;
+    font-family: var(--font-sans-serif);
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+  }
+  .lightbox-control {
+    height: auto;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0;
+    background-color: transparent !important;
+    color: #fff !important;
+    box-shadow: none !important;
+    line-height: 1;
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .lightbox-control:hover {
+    opacity: 1;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.6rem;
+    font-size: 4rem;
+  }
+  .lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 5rem;
+  }
+  .lightbox-prev {
+    left: 1.2rem;
+  }
+  .lightbox-next {
+    right: 1.2rem;
+  }
+</style>

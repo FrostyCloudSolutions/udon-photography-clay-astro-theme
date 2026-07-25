@@ -99,7 +99,7 @@ body {
 
 .page-head-description {
     margin: 0 0 1.6vw;
-    color: color(var(--color-border) l(-20%));
+    color: color-mix(in srgb, var(--color-border), black 20%);
     font-size: 2.2rem;
     line-height: 1.35em;
 }

@@ -1,12 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
+import ArticleImageRow from '../components/ArticleImageRow.astro';
+import Lightbox from '../components/Lightbox.astro';
 
 interface Props {
   title: string;
   description?: string | null;
   image?: string | null; // pre-built CDN URL
-  body?: unknown | null; // portable text blocks
+  body?: unknown | null; // portable text blocks (may contain image rows)
 }
 
 const { title, description, image, body } = Astro.props;
@@ -29,10 +31,23 @@ const { title, description, image, body } = Astro.props;
     )}
 
     <div class="post-content-body">
-      {body && <PortableText value={body} />}
+      {body && (
+        <div class="post-article">
+          <PortableText value={body} components={{ type: { imageRow: ArticleImageRow } }} />
+        </div>
+      )}
     </div>
 
     <footer class="post-content-footer">
     </footer>
   </article>
+
+  {body && <Lightbox />}
 </Layout>
+
+<script>
+  import { initArticleLightbox } from '../scripts/articleLightbox';
+
+  initArticleLightbox();
+  document.addEventListener('astro:page-load', initArticleLightbox);
+</script>
