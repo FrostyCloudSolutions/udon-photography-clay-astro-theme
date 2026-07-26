@@ -191,6 +191,17 @@ steady state.
   - B7 still ships first as the sane default state (everything
     matches the post serif/black); these controls then allow
     deliberate deviation.
+  - FINALIZED July 26: curated list of ~11 fonts including East
+    Asian coverage — EB Garamond (theme serif, default), League
+    Spartan (site sans), Playfair Display, Cormorant Garamond, Lora,
+    Montserrat, Caveat, Noto Serif SC (简体), Noto Serif TC (繁體),
+    Noto Serif JP, Noto Sans KR. Loading strategy: the full menu
+    exists only in the Studio (lightweight previews); the live site
+    loads ONLY fonts used in published content, and Google Fonts
+    script-subsetting keeps even CJK fonts to small per-page slices.
+    Bonus in T6 scope: Noto Serif SC joins the site's default
+    fallback stack so existing Chinese text renders intentionally
+    everywhere, even untouched by the font menu.
 - **D4 (accepted):** unified typography — post serif, black, one
   reading measure across post/article/About/Inquire bodies.
 
