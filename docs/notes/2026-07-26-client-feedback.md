@@ -129,7 +129,13 @@ steady state.
   appends, and the site-side fallback. Manual "Image row" keeps
   offering 1/2/3 per row for deliberate side-by-side moments.
   Existing post bodies are not rewritten (she has already fixed the
-  ones she cared about).
+  ones she cared about). CONFIRMED by Sammy July 26.
+- **F7 — Adjustable photo-grid insert (Sammy, July 26).** Alongside
+  single-photo auto-rows, the article editor offers an insertable
+  GRID block with adjustable shape — e.g. 1x3, 3x1, 2x2, 4x4:
+  a columns setting (1-4) plus any number of photos, wrapping into
+  rows. Generalizes/extends the current Image row (fixed 1-3
+  side-by-side). Lightbox behavior unchanged.
 - **B6 — About page desktop: image/text ratio off.** Text renders far
   too small next to the full-width page image on desktop; mobile is
   fine. Scope: the About (page) image joins the article reading
@@ -170,8 +176,21 @@ steady state.
   organization; folders remain unavailable on the current plan. Her
   ergonomic complaints are real but largely addressed by shift-click
   range select + Add filter → Tags; both go into the cheat-sheet.
-- **D3 (recommended decline):** no Studio-editable fonts/colors — see
-  open item above.
+- **D3 (REVISED July 26, Sammy's direction — supersedes the earlier
+  "recommend decline"):** typography DOES become client-adjustable in
+  the CMS, as normal editor features:
+  - In-editor rich-text controls: bold (exists), font color, and a
+    font selector — implemented as a CURATED list (the site's own
+    font families: the serif and the sans), not an open font menu,
+    with the default entry presented as the site-wide theme font
+    (labeled so she knows it is her current chosen website-wide
+    font). Colors likewise a small curated palette.
+  - Site-wide font theme: a "Site settings" singleton in the Studio
+    where she picks the global font theme; the editor's default font
+    label reflects it.
+  - B7 still ships first as the sane default state (everything
+    matches the post serif/black); these controls then allow
+    deliberate deviation.
 - **D4 (accepted):** unified typography — post serif, black, one
   reading measure across post/article/About/Inquire bodies.
 
@@ -201,8 +220,16 @@ steady state.
    range select; deselect-all location; delete-requires-unreferenced
    (and why that's protection, not a bug); search = filenames, tags =
    Add filter; one-per-row default note.
-5. **T5 — D3 communication** once Sammy decides on the fonts-in-Sanity
-   question.
+5. **T5 — F7 grid block:** add a columns (1-4) setting to the image
+   row (or a sibling imageGrid block), Studio + renderer + responsive
+   CSS; keep lightbox coverage.
+6. **T6 — D3 typography controls:** portable-text marks for font
+   (curated: site serif / site sans; default labeled as the
+   site-wide theme font) and color (curated palette); renderer
+   support; "Site settings" singleton for the site-wide font theme
+   wired to the CSS font variables; Studio deploy.
 
 Execution estimate: T1 diagnosis ~5k tokens + hardening ~10k;
-T2 ~8k; T3 ~15-20k; T4 text only. Total ~40-50k for the full round.
+T2 ~8k; T3 ~15-20k; T4 text only; T5 ~10k; T6 ~25-35k.
+Total ~75-95k for the full round. Execution order per approval:
+T1 (urgent) → T2 → T3 → T5 → T6, with T4 text accompanying delivery.
