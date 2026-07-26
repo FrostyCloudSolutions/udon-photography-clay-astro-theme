@@ -162,7 +162,8 @@ steady state.
   would throw on; (2) build queue backlog from dozens of rapid
   publishes; (3) client-side caching (least likely post-_headers).
   Diagnosis + hardening is the top technical task below.
-- **Design Decision 3 decision needed (Sammy) — "fonts editable in Sanity":** Sammy
+- **Design Decision 3 — "fonts editable in Sanity" (RESOLVED July 26,
+  see Design decisions section):** Sammy
   floated making font/color client-editable in the Studio; the client
   looked for it and it doesn't exist. Recommendation: DECLINE and
   keep typography in code — a font/color picker is a permanent
@@ -238,7 +239,7 @@ steady state.
 5. **Task 5 — Feature 2 grid block:** add a columns (1-4) setting to the image
    row (or a sibling imageGrid block), Studio + renderer + responsive
    CSS; keep lightbox coverage.
-6. **Task 6 — Design Decision 3 typography controls:** portable-text marks for font
+6. **Task 6 — typography controls (implements Design Decision 3):** portable-text marks for font
    (curated: site serif / site sans; default labeled as the
    site-wide theme font) and color (curated palette); renderer
    support; "Site settings" singleton for the site-wide font theme
