@@ -56,9 +56,25 @@ export interface PagePayload {
   body: unknown | null; // portable text blocks
 }
 
+// NOTE on defined(asset) filters throughout: a document can be
+// published while an image upload is still in progress, leaving an
+// image entry with no asset. Unfiltered, those entries crash the
+// image URL builder and FAIL the whole production build (July 26
+// incident: site frozen for hours while the client kept publishing).
 export function getPage(id: string): Promise<PagePayload | null> {
   return sanityClient.fetch(
-    `*[_type == "page" && _id == $id][0]{title, description, image, body}`,
+    `*[_type == "page" && _id == $id][0]{
+      title,
+      description,
+      "image": select(defined(image.asset) => image),
+      body[]{
+        ...,
+        _type == "imageRow" => {
+          ...,
+          "images": images[defined(asset)]
+        }
+      }
+    }`,
     { id },
   );
 }
@@ -75,9 +91,10 @@ export interface HomeTile {
 
 export async function getHomeTiles(): Promise<HomeTile[]> {
   const docs: Array<{ _id: string; title: string; image: SanityImageSource | null }> =
-    await sanityClient.fetch(`*[_type == "page" && _id in $ids]{_id, title, image}`, {
-      ids: HOME_TILE_IDS,
-    });
+    await sanityClient.fetch(
+      `*[_type == "page" && _id in $ids]{_id, title, "image": select(defined(image.asset) => image)}`,
+      { ids: HOME_TILE_IDS },
+    );
   return HOME_TILE_IDS.flatMap((id) => {
     const doc = docs.find((candidate) => candidate._id === id);
     if (!doc) return [];
@@ -128,7 +145,7 @@ export async function getPostSummaries(): Promise<PostSummary[]> {
       category,
       date,
       orderRank,
-      "cover": photos[0]
+      "cover": photos[defined(asset)][0]
     }
   `);
   return sortPosts(posts);
@@ -143,10 +160,16 @@ export async function getPostsFull(): Promise<PostFull[]> {
       date,
       orderRank,
       description,
-      photos,
+      "photos": photos[defined(asset)],
       layout,
-      body,
-      "cover": photos[0]
+      body[]{
+        ...,
+        _type == "imageRow" => {
+          ...,
+          "images": images[defined(asset)]
+        }
+      },
+      "cover": photos[defined(asset)][0]
     }
   `);
   return sortPosts(posts);

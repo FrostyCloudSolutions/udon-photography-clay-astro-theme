@@ -34,15 +34,15 @@ const formattedDate = date
 // gallery (filmstrip/stage) renders only in gallery layout.
 const isArticle = post.layout === 'article';
 // Until the body contains its own Image rows, an article post shows
-// its Photos list as automatic rows of 2 (photos must never vanish
+// its Photos list as automatic single-photo rows (photos must never vanish
 // just because the layout was switched), followed by the body text.
 const bodyBlocks = Array.isArray(post.body) ? (post.body as Array<{ _type?: string }>) : [];
 const bodyHasImageRows = bodyBlocks.some((block) => block._type === 'imageRow');
 const fallbackPairs: PostPhoto[][] = [];
 if (isArticle && !bodyHasImageRows) {
   const rawPhotos = post.photos ?? [];
-  for (let i = 0; i < rawPhotos.length; i += 2) {
-    fallbackPairs.push(rawPhotos.slice(i, i + 2));
+  for (let i = 0; i < rawPhotos.length; i += 1) {
+    fallbackPairs.push(rawPhotos.slice(i, i + 1));
   }
 }
 ---

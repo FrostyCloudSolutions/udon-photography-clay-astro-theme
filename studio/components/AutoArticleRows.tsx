@@ -30,11 +30,11 @@ interface BodyBlock {
 
 const chunkIntoRows = (photos: Photo[]) => {
   const rows = []
-  for (let i = 0; i < photos.length; i += 2) {
+  for (let i = 0; i < photos.length; i += 1) {
     rows.push({
       _type: 'imageRow',
       _key: key(),
-      images: photos.slice(i, i + 2).map((photo) => ({...photo, _key: key()})),
+      images: photos.slice(i, i + 1).map((photo) => ({...photo, _key: key()})),
     })
   }
   return rows

@@ -10,7 +10,11 @@ interface Props {
 }
 
 const { node } = Astro.props;
-const images = node.images ?? [];
+// Ignore entries whose upload never completed (no asset) — building
+// a URL for them throws and would fail the whole site build.
+const images = (node.images ?? []).filter(
+  (image) => (image as { asset?: unknown }).asset,
+);
 const columns = Math.min(Math.max(images.length, 1), 3);
 ---
 
