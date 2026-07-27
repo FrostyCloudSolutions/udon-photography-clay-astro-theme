@@ -1,7 +1,7 @@
 # Udon Studio — Client Feedback (July 26, 2026): Heavy-Use Findings
 
 **Date:** July 26, 2026 (feedback gathered over the prior two days)
-**Participants:** Frosty Cloud Solutions (Sammy); Udon Studio (client, "Udon小章鱼🐙")
+**Participants:** Frosty Cloud Solutions (the developer, "Frosty"); Udon Studio (client, "Udon小章鱼🐙")
 
 Labels: items are numbered from 1 within THIS document only
 (Bug N / Feature N / Design Decision N / Task N) — no numbering is
@@ -37,16 +37,16 @@ and a set of documentation/teaching notes.
 > Udon小章鱼🐙: Then I also found the multiple-select - you need to first check ☑️ one picture, then press shift and select the others to check them all at once
 > Udon小章鱼🐙: from now on，I've found solutions to most of the problems. There are only two left: one is about the font and image size on the "about" page, and the other is whether we can keep each image on one line on the post page when uploading multiple images at once
 > Udon小章鱼🐙: [Photo]
-> Sammy: Maybe we need to do a screen sharing, because tagging is supposed to be way simpler and faster. That's why everyone loves it.
-> Sammy: Did you save the tags after applying?
-> Sammy: Oh, thesanren had it like this on computer browser, 2 images per row. On mobile its 1 per row
-> Sammy: Its no problem to make it 1. Actually it was more work to make it 2 per row. I thought that's what you wanted
+> Frosty: Maybe we need to do a screen sharing, because tagging is supposed to be way simpler and faster. That's why everyone loves it.
+> Frosty: Did you save the tags after applying?
+> Frosty: Oh, thesanren had it like this on computer browser, 2 images per row. On mobile its 1 per row
+> Frosty: Its no problem to make it 1. Actually it was more work to make it 2 per row. I thought that's what you wanted
 > Udon小章鱼🐙: No need to worry about that, I've already taken care of it
 > Udon小章鱼🐙: I found a way
 > Udon小章鱼🐙: We just need to change the "about" part right nowfor now
-> Sammy: I also coded a way that if you want, you can adjust how many pictures per row
-> Sammy: When you click "add image row" up to 3. I can make more
-> Sammy: But when first converting to article mode, it used 2 per row. Ill change that to 1 per row
+> Frosty: I also coded a way that if you want, you can adjust how many pictures per row
+> Frosty: When you click "add image row" up to 3. I can make more
+> Frosty: But when first converting to article mode, it used 2 per row. Ill change that to 1 per row
 > Udon小章鱼🐙: 嗯嗯好的，我觉得一个会更好
 > Udon小章鱼🐙: I prefer one row
 > Udon小章鱼🐙: I feel like everything else is already perfect
@@ -56,21 +56,21 @@ and a set of documentation/teaching notes.
 > Udon小章鱼🐙: And I also sent it to my friend
 > Udon小章鱼🐙: She loves it too!
 > Udon小章鱼🐙: That's absolutely awesome
-> Sammy: Yes ti did that on purpose because I thought 2 per row was wanted. And I know you have some gallery posts already. So it only does that when converting. when doing one by one, can adjust. Ill fix that tonight.
-> Sammy: Yes, I felt the same way. I wanted to ask you about this
-> Sammy: Sorry about the weird problems. I know many of these issues can be frustrating and awkward
-> Sammy: Alot of these features can be done many ways and are not always easy to configure or code
-> Sammy: Udon my worker is here. I have to go for now. Ill check again later tonight! Sorry for the delay
+> Frosty: Yes ti did that on purpose because I thought 2 per row was wanted. And I know you have some gallery posts already. So it only does that when converting. when doing one by one, can adjust. Ill fix that tonight.
+> Frosty: Yes, I felt the same way. I wanted to ask you about this
+> Frosty: Sorry about the weird problems. I know many of these issues can be frustrating and awkward
+> Frosty: Alot of these features can be done many ways and are not always easy to configure or code
+> Frosty: Udon my worker is here. I have to go for now. Ill check again later tonight! Sorry for the delay
 > Udon小章鱼🐙: Okayokay ，Go ahead and get busy with what you need to do. I think most of the issues have been resolved. I'm planning to upload more pictures every day to enrich the website, and then I'll be able to share it out
-> Sammy: Okay! I hope we can make the website perfect for you soon
-> [Sammy shares renovation photos; personal chat omitted from scope]
+> Frosty: Okay! I hope we can make the website perfect for you soon
+> [Frosty shares renovation photos; personal chat omitted from scope]
 > Udon小章鱼🐙: [Photo]
 > Udon小章鱼🐙: This is another question
-> Sammy: Ok, you mean same size font and color like post? Grey color?
+> Frosty: Ok, you mean same size font and color like post? Grey color?
 > Udon小章鱼🐙: Same font, black color
-> Sammy: Ok!  The font should be the same. However inquiry might be bolded
-> Sammy: I will try to make this modifiable by you too in sanity
-> Sammy: Can you check sanity to see if you can change this? I thought i gave you access to this already
+> Frosty: Ok!  The font should be the same. However inquiry might be bolded
+> Frosty: I will try to make this modifiable by you too in sanity
+> Frosty: Can you check sanity to see if you can change this? I thought i gave you access to this already
 > Udon小章鱼🐙: Okay I will check
 > Udon小章鱼🐙: [Photo]
 > Udon小章鱼🐙: I can't see where I can change the font and color
@@ -134,8 +134,8 @@ steady state.
   appends, and the site-side fallback. Manual "Image row" keeps
   offering 1/2/3 per row for deliberate side-by-side moments.
   Existing post bodies are not rewritten (she has already fixed the
-  ones she cared about). CONFIRMED by Sammy July 26.
-- **Feature 2 — Adjustable photo-grid insert (Sammy, July 26).** Alongside
+  ones she cared about). CONFIRMED by Frosty July 26.
+- **Feature 2 — Adjustable photo-grid insert (Frosty, July 26).** Alongside
   single-photo auto-rows, the article editor offers an insertable
   GRID block with adjustable shape — e.g. 1x3, 3x1, 2x2, 4x4:
   a columns setting (1-4) plus any number of photos, wrapping into
@@ -153,7 +153,7 @@ steady state.
   breakpoints. Scope: one typography audit — page bodies, article
   bodies, and the inquiry copy all use the post serif at consistent
   size and var(--color-base) black; the inquiry form's field labels
-  may stay bolded (Sammy's note to client).
+  may stay bolded (Frosty's note to client).
 - **Bug 3 — Publishes reportedly not reaching the live site (~2 hours).**
   Client reports many portfolio updates not appearing. Candidate
   causes, in likelihood order: (1) a production build FAILURE freezing
@@ -164,7 +164,7 @@ steady state.
   publishes; (3) client-side caching (least likely post-_headers).
   Diagnosis + hardening is the top technical task below.
 - **Design Decision 3 — "fonts editable in Sanity" (RESOLVED July 26,
-  see Design decisions section):** Sammy
+  see Design decisions section):** Frosty
   floated making font/color client-editable in the Studio; the client
   looked for it and it doesn't exist. Recommendation: DECLINE and
   keep typography in code — a font/color picker is a permanent
@@ -182,7 +182,7 @@ steady state.
   organization; folders remain unavailable on the current plan. Her
   ergonomic complaints are real but largely addressed by shift-click
   range select + Add filter → Tags; both go into the cheat-sheet.
-- **Design Decision 3 (REVISED July 26, Sammy's direction — supersedes the earlier
+- **Design Decision 3 (REVISED July 26, Frosty's direction — supersedes the earlier
   "recommend decline"):** typography DOES become client-adjustable in
   the CMS, as normal editor features:
   - In-editor rich-text controls: bold (exists), font color, and a
@@ -222,7 +222,7 @@ steady state.
       filters (and cover projection), null-safe image builders in
       PostCard/Work/ArticleImageRow, so a mid-upload publish can
       never fail a build again.
-   d. If builds are failing on Cloudflare, Sammy checks the
+   d. If builds are failing on Cloudflare, Frosty checks the
       Deployments tab for the red build log (dashboard access).
 2. **Task 2 — Feature 1:** rows-of-2 → rows-of-1 in AutoArticleRows (both
    materialize and append paths) and in Work.astro's fallback;
@@ -278,7 +278,7 @@ Task 1 (urgent) → Task 2 → Task 3 → Task 5 → Task 6, with Task 4 text ac
 
 ## Confirmation / Testing checklist (human-runnable)
 
-Quick checks Sammy or the client can perform to confirm this document's
+Quick checks Frosty or the client can perform to confirm this document's
 work, no tools needed. Publishing checks allow ~2 minutes for the
 site to rebuild.
 

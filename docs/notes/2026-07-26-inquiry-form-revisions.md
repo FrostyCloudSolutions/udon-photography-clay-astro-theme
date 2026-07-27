@@ -1,13 +1,13 @@
 # Udon Studio — Inquiry Form Revisions (July 26, 2026)
 
 **Date:** July 26, 2026
-**Source:** Frosty Cloud (Sammy) — direct revision requests, plus the
+**Source:** Frosty Cloud (Frosty) — direct revision requests, plus the
 inquiry-email routing thread from earlier the same day.
 
 Labels: Bug N / Feature N / Design Decision N / Task N, numbered from
 1 within this document only.
 
-## Requests (verbatim, Sammy)
+## Requests (verbatim, Frosty)
 
 > let's add a "how did you hear about me/us" field in the inquiry.
 > please offer suggestions in a dropdown box, and perhaps an 'other'
@@ -27,7 +27,7 @@ Labels: Bug N / Feature N / Design Decision N / Task N, numbered from
 >    approve
 
 Also in scope from the same day: inquiry emails currently reach only
-Sammy's work address.
+Frosty's work address.
 
 ## Feature 1 — "How did you hear about us?" (SHIPPED, faaae44)
 
@@ -44,8 +44,8 @@ Submissions include `heard-about` and, when applicable,
 Problem: suburb names repeat between Sydney and Melbourne, so a bare
 free-text location is ambiguous.
 
-- Idea 1 (Sammy): guidance text on the existing field.
-- Idea 2 (Sammy): a restricted Australian locality dropdown.
+- Idea 1 (Frosty): guidance text on the existing field.
+- Idea 2 (Frosty): a restricted Australian locality dropdown.
 - **Recommendation (Frosty Cloud + Claude): a hybrid THIRD option —
   split the field in two:**
   1. A small "City" dropdown: Sydney / Melbourne / Somewhere else —
@@ -60,22 +60,22 @@ free-text location is ambiguous.
   maintenance burden (an approved-locations list to curate forever).
   The two-field split gets the disambiguation with zero maintenance.
 
-Awaiting Sammy's pick: Idea 1, Idea 2, or the recommended split.
+Awaiting Frosty's pick: Idea 1, Idea 2, or the recommended split.
 
 ## Inquiry email routing (carried from same-day thread)
 
-- Current: Web3Forms delivers to the access-key owner (Sammy's work
+- Current: Web3Forms delivers to the access-key owner (Frosty's work
   email). A `ccemail` copy to the client shipped earlier (aba8812) —
   note ccemail is a Web3Forms PRO feature.
 - Findings: Web3Forms has NO BCC field (docs corpus checked); the
   primary recipient is whoever the access key is registered to;
   linked recipient addresses must be verified by their owner.
-- Blocker found by Sammy: the client never clicked her Web3Forms
+- Blocker found by Frosty: the client never clicked her Web3Forms
   verification email, so her address cannot be linked yet.
-- Target state (Sammy): client PRIMARY, Sammy on copy until
+- Target state (Frosty): client PRIMARY, Frosty on copy until
   everything is confirmed, then removed. Since BCC does not exist,
-  Sammy's interim copy will be a visible CC.
-- Sequence: client clicks verification email → Sammy links her in
+  Frosty's interim copy will be a visible CC.
+- Sequence: client clicks verification email → Frosty links her in
   the Web3Forms dashboard (set as recipient if the dashboard allows)
   → code flips ccemail to info@frostycloud.net → live test → later,
   remove the CC line entirely.
@@ -95,7 +95,7 @@ Awaiting Sammy's pick: Idea 1, Idea 2, or the recommended split.
 
 ## Updates (later July 26)
 
-- **Design Decision 1 RESOLVED and SHIPPED (e06d1db):** Sammy chose
+- **Design Decision 1 RESOLVED and SHIPPED (e06d1db):** Frosty chose
   the two-field split. "Which city?" dropdown (Sydney / Melbourne /
   Somewhere else) + required "Suburb or neighbourhood — please be as
   specific as possible" text field. Note: the availability wording
@@ -104,11 +104,11 @@ Awaiting Sammy's pick: Idea 1, Idea 2, or the recommended split.
 - **Feature 1 expanded (e06d1db):** hear-about options now include
   YouTube, TikTok, Facebook, WeChat alongside Instagram, 小红书
   (RedNote), Google search, friend/family, past client, Other.
-- **Inquiry routing RESOLVED by Sammy:** he changed the Web3Forms
+- **Inquiry routing RESOLVED by Frosty:** he changed the Web3Forms
   access key's primary recipient to the client's email in their
   dashboard. Multiple recipients/CC are paid-tier features, so the
   ccemail line was removed (it was pointing at her anyway and is
-  PRO-only). Consequence: Sammy no longer receives inquiry copies on
+  PRO-only). Consequence: Frosty no longer receives inquiry copies on
   the free plan — interim options are her forwarding, or upgrading.
   Pending test: one live submission confirming it reaches her inbox.
 
