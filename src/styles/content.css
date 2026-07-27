@@ -151,9 +151,13 @@ production stylesheet in assets/built/screen.css using gulp dev
   transform: translateX(calc(50vw - 50%));
 } */
 .post-content-image {
-  margin: 4vw 0;
+  margin: 4vw auto;
   position: relative;
   width: 100%;
+  /* Page images share the article reading measure — on wide screens
+     a full-column image dwarfed the text beside it (client's Bug 1,
+     About page image/text ratio). */
+  max-width: 72rem;
 }
 
 .contact-form-image {
@@ -170,13 +174,8 @@ production stylesheet in assets/built/screen.css using gulp dev
   font-size: 1.9rem;
   line-height: 1.65em;
 }
-@media (max-width: 500px) {
-  .post-content-body {
-    font-size: 1.9rem;
-    line-height: 1.65em;
-    font-family: var(--font-sans-serif);
-  }
-}
+/* (Removed the ≤500px sans-serif override: body copy uses the site
+   serif at every size, matching posts — the client's Bug 2.) */
 
 .post-content-body h1,
 .post-content-body h2,
@@ -464,6 +463,12 @@ img {border-radius: 0;}
     max-width: 72rem;
     margin: 0 auto;
     text-align: left;
+    /* Explicit, so no breakpoint or wrapper can drift article copy
+       away from the post look the client asked for: site serif,
+       black, comfortable reading size. */
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--color-base);
 }
 
 .post-article p {
