@@ -92,3 +92,49 @@ Awaiting Sammy's pick: Idea 1, Idea 2, or the recommended split.
       the sequence above and re-test.
 - [ ] (After Design Decision 1) location field behaves per the
       chosen design.
+
+## Updates (later July 26)
+
+- **Design Decision 1 RESOLVED and SHIPPED (e06d1db):** Sammy chose
+  the two-field split. "Which city?" dropdown (Sydney / Melbourne /
+  Somewhere else) + required "Suburb or neighbourhood — please be as
+  specific as possible" text field. Note: the availability wording
+  from Idea 1 can live in the Inquire page intro, which the client
+  edits herself in the Studio.
+- **Feature 1 expanded (e06d1db):** hear-about options now include
+  YouTube, TikTok, Facebook, WeChat alongside Instagram, 小红书
+  (RedNote), Google search, friend/family, past client, Other.
+- **Inquiry routing RESOLVED by Sammy:** he changed the Web3Forms
+  access key's primary recipient to the client's email in their
+  dashboard. Multiple recipients/CC are paid-tier features, so the
+  ccemail line was removed (it was pointing at her anyway and is
+  PRO-only). Consequence: Sammy no longer receives inquiry copies on
+  the free plan — interim options are her forwarding, or upgrading.
+  Pending test: one live submission confirming it reaches her inbox.
+
+## New items
+
+- **Bug 1 — www.udonphoto.com doesn't resolve.** The www subdomain
+  was never configured (no DNS record / Pages custom domain).
+  Fix is Cloudflare-dashboard-only (no API credentials on this
+  machine): Workers & Pages → the Pages project → Custom domains →
+  add "www.udonphoto.com" (Cloudflare creates the DNS record and
+  serves the site there). Optional polish afterwards: a Redirect
+  Rule sending www → apex with a 301 for a single canonical URL.
+- **Feature 3 — custom favicon (client request).** The browser-tab /
+  search-suggestion icon is still the theme's default (the "A" mark
+  the client circled). Needs her logo as an image file (ideally a
+  square PNG or SVG); then the favicon set gets generated and wired
+  in code (public/favicon.svg + .ico, Layout head). Optional interim:
+  a simple "U" / "UDON" monogram matching the site style until her
+  logo arrives.
+
+## Confirmation / Testing checklist (additions)
+
+- [ ] udonphoto.com/inquire: "Which city?" dropdown with 3 options;
+      suburb box demands specificity; hear-about lists the socials.
+- [ ] Test submission arrives at the CLIENT's inbox (new primary).
+- [ ] After www fix: www.udonphoto.com loads the site (and, if the
+      redirect rule was added, lands on udonphoto.com).
+- [ ] After favicon ships: browser tab and Google suggestions show
+      the new icon (search engines may cache the old one for days).
