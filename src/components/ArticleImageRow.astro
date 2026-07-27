@@ -1,12 +1,15 @@
 ---
-// Renders the "imageRow" portable-text block from article bodies:
-// 1, 2, or 3 photos side by side (stacked on phones). The small
+// Renders the "imageRow" portable-text block from article bodies: a
+// photo grid with a chosen column count (1–4), wrapping onto new
+// rows automatically (e.g. 4 photos x 2 columns = 2x2). Rows saved
+// before the columns field existed carry no `columns` value and fall
+// back to the old behavior (side-by-side up to 3). The small
 // derivative is sized to the column count; data-full carries the
 // large one for the fullscreen lightbox.
 import { rowImage, largeImage, type PostPhoto } from '../lib/sanity';
 
 interface Props {
-  node: { images?: PostPhoto[] };
+  node: { images?: PostPhoto[]; columns?: number };
 }
 
 const { node } = Astro.props;
@@ -15,7 +18,10 @@ const { node } = Astro.props;
 const images = (node.images ?? []).filter(
   (image) => (image as { asset?: unknown }).asset,
 );
-const columns = Math.min(Math.max(images.length, 1), 3);
+const columns = Math.min(
+  Math.max(node.columns ?? Math.min(images.length, 3), 1),
+  4,
+);
 ---
 
 {images.length > 0 && (
@@ -49,6 +55,9 @@ const columns = Math.min(Math.max(images.length, 1), 3);
   .image-row-3 {
     grid-template-columns: 1fr 1fr 1fr;
   }
+  .image-row-4 {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
   .image-row-item {
     margin: 0;
   }
@@ -69,6 +78,11 @@ const columns = Math.min(Math.max(images.length, 1), 3);
     .image-row-2,
     .image-row-3 {
       grid-template-columns: 1fr;
+    }
+    /* 4-across keeps two columns on phones so tight mosaics still
+       read as grids rather than one long strip. */
+    .image-row-4 {
+      grid-template-columns: 1fr 1fr;
     }
   }
 </style>
