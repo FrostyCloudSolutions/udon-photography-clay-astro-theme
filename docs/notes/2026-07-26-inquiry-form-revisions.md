@@ -138,3 +138,15 @@ Awaiting Frosty's pick: Idea 1, Idea 2, or the recommended split.
       redirect rule was added, lands on udonphoto.com).
 - [ ] After favicon ships: browser tab and Google suggestions show
       the new icon (search engines may cache the old one for days).
+
+## Feature 3 update (July 27)
+
+**Interim monogram SHIPPED (fee76f0):** the client has no official
+logo yet, so a "U" monogram set in the site's theme font (the actual
+EB Garamond glyph outline) replaced the theme's default icon —
+white background, site black. Files: favicon.svg (vector),
+favicon.ico, apple-touch-icon.png (180px), and logo-512.png in
+public/ for general logo use. Browser tabs update on next visit;
+Google's search-suggestion icon refreshes on its own schedule (can
+take days). Swapping in her official logo later is a
+regenerate-and-replace of the same four files.
