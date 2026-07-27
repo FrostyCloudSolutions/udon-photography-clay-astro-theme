@@ -36,7 +36,12 @@ const themeFontCss =
         <meta charset="UTF-8" />
         <meta name="description" content={description || "Udon Studio - Professional Photography"} />
         <meta name="viewport" content="width=device-width" />
+        {/* "U" monogram in the site serif (interim logo until the
+            client supplies an official one). SVG for modern browsers,
+            .ico fallback, apple-touch-icon for iOS home screens. */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="generator" content={Astro.generator} />
         <title>{title && title !== 'Udon Studio' ? `Udon Studio - ${title}` : 'Udon Studio'}</title>
         {extraFontsUrl && <link rel="stylesheet" href={extraFontsUrl} />}
