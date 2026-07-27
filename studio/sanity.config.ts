@@ -49,6 +49,16 @@ export default defineConfig({
               S,
               context,
             }),
+            S.divider(),
+            S.listItem()
+              .title('Site settings')
+              .id('site-settings')
+              .child(
+                S.document()
+                  .schemaType('siteSettings')
+                  .documentId('site-settings')
+                  .title('Site settings'),
+              ),
           ]),
     }),
     // Media browser: search, filters, and tag-based organization for
@@ -64,15 +74,17 @@ export default defineConfig({
   },
 
   document: {
-    // The four pages are fixed: hide "page" from the global create
-    // (+) menu, and remove destructive actions from page documents so
-    // they can't be deleted or duplicated from the UI.
+    // Pages and Site settings are fixed documents: hide them from the
+    // global create (+) menu, and remove destructive actions so they
+    // can't be deleted or duplicated from the UI.
     newDocumentOptions: (prev, {creationContext}) =>
       creationContext.type === 'global'
-        ? prev.filter((template) => template.templateId !== 'page')
+        ? prev.filter(
+            (template) => !['page', 'siteSettings'].includes(template.templateId),
+          )
         : prev,
     actions: (prev, {schemaType}) =>
-      schemaType === 'page'
+      ['page', 'siteSettings'].includes(schemaType)
         ? prev.filter(
             ({action}) => !['delete', 'duplicate', 'unpublish'].includes(action ?? ''),
           )

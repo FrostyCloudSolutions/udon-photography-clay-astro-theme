@@ -46,6 +46,25 @@ export const rowImage = (source: SanityImageSource, columns: number) =>
     .auto('format')
     .url();
 
+// ---- Site settings ---------------------------------------------------
+
+export interface SiteSettings {
+  fontTheme: string | null;
+}
+
+export function getSiteSettings(): Promise<SiteSettings | null> {
+  return sanityClient.fetch(`*[_id == "site-settings"][0]{fontTheme}`);
+}
+
+// Every font key used by Font marks in any published body — the
+// build loads only these (plus the base fonts). See src/lib/fonts.ts.
+export async function getUsedFontKeys(): Promise<string[]> {
+  const keys: Array<string | null> = await sanityClient.fetch(
+    `array::unique(*[_type in ["portfolioPost", "page"]].body[].markDefs[_type == "font"].family)`,
+  );
+  return (keys ?? []).filter((key): key is string => Boolean(key));
+}
+
 // ---- Pages -----------------------------------------------------------
 
 // The four fixed page documents (see studio structure builder).

@@ -1,0 +1,16 @@
+---
+// Renders the "textColor" annotation from the editor's typography
+// menu. Colors come from the curated palette; "base" (or unknown)
+// means the default text color.
+import { TEXT_COLORS } from '../lib/fonts';
+
+interface Props {
+  node: { markDef?: { value?: string } };
+}
+
+const { node } = Astro.props;
+const value = node.markDef?.value;
+const color = value && value !== 'base' ? TEXT_COLORS[value] : undefined;
+---
+
+{color ? <span style={`color: ${color}`}><slot /></span> : <slot />}

@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
 import ArticleImageRow from '../components/ArticleImageRow.astro';
 import Lightbox from '../components/Lightbox.astro';
+import { ptComponents } from '../lib/ptComponents';
 import { thumbImage, largeImage, type PostFull, type PostPhoto } from '../lib/sanity';
 
 interface Props {
@@ -92,7 +93,7 @@ if (isArticle && !bodyHasImageRows) {
             <ArticleImageRow node={{ images: pair }} />
           ))}
           {post.body ? (
-            <PortableText value={post.body} components={{ type: { imageRow: ArticleImageRow } }} />
+            <PortableText value={post.body} components={ptComponents} />
           ) : null}
         </div>
       </div>

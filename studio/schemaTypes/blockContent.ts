@@ -1,4 +1,5 @@
-import {defineArrayMember, defineType} from 'sanity'
+import {defineArrayMember, defineField, defineType} from 'sanity'
+import {COLOR_OPTIONS, FONT_OPTIONS} from './fonts'
 
 /**
  * Shared rich-text ("portable text") definition used by page bodies
@@ -40,6 +41,37 @@ export const blockContent = defineType({
                 validation: (rule) =>
                   rule.uri({scheme: ['http', 'https', 'mailto']}),
               },
+            ],
+          },
+          // Typography controls (Design Decision 3): select text, pick
+          // Font or Color from the toolbar. Removing the mark returns
+          // the text to the site defaults.
+          {
+            name: 'font',
+            title: 'Font',
+            type: 'object',
+            fields: [
+              defineField({
+                name: 'family',
+                title: 'Font',
+                type: 'string',
+                options: {list: FONT_OPTIONS},
+                initialValue: 'theme',
+              }),
+            ],
+          },
+          {
+            name: 'textColor',
+            title: 'Color',
+            type: 'object',
+            fields: [
+              defineField({
+                name: 'value',
+                title: 'Color',
+                type: 'string',
+                options: {list: COLOR_OPTIONS},
+                initialValue: 'base',
+              }),
             ],
           },
         ],

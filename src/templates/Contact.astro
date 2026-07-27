@@ -1,7 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
-import ArticleImageRow from '../components/ArticleImageRow.astro';
+import { ptComponents } from '../lib/ptComponents';
 import { PORTFOLIO_CATEGORIES } from '../lib/categories';
 
 interface Props {
@@ -38,7 +38,7 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
     <div class="post-content-body">
       {body && (
         <div class="post-article">
-          <PortableText value={body} components={{ type: { imageRow: ArticleImageRow } }} />
+          <PortableText value={body} components={ptComponents} />
         </div>
       )}
 

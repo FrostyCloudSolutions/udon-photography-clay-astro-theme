@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
-import ArticleImageRow from '../components/ArticleImageRow.astro';
 import Lightbox from '../components/Lightbox.astro';
+import { ptComponents } from '../lib/ptComponents';
 
 interface Props {
   title: string;
@@ -33,7 +33,7 @@ const { title, description, image, body } = Astro.props;
     <div class="post-content-body">
       {body && (
         <div class="post-article">
-          <PortableText value={body} components={{ type: { imageRow: ArticleImageRow } }} />
+          <PortableText value={body} components={ptComponents} />
         </div>
       )}
     </div>

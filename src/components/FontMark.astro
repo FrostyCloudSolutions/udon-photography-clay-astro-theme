@@ -1,0 +1,16 @@
+---
+// Renders the "font" annotation from the editor's typography menu.
+// "theme" (or an unknown value) means no override — the surrounding
+// text keeps the site font.
+import { FONTS } from '../lib/fonts';
+
+interface Props {
+  node: { markDef?: { family?: string } };
+}
+
+const { node } = Astro.props;
+const family = node.markDef?.family;
+const stack = family && family !== 'theme' ? FONTS[family]?.stack : undefined;
+---
+
+{stack ? <span style={`font-family: ${stack}`}><slot /></span> : <slot />}
