@@ -1,4 +1,4 @@
-# Udon Studio — Client Feedback Round 3: Heavy-Use Findings
+# Udon Studio — Client Feedback (July 26, 2026): Heavy-Use Findings
 
 **Date:** July 26, 2026 (feedback gathered over the prior two days)
 **Participants:** Frosty Cloud Solutions (Sammy); Udon Studio (client, "Udon小章鱼🐙")
@@ -10,7 +10,8 @@ carried over from earlier notes files.
 Context: the client is now uploading daily and preparing to share the
 site publicly ("I want to get the website up and running as soon as
 possible"; a friend reviewed it and "loves it too"). She independently
-solved most of her own earlier issues this round — the open items are
+solved most of her own earlier issues since the July 23 feedback —
+the open items are
 two design changes, one styling bug, one possible pipeline problem,
 and a set of documentation/teaching notes.
 
@@ -247,7 +248,7 @@ steady state.
 
 Execution estimate: Task 1 diagnosis ~5k tokens + hardening ~10k;
 Task 2 ~8k; Task 3 ~15-20k; Task 4 text only; Task 5 ~10k; Task 6 ~25-35k.
-Total ~75-95k for the full round. Execution order per approval:
+Total ~75-95k for the full task list. Execution order per approval:
 Task 1 (urgent) → Task 2 → Task 3 → Task 5 → Task 6, with Task 4 text accompanying delivery.
 
 ## Execution outcomes (appended July 26)
@@ -273,11 +274,11 @@ Task 1 (urgent) → Task 2 → Task 3 → Task 5 → Task 6, with Task 4 text ac
   theme, on-demand font loading, Noto Serif SC in the default stack.
   Verified end-to-end with a temporary post, then deleted.
 - Task 4 (cheat-sheet) delivered as the client message accompanying
-  this round.
+  this document's work.
 
 ## Confirmation / Testing checklist (human-runnable)
 
-Quick checks Sammy or the client can perform to confirm this round's
+Quick checks Sammy or the client can perform to confirm this document's
 work, no tools needed. Publishing checks allow ~2 minutes for the
 site to rebuild.
 
@@ -328,5 +329,5 @@ site to rebuild.
 - [ ] Email icons in header/footer open the mail app, including
       after navigating between pages first.
 
-Convention going forward: every feedback-round notes document ends
+Convention going forward: every client-feedback notes document ends
 with a section like this once its technical tasks are complete.
