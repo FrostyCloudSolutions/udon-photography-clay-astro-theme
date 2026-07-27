@@ -43,11 +43,11 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
       )}
 
       <form id="inquiry-form" name="inquiry" method="POST" action="https://api.web3forms.com/submit">
+        {/* Web3Forms delivers to the address its access key is
+            registered to — as of July 26 that is the client's email
+            (changed in the Web3Forms dashboard). Multiple recipients
+            / CC require their paid tier. */}
         <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-        {/* Web3Forms delivers to the address the access key was
-            registered to (Frosty Cloud); ccemail sends a copy of
-            every inquiry to the client as well. */}
-        <input type="hidden" name="ccemail" value="udoninsyd@gmail.com" />
         <input type="hidden" name="subject" value="New Inquiry - Udon Studio" />
         <input type="hidden" name="replyto" value="" />
         <input type="hidden" name="redirect" value="https://udonphoto.com/inquire/thanks/" />
@@ -64,8 +64,19 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
           <div class="col-6 col-12-xsmall">
             <input type="tel" name="phone" id="phone" placeholder="Phone (optional)" />
           </div>
+          {/* City dropdown + free-text area: suburb names repeat
+              between Sydney and Melbourne, so the city is captured
+              structurally instead of relying on the text. */}
           <div class="col-6 col-12-xsmall">
-            <input type="text" name="location" id="location" placeholder="Location — Sydney, Melbourne, or another city" required />
+            <select name="city" id="city" required>
+              <option value="">Which city?</option>
+              <option value="Sydney">Sydney</option>
+              <option value="Melbourne">Melbourne</option>
+              <option value="Somewhere else">Somewhere else</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <input type="text" name="location" id="location" placeholder="Suburb or neighbourhood — please be as specific as possible" required />
           </div>
 
           <div class="col-6 col-12-xsmall">
@@ -91,7 +102,11 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
             <select name="heard-about" id="heard-about" required>
               <option value="">How did you hear about us?</option>
               <option value="Instagram">Instagram</option>
-              <option value="Xiaohongshu">小红书 (Xiaohongshu)</option>
+              <option value="Xiaohongshu">小红书 (RedNote / Xiaohongshu)</option>
+              <option value="YouTube">YouTube</option>
+              <option value="TikTok">TikTok</option>
+              <option value="Facebook">Facebook</option>
+              <option value="WeChat">WeChat</option>
               <option value="Google search">Google search</option>
               <option value="Friend or family">Friend or family</option>
               <option value="Past client">I'm a past client</option>
