@@ -249,3 +249,28 @@ Execution estimate: Task 1 diagnosis ~5k tokens + hardening ~10k;
 Task 2 ~8k; Task 3 ~15-20k; Task 4 text only; Task 5 ~10k; Task 6 ~25-35k.
 Total ~75-95k for the full round. Execution order per approval:
 Task 1 (urgent) → Task 2 → Task 3 → Task 5 → Task 6, with Task 4 text accompanying delivery.
+
+## Execution outcomes (appended July 26)
+
+- **Task 1 (Bug 3) SHIPPED (c58fc48):** root cause confirmed — a post
+  published mid-upload left an asset-less photo that crashed the
+  image URL builder; every production build had been failing and the
+  live site was frozen. All queries and renderers now filter to
+  defined(asset). Verified healed: the newest CMS posts all appear on
+  the live portfolio.
+- **Task 2 (Feature 1) SHIPPED (c58fc48):** automatic placement is
+  one photo per row (Studio auto-insert + site fallback).
+- **Task 3 (Bugs 1+2) SHIPPED (88c2386):** removed the mobile
+  sans-serif override (body copy = site serif everywhere); page
+  images share the 72rem reading measure; .post-article locked to
+  serif/2rem/black.
+- **Task 5 (Feature 2) SHIPPED (43aea41):** image rows are adjustable
+  grids — up to 12 photos, 1-4 per row, wrapping automatically;
+  existing rows unchanged.
+- **Task 6 (Design Decision 3) SHIPPED (797e5f4):** Font + Color in
+  the editor toolbar (curated 11-font menu incl. Noto CJK sets,
+  3-color palette), Site settings document with website-wide font
+  theme, on-demand font loading, Noto Serif SC in the default stack.
+  Verified end-to-end with a temporary post, then deleted.
+- Task 4 (cheat-sheet) delivered as the client message accompanying
+  this round.
