@@ -44,6 +44,10 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
 
       <form id="inquiry-form" name="inquiry" method="POST" action="https://api.web3forms.com/submit">
         <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+        {/* Web3Forms delivers to the address the access key was
+            registered to (Frosty Cloud); ccemail sends a copy of
+            every inquiry to the client as well. */}
+        <input type="hidden" name="ccemail" value="udoninsyd@gmail.com" />
         <input type="hidden" name="subject" value="New Inquiry - Udon Studio" />
         <input type="hidden" name="replyto" value="" />
         <input type="hidden" name="redirect" value="https://udonphoto.com/inquire/thanks/" />
