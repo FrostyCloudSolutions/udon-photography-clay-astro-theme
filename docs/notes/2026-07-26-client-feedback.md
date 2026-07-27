@@ -274,3 +274,59 @@ Task 1 (urgent) → Task 2 → Task 3 → Task 5 → Task 6, with Task 4 text ac
   Verified end-to-end with a temporary post, then deleted.
 - Task 4 (cheat-sheet) delivered as the client message accompanying
   this round.
+
+## Confirmation / Testing checklist (human-runnable)
+
+Quick checks Sammy or the client can perform to confirm this round's
+work, no tools needed. Publishing checks allow ~2 minutes for the
+site to rebuild.
+
+**Task 1 — publishing works again (Bug 3):**
+- [ ] Edit any post (change one word), Publish, wait ~2 min, refresh
+      udonphoto.com — the change appears.
+- [ ] Stress case: add photos to a post and press Publish while the
+      uploads are still showing progress bars. The site still
+      updates a couple of minutes later (finished photos appear;
+      nothing breaks).
+
+**Task 2 — one photo per row (Feature 1):**
+- [ ] Switch any gallery post with several photos to Article layout —
+      the Article body fills with one photo per row, all photos
+      present.
+- [ ] On the live post: photos are full article width, stacked, in
+      Photos-list order.
+
+**Task 3 — About ratio and fonts (Bugs 1+2):**
+- [ ] Desktop: udonphoto.com/about — the image is no wider than the
+      text column; text reads comfortably beside it.
+- [ ] Phone: About and Inquire body text uses the same serif font as
+      posts, in black — no font switch anywhere.
+
+**Task 5 — adjustable grids (Feature 2):**
+- [ ] In an Article body: insert an Image row, add 4 photos, set
+      "Photos per row" to 2, publish — the live post shows a 2x2
+      grid (stacks on phones).
+- [ ] Click any grid photo — fullscreen opens with prev/next arrows
+      through the whole article.
+
+**Task 6 — typography controls (Design Decision 3):**
+- [ ] Select a word in any body text — the toolbar offers Font and
+      Color. Apply "Caveat (handwritten accent)" and "Accent blue",
+      publish — the live page shows both.
+- [ ] Sidebar bottom → Site settings → change "Website font" (e.g.
+      Lora), publish — after ~2 min the whole site's text changes.
+      Set it back to EB Garamond the same way.
+- [ ] Type a sentence containing Chinese characters in any body,
+      publish — the Chinese renders in a matching elegant serif with
+      no settings touched.
+
+**Standing checks (regressions):**
+- [ ] Drag a post to a new position in Portfolio Posts — the live
+      grid matches ~2 min later.
+- [ ] Crop tool on any photo (hotspot) still drives its grid
+      thumbnail.
+- [ ] Email icons in header/footer open the mail app, including
+      after navigating between pages first.
+
+Convention going forward: every feedback-round notes document ends
+with a section like this once its technical tasks are complete.
