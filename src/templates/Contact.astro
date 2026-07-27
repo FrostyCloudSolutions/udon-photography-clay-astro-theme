@@ -87,6 +87,21 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
             </select>
           </div>
 
+          <div class="col-6 col-12-xsmall">
+            <select name="heard-about" id="heard-about" required>
+              <option value="">How did you hear about us?</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Xiaohongshu">小红书 (Xiaohongshu)</option>
+              <option value="Google search">Google search</option>
+              <option value="Friend or family">Friend or family</option>
+              <option value="Past client">I'm a past client</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="col-6 col-12-xsmall heard-other-only" hidden>
+            <input type="text" name="heard-about-other" id="heard-about-other" placeholder="Tell us how you found us" required disabled />
+          </div>
+
           <div class="col-6 col-12-xsmall date-range-only">
             <label for="date-from">Preferred dates &mdash; from</label>
             <input type="date" name="preferred-date-from" id="date-from" required />
@@ -176,6 +191,16 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
     };
     sessionType?.addEventListener('change', updateConditionalFields);
     updateConditionalFields();
+
+    // "How did you hear about us?" — the free-text box appears only
+    // when "Other" is chosen (same hidden+disabled pattern as the
+    // session-type conditionals).
+    const heardAbout = form.querySelector('#heard-about') as HTMLSelectElement | null;
+    const updateHeardAbout = () => {
+      toggleGroup('.heard-other-only', heardAbout?.value === 'Other');
+    };
+    heardAbout?.addEventListener('change', updateHeardAbout);
+    updateHeardAbout();
 
     const dateFrom = form.querySelector('#date-from') as HTMLInputElement | null;
     const dateTo = form.querySelector('#date-to') as HTMLInputElement | null;
