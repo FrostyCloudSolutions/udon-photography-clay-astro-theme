@@ -29,6 +29,26 @@ symptom: an overlay sized to the content column instead of the
 viewport, with the image parked at the overlay's center far below
 the fold. To verify during diagnosis before fixing.
 
+## Bug 2 — Inquiry date fields misaligned after hear-about insert (developer report, July 27)
+
+Verbatim (Frosty): "the preferred dates from and to are awkwardly
+lined up in the wrong columns, and dont match up on the same row.
+they should be side by side wit he the from box on the left, and the
+to box on the right, (unless its a single date event like a wedding)"
+
+Cause (confirmed by inspection): the July 26 hear-about insertion
+(commit faaae44) placed a half-width dropdown plus a HIDDEN
+half-width "Other" box into the form's two-column grid; when the
+Other box is collapsed (the normal state), the row count goes odd
+and every following half-width field shifts one slot — date-from
+pairs with the dropdown, date-to drops to its own row.
+
+Fix approach: the hear-about dropdown becomes full-width (col-12),
+and the conditional Other box full-width below it — the grid's
+pairing then holds regardless of the Other box's visibility, and the
+from/to pair stays side by side (weddings continue to replace the
+date range entirely, unchanged).
+
 ## Client's summary list (verbatim, July 27)
 
 > Question1. change https://udonphoto.com to www.udonphoto.com.
@@ -130,6 +150,10 @@ was handled in-chat and is explicitly EXCLUDED from this document
    Manual Task M5 issues a NEW access key for frame@udonphoto.com:
    one-line change in Contact.astro + deploy. If the existing key's
    recipient is changed instead, no code change is needed. (~2k)
+3. **Task 5 — Bug 2, date-field alignment.** Hear-about dropdown and
+   its Other box become full-width rows so the two-column pairing
+   never shifts; verify from/to render side by side in built HTML.
+   (~3k)
 3. **Task 3 — client guide text.** Plain-language "how inquiry email
    works and how to change the receiving address later" guide +
    closing client message, delivered in chat for forwarding. (~0)
@@ -174,6 +198,14 @@ Run after the corresponding task completes. Publishing checks allow
 - [ ] Same check after arriving at the post by clicking through from
       the portfolio grid (not a direct page load) — the historical
       failure case for overlay bugs.
+
+**Task 5 (date alignment):**
+- [ ] On udonphoto.com/inquire (desktop width): "Preferred dates —
+      from" and "— to" sit side by side, from on the left; the
+      hear-about dropdown spans its own row; picking "Other" opens
+      its box without shifting anything below.
+- [ ] Selecting Weddings still swaps the date range for the wedding
+      fields.
 
 **M1 (www):**
 - [ ] www.udonphoto.com loads the site (and lands on udonphoto.com
