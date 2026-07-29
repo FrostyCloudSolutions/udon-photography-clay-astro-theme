@@ -1,0 +1,79 @@
+---
+// Renders the "videoEmbed" portable-text block: a YouTube/Vimeo link
+// pasted in the Studio becomes the platform's embedded player,
+// streaming from their CDN (no video files are hosted on Sanity —
+// July 27 update, Task 6). Responsive 16:9, lazy-loaded so post
+// pages stay light for visitors who never scroll to the video.
+interface Props {
+  node: { url?: string; caption?: string };
+}
+
+const { node } = Astro.props;
+
+// Accepts every common share-link shape and normalizes to the
+// embeddable player URL. Unknown links render nothing rather than a
+// broken frame (the Studio validates hosts, but old/odd data must
+// never break a build).
+function embedSrc(raw?: string): string | null {
+  if (!raw) return null;
+  let u: URL;
+  try {
+    u = new URL(raw);
+  } catch {
+    return null;
+  }
+  const host = u.hostname.replace(/^(www|m)\./, '');
+  if (host === 'youtu.be') {
+    const id = u.pathname.split('/')[1];
+    return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+  }
+  if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+    const v = u.searchParams.get('v');
+    if (v) return `https://www.youtube-nocookie.com/embed/${v}`;
+    const path = u.pathname.match(/^\/(?:shorts|live|embed)\/([\w-]+)/);
+    return path ? `https://www.youtube-nocookie.com/embed/${path[1]}` : null;
+  }
+  if (host === 'vimeo.com') {
+    const id = u.pathname.match(/\/(\d+)/);
+    return id ? `https://player.vimeo.com/video/${id[1]}` : null;
+  }
+  if (host === 'player.vimeo.com') return raw;
+  return null;
+}
+
+const src = embedSrc(node?.url);
+---
+
+{src && (
+  <figure class="video-embed">
+    <iframe
+      src={src}
+      title={node?.caption || 'Video'}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+    {node?.caption && (
+      <figcaption class="video-embed-caption">{node.caption}</figcaption>
+    )}
+  </figure>
+)}
+
+<style>
+  .video-embed {
+    margin: 2.8rem 0;
+  }
+  .video-embed iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+  .video-embed-caption {
+    margin-top: 0.8rem;
+    font-family: var(--font-sans-serif);
+    font-size: 1.3rem;
+    opacity: 0.6;
+    text-align: center;
+  }
+</style>

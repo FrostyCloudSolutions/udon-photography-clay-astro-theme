@@ -2,10 +2,11 @@
 // (posts, pages, inquire copy): photo grids plus the typography
 // marks from the editor's Font/Color menus.
 import ArticleImageRow from '../components/ArticleImageRow.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
 import FontMark from '../components/FontMark.astro';
 import ColorMark from '../components/ColorMark.astro';
 
 export const ptComponents = {
-  type: { imageRow: ArticleImageRow },
+  type: { imageRow: ArticleImageRow, videoEmbed: VideoEmbed },
   mark: { font: FontMark, textColor: ColorMark },
 };

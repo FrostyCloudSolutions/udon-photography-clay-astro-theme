@@ -79,5 +79,8 @@ export const blockContent = defineType({
     }),
     // Photos inside articles: 1–3 images rendered side by side.
     defineArrayMember({type: 'imageRow'}),
+    // Videos: a pasted YouTube/Vimeo link, streamed via embed —
+    // never an uploaded file (July 27 update, Task 6).
+    defineArrayMember({type: 'videoEmbed'}),
   ],
 })

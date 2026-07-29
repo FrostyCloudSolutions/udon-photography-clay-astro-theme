@@ -13,5 +13,8 @@ export default defineCliConfig({
      * Learn more at https://www.sanity.io/docs/studio/latest-version-of-sanity#k47faf43faf56
      */
     autoUpdates: true,
+    // Reported by `sanity deploy` — pinning it skips the interactive
+    // application-id prompt on future deploys.
+    appId: 'fwna9jslvpj5hbn4w9ivfh19',
   },
 })
