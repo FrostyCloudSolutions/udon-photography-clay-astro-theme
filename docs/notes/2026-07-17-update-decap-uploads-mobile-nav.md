@@ -1,4 +1,4 @@
-# Udon Studio — Client Testing Feedback & Functionality Bugs
+# Udon Studio — Update (July 17, 2026): Decap Uploads, Mobile Nav & Captions
 
 **Date:** July 17, 2026
 **Participants:** Frosty Cloud Solutions (Sammy); Udon Studio (client, "Udon小章鱼🐙")

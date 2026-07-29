@@ -1,4 +1,4 @@
-# Udon Studio — Client Feedback (July 26, 2026): Heavy-Use Findings
+# Udon Studio — Update (July 26, 2026): Photo Rows, Typography & Builds
 
 **Date:** July 26, 2026 (feedback gathered over the prior two days)
 **Participants:** Frosty Cloud Solutions (the developer, "Frosty"); Udon Studio (client, "Udon小章鱼🐙")

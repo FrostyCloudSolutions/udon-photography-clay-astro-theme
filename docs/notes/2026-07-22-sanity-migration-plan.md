@@ -16,7 +16,7 @@ expansion pass is the next gate before any implementation.
 ## Context
 
 Decap CMS does not meet the client's needs (media folders, bulk
-upload, honest previews — see 2026-07-19-client-feedback.md). Sanity
+upload, honest previews — see 2026-07-19-update-broken-images-cms-evaluation.md). Sanity
 was chosen over Storyblok after evaluation (Storyblok offers no
 demo/video without account creation; Sanity's demos and site made its
 capabilities visible up front). A Sanity project exists (id

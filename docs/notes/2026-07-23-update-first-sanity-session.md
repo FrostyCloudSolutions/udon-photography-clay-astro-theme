@@ -1,4 +1,4 @@
-# Udon Studio — Client Feedback: First Sanity Session
+# Udon Studio — Update (July 23, 2026): First Sanity Session
 
 **Date:** July 23, 2026
 **Participants:** Frosty Cloud Solutions (Sammy); Udon Studio (client, "Udon小章鱼🐙")

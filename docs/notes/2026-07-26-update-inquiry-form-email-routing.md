@@ -1,4 +1,4 @@
-# Udon Studio — Inquiry Form Revisions (July 26, 2026)
+# Udon Studio — Update (July 26, 2026): Inquiry Form & Email Routing
 
 **Date:** July 26, 2026
 **Source:** Frosty Cloud (Frosty) — direct revision requests, plus the

@@ -1,4 +1,4 @@
-# Udon Studio — Feedback & Revisions (July 27, 2026)
+# Udon Studio — Update (July 27, 2026): Lightbox, WWW & Email
 
 **Date:** July 27, 2026
 **Status: DRAFT FOR REVIEW** — batch assembled; awaiting the

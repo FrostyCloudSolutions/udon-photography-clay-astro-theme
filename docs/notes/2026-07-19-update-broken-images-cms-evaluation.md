@@ -1,4 +1,4 @@
-# Udon Studio — Client Feedback: Broken Post Images, Media UX; CMS Re-evaluation
+# Udon Studio — Update (July 19, 2026): Broken Images, Media UX & CMS Evaluation
 
 **Date:** July 19, 2026
 **Participants:** Frosty Cloud Solutions (Sammy); Udon Studio (client, "Udon小章鱼🐙")
