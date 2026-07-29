@@ -6,6 +6,7 @@ import "../styles/layout.css";
 import { ClientRouter } from "astro:transitions";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Lightbox from "../components/Lightbox.astro";
 import { getSiteSettings, getUsedFontKeys } from "../lib/sanity";
 import { FONTS, googleFontsUrl } from "../lib/fonts";
 
@@ -73,6 +74,13 @@ const themeFontCss =
                 <slot />
             </div>
         </main>
+
+        {/* Lives OUTSIDE #swup on purpose: .transition-fade keeps a
+            transform (translate3d) after its entry animation, and any
+            transformed ancestor becomes the containing block for
+            position:fixed — the lightbox would size to the content
+            column instead of the viewport (July 27 Bug 1). */}
+        <Lightbox />
 
         <Footer />
 

@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { PortableText } from 'astro-portabletext';
-import Lightbox from '../components/Lightbox.astro';
 import { ptComponents } from '../lib/ptComponents';
 
 interface Props {
@@ -42,7 +41,6 @@ const { title, description, image, body } = Astro.props;
     </footer>
   </article>
 
-  {body && <Lightbox />}
 </Layout>
 
 <script>
