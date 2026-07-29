@@ -111,17 +111,91 @@ was handled in-chat and is explicitly EXCLUDED from this document
   checklist (logo/favicon, www, email records, social links, domain
   preferences) for future Frosty Cloud projects.
 
-## Proposed task list (for review — nothing started)
+## Pending decision (developer)
 
-1. Task 1 — Bug 1 lightbox: diagnose (transform-ancestor hypothesis)
-   and fix; fullscreen overlay centered with prev/next. OWNER:
-   Claude. ~10-15k tokens incl. verification.
-2. Feature 1 — www: developer adds Pages custom domain; Claude
-   verifies + updates notes. ~1k.
-3. Task 3 — email records: developer adds SPF now; DKIM + DMARC per
-   timings above; Claude verifies via dig as they land. ~2k.
-4. Feature 2 — recipient swap to frame@ AFTER email proven; Claude
-   code-swaps key only if a new key is issued. ~2k.
-5. Task 4 — client email-guide text with the delivery message. ~0.
-6. Confirmation/Testing checklist appended when tasks complete
-   (standing convention).
+- **City field: single-choice vs multi-select.** Client wrote "allow
+  multiple cities to be selected"; the live design is single-choice
+  (Sydney / Melbourne / Somewhere else). Recommendation: keep
+  single-choice (one inquiry = one shoot location; her ambiguity
+  complaint is already solved). Awaiting the developer's call.
+
+## Technical task list (implemented by Claude)
+
+1. **Task 1 — Bug 1, lightbox fix.** Diagnose (transform-ancestor
+   hypothesis first), fix so clicking any post photo opens an
+   immediate viewport-filling overlay, image centered, prev/next
+   arrows, Esc/backdrop close; verify on built output incl. the
+   after-client-side-navigation case; deploy. (~10-15k tokens)
+2. **Task 2 — Web3Forms key swap in code (conditional).** Only if
+   Manual Task M5 issues a NEW access key for frame@udonphoto.com:
+   one-line change in Contact.astro + deploy. If the existing key's
+   recipient is changed instead, no code change is needed. (~2k)
+3. **Task 3 — client guide text.** Plain-language "how inquiry email
+   works and how to change the receiving address later" guide +
+   closing client message, delivered in chat for forwarding. (~0)
+4. **Task 4 — external verification.** As each manual task lands,
+   verify from outside (dig for DNS records, curl for www, test
+   submission for routing) and record outcomes in this document. (~2k)
+
+## Manual dashboard configuration task list (developer)
+
+- **M1 — www subdomain:** Cloudflare -> Workers & Pages -> her Pages
+  project -> Custom domains -> add `www.udonphoto.com` (Cloudflare
+  creates the DNS record and serves the site). Optional: Redirect
+  Rule www -> udonphoto.com (301).
+- **M2 — SPF record (do now):** Cloudflare DNS for udonphoto.com ->
+  add TXT, name `@`, value: `v=spf1 include:_spf.google.com ~all`
+- **M3 — DKIM (when Google offers it, 24-72h after Workspace
+  signup):** Google Admin -> Apps -> Google Workspace -> Gmail ->
+  Authenticate email -> Generate new record -> paste the TXT into
+  Cloudflare DNS -> back in Google Admin click "Start
+  authentication".
+- **M4 — DMARC (do now, tighten later):** Cloudflare DNS -> add TXT,
+  name `_dmarc`, value: `v=DMARC1; p=none;
+  rua=mailto:frame@udonphoto.com` — after 1-2 weeks of clean
+  reports, change `p=none` to `p=quarantine` (or `reject`).
+- **M5 — inquiry recipient swap (ONLY after M2 done and a test
+  email to/from frame@udonphoto.com works):** Web3Forms dashboard ->
+  change the access key's recipient to frame@udonphoto.com (or issue
+  a new key — if new, tell Claude for Task 2); client clicks the
+  verification email Web3Forms sends to frame@.
+
+## Confirmation / Testing checklist
+
+Run after the corresponding task completes. Publishing checks allow
+~2 minutes for rebuilds.
+
+**Task 1 (lightbox):**
+- [ ] Desktop: open any portfolio post, click a photo — the overlay
+      fills the screen instantly, image centered and enlarged, no
+      scrolling anywhere; arrows step through photos; Esc and
+      clicking the dark backdrop close it.
+- [ ] Same check on a phone.
+- [ ] Same check after arriving at the post by clicking through from
+      the portfolio grid (not a direct page load) — the historical
+      failure case for overlay bugs.
+
+**M1 (www):**
+- [ ] www.udonphoto.com loads the site (and lands on udonphoto.com
+      if the redirect rule was added). Claude re-runs the dig check.
+
+**M2-M4 (email records):**
+- [ ] Claude's dig shows the SPF and DMARC TXT records (and DKIM
+      once generated).
+- [ ] Send any email FROM frame@udonphoto.com to another mailbox;
+      open it in Gmail -> "Show original" -> SPF: PASS (and DKIM:
+      PASS after M3). No spam-foldering.
+
+**M5 (recipient swap):**
+- [ ] Submit a test inquiry on udonphoto.com/inquire — it arrives at
+      frame@udonphoto.com (not the old inboxes).
+- [ ] Replying to that email goes to the submitter's address.
+
+**Already-shipped items (client Q3/Q4):**
+- [ ] Browser tab shows the "U" monogram on udonphoto.com (Google's
+      search-suggestion icon may lag for days).
+- [ ] Inquire form shows "How did you hear about us?" with socials,
+      and "Which city?" + suburb box.
+
+**Decision record:**
+- [ ] City field decision (single vs multi) recorded above once made.
