@@ -61,12 +61,36 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
             <input type="email" name="email" id="email" placeholder="Email" required />
           </div>
 
+          {/* Six-row layout (July 27 update, Task 5): every pair of
+              col-6 fields forms one visual row, and every CONDITIONAL
+              field is either full-width (col-12) or replaces a whole
+              row — so showing/hiding one never re-pairs the fields
+              below it (that grid shift was Bug 2). */}
           <div class="col-6 col-12-xsmall">
             <input type="tel" name="phone" id="phone" placeholder="Phone (optional)" />
           </div>
-          {/* City dropdown + free-text area: suburb names repeat
-              between Sydney and Melbourne, so the city is captured
-              structurally instead of relying on the text. */}
+          <div class="col-6 col-12-xsmall">
+            <select name="heard-about" id="heard-about" required>
+              <option value="">How did you hear about us?</option>
+              <option value="Instagram">Instagram</option>
+              <option value="Xiaohongshu">小红书 (RedNote / Xiaohongshu)</option>
+              <option value="YouTube">YouTube</option>
+              <option value="TikTok">TikTok</option>
+              <option value="Facebook">Facebook</option>
+              <option value="WeChat">WeChat</option>
+              <option value="Google search">Google search</option>
+              <option value="Friend or family">Friend or family</option>
+              <option value="Past client">I'm a past client</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="col-12 heard-other-only" hidden>
+            <input type="text" name="heard-about-other" id="heard-about-other" placeholder="Tell us how you found us" required disabled />
+          </div>
+
+          {/* City dropdown + free-text suburb, grouped on one row:
+              suburb names repeat between Sydney and Melbourne, so the
+              city is captured structurally instead of via the text. */}
           <div class="col-6 col-12-xsmall">
             <select name="city" id="city" required>
               <option value="">Which city?</option>
@@ -75,8 +99,8 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
               <option value="Somewhere else">Somewhere else</option>
             </select>
           </div>
-          <div class="col-12">
-            <input type="text" name="location" id="location" placeholder="Suburb or neighbourhood — please be as specific as possible" required />
+          <div class="col-6 col-12-xsmall">
+            <input type="text" name="location" id="location" placeholder="Suburb or neighbourhood — please be specific" required />
           </div>
 
           <div class="col-6 col-12-xsmall">
@@ -96,25 +120,6 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
               <option value="5-6 people">5&ndash;6 people</option>
               <option value="7+ people">7+ people</option>
             </select>
-          </div>
-
-          <div class="col-6 col-12-xsmall">
-            <select name="heard-about" id="heard-about" required>
-              <option value="">How did you hear about us?</option>
-              <option value="Instagram">Instagram</option>
-              <option value="Xiaohongshu">小红书 (RedNote / Xiaohongshu)</option>
-              <option value="YouTube">YouTube</option>
-              <option value="TikTok">TikTok</option>
-              <option value="Facebook">Facebook</option>
-              <option value="WeChat">WeChat</option>
-              <option value="Google search">Google search</option>
-              <option value="Friend or family">Friend or family</option>
-              <option value="Past client">I'm a past client</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div class="col-6 col-12-xsmall heard-other-only" hidden>
-            <input type="text" name="heard-about-other" id="heard-about-other" placeholder="Tell us how you found us" required disabled />
           </div>
 
           <div class="col-6 col-12-xsmall date-range-only">
