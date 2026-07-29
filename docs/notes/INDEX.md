@@ -44,11 +44,11 @@ context lives in the linked dated document.
 | [07-26 update](2026-07-26-update-inquiry-form-email-routing.md) | Feature | City dropdown + suburb field (location clarity) | Shipped | e06d1db |
 | [07-26 update](2026-07-26-update-inquiry-form-email-routing.md) | Decision | Inquiry routing: client = primary recipient; no CC on free plan | Resolved (dashboard) | aba8812, e06d1db |
 | [07-26 update](2026-07-26-update-inquiry-form-email-routing.md) | Feature | Interim "U" monogram logo/favicon set | Shipped | fee76f0 |
-| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Lightbox opens as stretched column, not fullscreen | Pending approval | — |
-| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Inquiry date fields misaligned (hear-about grid shift) | Pending approval | — |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Lightbox opens as stretched column, not fullscreen | Shipped | ca45ba5 |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Inquiry date fields misaligned (hear-about grid shift) | Shipped | 7e06c61 |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | www.udonphoto.com custom domain (M1) | With developer | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Email auth records: SPF now, DKIM 24–72h, DMARC ramp (M2–M4) | With developer | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Inquiry recipient → frame@udonphoto.com (M5, sequenced) | With developer + client | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Decision | City field: single choice + suburb text, grouped side by side | Resolved July 27 | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Pending approval | — |
-| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support — YouTube/Vimeo embed block in article bodies (Task 6) | Pending approval | — |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support — YouTube/Vimeo embed block in article bodies (Task 6) | Shipped | f934192 |

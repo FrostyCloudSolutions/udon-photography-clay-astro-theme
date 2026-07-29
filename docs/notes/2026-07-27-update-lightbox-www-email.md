@@ -1,7 +1,7 @@
 # Udon Studio — Update (July 27, 2026): Lightbox, WWW & Email
 
 **Date:** July 27, 2026
-**Status: DRAFT FOR REVIEW** — batch assembled; awaiting the
+**Status: APPROVED July 29 — Tasks 1, 5, 6 shipped July 29** (commits ca45ba5, 7e06c61, f934192). Remaining: manual dashboard tasks M1-M5, then conditional Tasks 2 & 4; testing checklist open.
 developer's revisions/approval. NO implementation until approved.
 
 Labels: Bug N / Feature N / Design Decision N / Task N, numbered from
