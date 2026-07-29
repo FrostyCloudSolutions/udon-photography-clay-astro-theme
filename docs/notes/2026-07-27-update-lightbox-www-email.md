@@ -172,14 +172,13 @@ Scoping — two very different paths:
    Proper hosted video (Mux plugin) is a paid third-party service —
    revisit only if embeds prove insufficient.
 
-Open design decisions (developer/client):
-- Placement: article-body block only, or also allowed as a post
-  cover / gallery item? (Recommend: article-body block only, v1.)
-- Sources: YouTube + Vimeo only, or also direct small-file upload
-  with a size cap? (Recommend: embeds only, v1.)
-
-Status: recorded for the current draft; awaiting the developer's
-scope pick before it joins the task list.
+**Scope decision (RESOLVED July 29, developer):** embed-based
+streaming — the client uploads the video to YouTube, pastes the link
+into her post, and the site streams it from YouTube's CDN through an
+embedded player. No direct video-file uploads to Sanity. v1 is an
+article-body "Video" block only (not a cover or gallery item);
+Vimeo links accepted too since the same block handles both. See
+Task 6.
 
 ## Technical task list (implemented by Claude)
 
@@ -197,12 +196,18 @@ scope pick before it joins the task list.
    session+people, dates paired; conditionals as full-width rows);
    verify pairing in built HTML at desktop width and stacking on
    mobile. (~5k)
-3. **Task 3 — client guide text.** Plain-language "how inquiry email
+4. **Task 3 — client guide text.** Plain-language "how inquiry email
    works and how to change the receiving address later" guide +
    closing client message, delivered in chat for forwarding. (~0)
-4. **Task 4 — external verification.** As each manual task lands,
+5. **Task 4 — external verification.** As each manual task lands,
    verify from outside (dig for DNS records, curl for www, test
    submission for routing) and record outcomes in this document. (~2k)
+6. **Task 6 — Feature 3, video embed block.** Studio: new
+   `videoEmbed` block type (URL field, validated YouTube/Vimeo)
+   insertable in article bodies alongside Image row. Site: renderer
+   in ptComponents that converts the URL to the platform's embed
+   iframe, responsive 16:9, lazy-loaded so post pages stay fast.
+   Verify with a real YouTube link on a built page. (~10-15k)
 
 ## Manual dashboard configuration task list (developer)
 
@@ -251,6 +256,14 @@ Run after the corresponding task completes. Publishing checks allow
 - [ ] Selecting Weddings still swaps the date row for the wedding
       fields; maternity/baby questions still appear for their types.
 - [ ] Phone view: fields stack single-column in the same order.
+
+**Task 6 (video embed):**
+- [ ] In the Studio, open an article-mode post, add a Video block in
+      the body, paste any YouTube link, publish; after ~2 minutes
+      the post shows the player, full column width, correct
+      proportions, and it plays.
+- [ ] Same check on a phone (player scales down, no sideways
+      scrolling).
 
 **M1 (www):**
 - [ ] www.udonphoto.com loads the site (and lands on udonphoto.com
