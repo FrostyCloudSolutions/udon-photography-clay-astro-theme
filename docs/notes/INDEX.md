@@ -51,3 +51,4 @@ context lives in the linked dated document.
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Inquiry recipient → frame@udonphoto.com (M5, sequenced) | With developer + client | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Decision | City field: single-choice vs multi-select | Pending (developer) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Pending approval | — |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support (embed block vs direct upload) | Pending (scope decision) | — |

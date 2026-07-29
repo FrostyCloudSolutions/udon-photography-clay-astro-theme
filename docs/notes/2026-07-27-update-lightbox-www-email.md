@@ -148,6 +148,39 @@ was handled in-chat and is explicitly EXCLUDED from this document
   suburb/neighbourhood detail. No multi-select. The two location
   fields are grouped side by side on one row (see Bug 2 fix layout).
 
+## Feature 3 — Video support (client question, July 29)
+
+Verbatim: "I was just wondering if if you want to upload videos,
+would it be the same way" (asked while confirming she is otherwise
+comfortable in the Studio: "everything looks good to me").
+
+Scoping — two very different paths:
+
+1. **Embed-based video block (RECOMMENDED starting point).** A
+   "Video" block insertable in article bodies (like Image row): she
+   pastes a YouTube/Vimeo link (or 小红书 where embeddable), the site
+   renders the player. Zero hosting cost, zero bandwidth risk,
+   instant streaming quality on the platform's CDN, and matches how
+   photographers already publish video. (~10-15k tokens: Studio
+   block + site renderer + responsive styling.)
+2. **Direct video-file uploads to Sanity.** Technically possible
+   (Sanity file assets accept video), BUT: no transcoding or
+   adaptive streaming — visitors download the raw file; large videos
+   eat the free plan's 100GB asset/bandwidth allowances quickly;
+   phone-shot multi-hundred-MB files would make post pages heavy.
+   Viable only for short small clips with strict size guidance.
+   Proper hosted video (Mux plugin) is a paid third-party service —
+   revisit only if embeds prove insufficient.
+
+Open design decisions (developer/client):
+- Placement: article-body block only, or also allowed as a post
+  cover / gallery item? (Recommend: article-body block only, v1.)
+- Sources: YouTube + Vimeo only, or also direct small-file upload
+  with a size cap? (Recommend: embeds only, v1.)
+
+Status: recorded for the current draft; awaiting the developer's
+scope pick before it joins the task list.
+
 ## Technical task list (implemented by Claude)
 
 1. **Task 1 — Bug 1, lightbox fix.** Diagnose (transform-ancestor
