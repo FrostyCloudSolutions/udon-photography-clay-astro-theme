@@ -43,11 +43,21 @@ Other box is collapsed (the normal state), the row count goes odd
 and every following half-width field shifts one slot — date-from
 pairs with the dropdown, date-to drops to its own row.
 
-Fix approach: the hear-about dropdown becomes full-width (col-12),
-and the conditional Other box full-width below it — the grid's
-pairing then holds regardless of the Other box's visibility, and the
-from/to pair stays side by side (weddings continue to replace the
-date range entirely, unchanged).
+Fix approach (REVISED July 27 per the developer — full form-layout
+reorganization, replaces the earlier full-width-dropdown idea):
+
+    Row 1: Full Name | Email
+    Row 2: Phone (optional) | How did you hear about us?
+           ("Other" box appears as a FULL-WIDTH row below Row 2 only
+           when chosen — full-width conditionals cannot shift the
+           two-column pairing, which structurally prevents this bug
+           class)
+    Row 3: Which city? | Suburb / neighbourhood (grouped side by side)
+    Row 4: Session Type | How many people?
+    Row 5: Preferred dates — from | — to
+           (Weddings still replace Row 5 with the wedding fields;
+           maternity/baby questions still follow their triggers)
+    Row 6: Message (full width)
 
 ## Client's summary list (verbatim, July 27)
 
@@ -131,13 +141,12 @@ was handled in-chat and is explicitly EXCLUDED from this document
   checklist (logo/favicon, www, email records, social links, domain
   preferences) for future Frosty Cloud projects.
 
-## Pending decision (developer)
+## Decisions
 
-- **City field: single-choice vs multi-select.** Client wrote "allow
-  multiple cities to be selected"; the live design is single-choice
-  (Sydney / Melbourne / Somewhere else). Recommendation: keep
-  single-choice (one inquiry = one shoot location; her ambiguity
-  complaint is already solved). Awaiting the developer's call.
+- **City field (RESOLVED July 27):** keep the client's model — ONE
+  city chosen from the dropdown, plus the free-text box for specific
+  suburb/neighbourhood detail. No multi-select. The two location
+  fields are grouped side by side on one row (see Bug 2 fix layout).
 
 ## Technical task list (implemented by Claude)
 
@@ -150,10 +159,11 @@ was handled in-chat and is explicitly EXCLUDED from this document
    Manual Task M5 issues a NEW access key for frame@udonphoto.com:
    one-line change in Contact.astro + deploy. If the existing key's
    recipient is changed instead, no code change is needed. (~2k)
-3. **Task 5 — Bug 2, date-field alignment.** Hear-about dropdown and
-   its Other box become full-width rows so the two-column pairing
-   never shifts; verify from/to render side by side in built HTML.
-   (~3k)
+3. **Task 5 — Bug 2, inquiry form layout reorganization.** Implement
+   the six-row layout above (phone+hear-about, city+suburb grouped,
+   session+people, dates paired; conditionals as full-width rows);
+   verify pairing in built HTML at desktop width and stacking on
+   mobile. (~5k)
 3. **Task 3 — client guide text.** Plain-language "how inquiry email
    works and how to change the receiving address later" guide +
    closing client message, delivered in chat for forwarding. (~0)
@@ -199,13 +209,15 @@ Run after the corresponding task completes. Publishing checks allow
       the portfolio grid (not a direct page load) — the historical
       failure case for overlay bugs.
 
-**Task 5 (date alignment):**
-- [ ] On udonphoto.com/inquire (desktop width): "Preferred dates —
-      from" and "— to" sit side by side, from on the left; the
-      hear-about dropdown spans its own row; picking "Other" opens
-      its box without shifting anything below.
-- [ ] Selecting Weddings still swaps the date range for the wedding
-      fields.
+**Task 5 (form layout):**
+- [ ] Desktop: rows read Name|Email, Phone|Hear-about, City|Suburb,
+      Session|People, Dates from|to — from on the left, to on the
+      right, nothing orphaned.
+- [ ] Picking "Other" for hear-about opens a full-width box below
+      its row WITHOUT shifting any pair below it.
+- [ ] Selecting Weddings still swaps the date row for the wedding
+      fields; maternity/baby questions still appear for their types.
+- [ ] Phone view: fields stack single-column in the same order.
 
 **M1 (www):**
 - [ ] www.udonphoto.com loads the site (and lands on udonphoto.com
