@@ -86,6 +86,14 @@ was handled in-chat and is explicitly EXCLUDED from this document
 
 ## DNS snapshot (checked July 27, public DNS; re-checked July 30)
 
+- **July 30, later — M2 + M4 DONE and VERIFIED** (dig against
+  Cloudflare's authoritative NS): SPF `v=spf1
+  include:_spf.google.com ~all` and DMARC `v=DMARC1; p=none;
+  rua=mailto:frame@udonphoto.com` both live. All three email-auth
+  records (SPF/DKIM/DMARC) now present in DNS. REMINDER (~Aug 13):
+  tighten DMARC p=none -> p=quarantine after reviewing reports.
+  Remaining: M3 signing check via client's test email; M5 after
+  that test succeeds.
 - **July 30 re-check (after the developer ran M1):**
   www.udonphoto.com resolves and serves the site over HTTPS (HTTP
   200) — **M1 core VERIFIED DONE**; only the optional www->apex

@@ -47,7 +47,7 @@ context lives in the linked dated document.
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Lightbox opens as stretched column, not fullscreen | Shipped | ca45ba5 |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Inquiry date fields misaligned (hear-about grid shift) | Shipped (rows 4/5 swapped July 29) | 7e06c61, f112ef2 |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | www.udonphoto.com custom domain (M1) | Shipped July 30 (verified via curl; optional redirect pending) | (dashboard) |
-| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Email auth records: DKIM record present July 30; SPF + DMARC still to add (M2, M4) | With developer | — |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Email auth records: SPF, DKIM, DMARC all live July 30 (dig-verified); DKIM signing check + DMARC tighten ~Aug 13 pending | Shipped (dashboard) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Inquiry recipient → frame@udonphoto.com (M5, sequenced) | With developer + client | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Decision | City field: single choice + suburb text, grouped side by side | Resolved July 27 | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Pending approval | — |
