@@ -48,7 +48,7 @@ context lives in the linked dated document.
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Bug | Inquiry date fields misaligned (hear-about grid shift) | Shipped (rows 4/5 swapped July 29) | 7e06c61, f112ef2 |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | www.udonphoto.com custom domain (M1) | Shipped July 30 (verified via curl; optional redirect pending) | (dashboard) |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Email auth records: SPF/DKIM/DMARC live + all PASS on real delivery July 30; DMARC tighten ~Aug 13 | Shipped (dashboard) | — |
-| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Inquiry recipient → frame@udonphoto.com (M5, sequenced) | With developer + client | — |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Inquiry recipient → frame@udonphoto.com (M5) | Shipped July 30 (end-to-end inquiry confirmed by client) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Decision | City field: single choice + suburb text, grouped side by side | Resolved July 27 | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Delivered July 30 (in follow-up comms) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support — YouTube/Vimeo embed block in article bodies (Task 6) | Shipped | f934192 |

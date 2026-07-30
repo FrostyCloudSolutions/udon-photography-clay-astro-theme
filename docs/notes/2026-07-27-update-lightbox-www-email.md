@@ -1,11 +1,16 @@
 # Udon Studio — Update (July 27, 2026): Lightbox, WWW & Email
 
 **Date:** July 27, 2026
-**July 30: client follow-up sent (WeChat + email)** — announced the
-shipped items and requested her two actions: click the Web3Forms
-verification link in frame@, and send the M3 test email. Awaiting
-her; then test inquiry end-to-end (M5 proof).
-**Status: APPROVED July 29 — Tasks 1, 5, 6 shipped July 29** (commits ca45ba5, 7e06c61, f934192). Remaining: manual dashboard tasks M1-M5, then conditional Tasks 2 & 4; testing checklist open.
+**Status: COMPLETE July 30.** All code tasks (1, 5, 6 — commits
+ca45ba5, 7e06c61, f934192, plus row-swap amendment f112ef2) and all
+manual dashboard tasks (M1-M5) done and verified. M5 end-to-end
+proof: the developer submitted a test inquiry on udonphoto.com and
+the client confirmed receipt at frame@udonphoto.com. Task 2 (key
+swap) not needed — the existing access key's recipient was changed,
+so the code stayed untouched. Still open, non-blocking: tighten
+DMARC to p=quarantine ~Aug 13 (calendar + scheduled reminder set);
+optional www->apex redirect rule; manual testing-checklist
+walkthrough below.
 
 Labels: Bug N / Feature N / Design Decision N / Task N, numbered from
 1 within this document only.
