@@ -62,7 +62,7 @@ reorganization, replaces the earlier full-width-dropdown idea):
     (AMENDED July 29 after shipping: Rows 4 and 5 swapped — dates
     before category — so each category's follow-up questions appear
     immediately below the category picker that triggered them.
-    Commit 03fe2ad.)
+    Commit f112ef2.)
 
 ## Client's summary list (verbatim, July 27)
 
