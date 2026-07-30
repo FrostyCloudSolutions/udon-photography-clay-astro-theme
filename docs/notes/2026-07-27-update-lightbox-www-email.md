@@ -90,6 +90,15 @@ was handled in-chat and is explicitly EXCLUDED from this document
 
 ## DNS snapshot (checked July 27, public DNS; re-checked July 30)
 
+- **July 30, evening — M3 VERIFIED COMPLETE.** Client's test email
+  from frame@udonphoto.com arrived at info@frostycloud.net (Inbox,
+  not spam); Gmail's Show-original verdicts: SPF PASS (Google
+  sender authorized by the new record), DKIM PASS (d=udonphoto.com,
+  s=google — key was already active; no Google Admin action ever
+  needed), DMARC PASS (reading p=none as set). Client also clicked
+  the Web3Forms verification link and the developer switched the
+  recipient to frame@. Remaining: end-to-end test inquiry through
+  the live form (M5 proof).
 - **July 30, later — M2 + M4 DONE and VERIFIED** (dig against
   Cloudflare's authoritative NS): SPF `v=spf1
   include:_spf.google.com ~all` and DMARC `v=DMARC1; p=none;
