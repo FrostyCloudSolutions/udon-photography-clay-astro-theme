@@ -216,10 +216,29 @@ Task 6.
 
 ## Manual dashboard configuration task list (developer)
 
-- **M1 — www subdomain:** Cloudflare -> Workers & Pages -> her Pages
-  project -> Custom domains -> add `www.udonphoto.com` (Cloudflare
-  creates the DNS record and serves the site). Optional: Redirect
-  Rule www -> udonphoto.com (301).
+- **M1 — www subdomain (click-by-click, expanded July 29):**
+  WHY Custom domains and not a plain DNS record: Cloudflare Pages
+  only serves hostnames registered to the project — a hand-made
+  CNAME would route traffic to Pages but Pages would refuse the
+  unknown hostname (SSL/host errors). The Custom domains wizard does
+  three things at once: creates the CNAME, registers the hostname
+  with the project, and issues its TLS certificate.
+  1. Workers & Pages -> udon-photography-clay-astro-theme ->
+     Custom domains -> Set up a custom domain -> enter
+     `www.udonphoto.com` -> on the "Confirm new DNS record" screen
+     (shows: CNAME | www | udon-photography-clay-astro-theme.pages.dev)
+     click **Activate domain**.
+  2. Wait until the Custom domains list shows www.udonphoto.com as
+     **Active** (usually under a few minutes).
+  3. OPTIONAL redirect so www lands on the bare domain: this lives
+     under the DOMAIN, not under Workers & Pages — dashboard Home ->
+     click the site **udonphoto.com** -> left sidebar **Rules** ->
+     **Redirect Rules** -> under Templates pick **"Redirect from WWW
+     to Root"** -> review -> Deploy. (If the template list is
+     absent: Create rule -> name `www to apex` -> If Hostname equals
+     `www.udonphoto.com` -> Then Dynamic redirect, expression
+     `concat("https://udonphoto.com", http.request.uri.path)`,
+     status 301, preserve query string -> Deploy.)
 - **M2 — SPF record (do now):** Cloudflare DNS for udonphoto.com ->
   add TXT, name `@`, value: `v=spf1 include:_spf.google.com ~all`
 - **M3 — DKIM (when Google offers it, 24-72h after Workspace
