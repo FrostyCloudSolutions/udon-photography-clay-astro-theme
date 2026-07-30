@@ -1,6 +1,10 @@
 # Udon Studio — Update (July 27, 2026): Lightbox, WWW & Email
 
 **Date:** July 27, 2026
+**July 30: client follow-up sent (WeChat + email)** — announced the
+shipped items and requested her two actions: click the Web3Forms
+verification link in frame@, and send the M3 test email. Awaiting
+her; then test inquiry end-to-end (M5 proof).
 **Status: APPROVED July 29 — Tasks 1, 5, 6 shipped July 29** (commits ca45ba5, 7e06c61, f934192). Remaining: manual dashboard tasks M1-M5, then conditional Tasks 2 & 4; testing checklist open.
 
 Labels: Bug N / Feature N / Design Decision N / Task N, numbered from

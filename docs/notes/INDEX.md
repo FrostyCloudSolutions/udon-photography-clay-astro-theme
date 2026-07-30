@@ -50,5 +50,5 @@ context lives in the linked dated document.
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Email auth records: SPF, DKIM, DMARC all live July 30 (dig-verified); DKIM signing check + DMARC tighten ~Aug 13 pending | Shipped (dashboard) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Inquiry recipient → frame@udonphoto.com (M5, sequenced) | With developer + client | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Decision | City field: single choice + suburb text, grouped side by side | Resolved July 27 | — |
-| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Pending approval | — |
+| [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Delivered July 30 (in follow-up comms) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support — YouTube/Vimeo embed block in article bodies (Task 6) | Shipped | f934192 |
