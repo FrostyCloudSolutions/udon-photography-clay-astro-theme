@@ -84,9 +84,19 @@ share the site on Instagram once www works. The Judy Pham inquiry
 was handled in-chat and is explicitly EXCLUDED from this document
 (resolved; taught reply-to handling).
 
-## DNS snapshot (checked July 27, public DNS)
+## DNS snapshot (checked July 27, public DNS; re-checked July 30)
 
-- **www.udonphoto.com: NO RECORD** — confirms Bug/Feature below.
+- **July 30 re-check (after the developer ran M1):**
+  www.udonphoto.com resolves and serves the site over HTTPS (HTTP
+  200) — **M1 core VERIFIED DONE**; only the optional www->apex
+  Redirect Rule remains. A **DKIM record already exists**
+  (google._domainkey TXT, v=DKIM1) — M3's DNS half is in place;
+  remaining M3 check: confirm Google Admin shows "Authenticating
+  email" / a test mail shows DKIM: PASS. SPF and DMARC still
+  missing (M2, M4 outstanding — Cloudflare's DNS page banner
+  recommends both).
+- **www.udonphoto.com: NO RECORD** (July 27) — confirms Bug/Feature
+  below.
 - **MX: `10 smtp.google.com` ✓** — Google Workspace mail routing for
   udonphoto.com already exists (modern single-record form), so
   frame@udonphoto.com can receive mail.
