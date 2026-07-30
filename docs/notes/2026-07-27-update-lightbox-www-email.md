@@ -52,11 +52,17 @@ reorganization, replaces the earlier full-width-dropdown idea):
            two-column pairing, which structurally prevents this bug
            class)
     Row 3: Which city? | Suburb / neighbourhood (grouped side by side)
-    Row 4: Session Type | How many people?
-    Row 5: Preferred dates — from | — to
-           (Weddings still replace Row 5 with the wedding fields;
-           maternity/baby questions still follow their triggers)
+    Row 4: Preferred dates — from | — to
+    Row 5: Session Type | How many people?
+           (category follow-ups — weeks pregnant, baby age, wedding
+           date/time/venue — appear directly below this row;
+           Weddings hides Row 4 and shows the wedding fields)
     Row 6: Message (full width)
+
+    (AMENDED July 29 after shipping: Rows 4 and 5 swapped — dates
+    before category — so each category's follow-up questions appear
+    immediately below the category picker that triggered them.
+    Commit 03fe2ad.)
 
 ## Client's summary list (verbatim, July 27)
 

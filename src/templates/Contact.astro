@@ -103,6 +103,19 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
             <input type="text" name="location" id="location" placeholder="Suburb or neighbourhood — please be specific" required />
           </div>
 
+          {/* Dates sit ABOVE the category row (July 29 revision) so
+              the category's follow-up questions — weeks pregnant,
+              baby age, wedding details — appear directly below the
+              category picker that triggered them. */}
+          <div class="col-6 col-12-xsmall date-range-only">
+            <label for="date-from">Preferred dates &mdash; from</label>
+            <input type="date" name="preferred-date-from" id="date-from" required />
+          </div>
+          <div class="col-6 col-12-xsmall date-range-only">
+            <label for="date-to">Preferred dates &mdash; to</label>
+            <input type="date" name="preferred-date-to" id="date-to" />
+          </div>
+
           <div class="col-6 col-12-xsmall">
             <select name="session-type" id="session-type" required>
               <option value="">Session Type</option>
@@ -120,15 +133,6 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
               <option value="5-6 people">5&ndash;6 people</option>
               <option value="7+ people">7+ people</option>
             </select>
-          </div>
-
-          <div class="col-6 col-12-xsmall date-range-only">
-            <label for="date-from">Preferred dates &mdash; from</label>
-            <input type="date" name="preferred-date-from" id="date-from" required />
-          </div>
-          <div class="col-6 col-12-xsmall date-range-only">
-            <label for="date-to">Preferred dates &mdash; to</label>
-            <input type="date" name="preferred-date-to" id="date-to" />
           </div>
 
           <div class="col-12 maternity-only" hidden>
