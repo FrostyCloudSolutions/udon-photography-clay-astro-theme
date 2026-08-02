@@ -53,3 +53,4 @@ context lives in the linked dated document.
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Client guide: how inquiry email works / changing it later | Delivered July 30 (in follow-up comms) | — |
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support — YouTube/Vimeo embed block in article bodies (Task 6) | Shipped | f934192 |
 | [07-30 update](2026-07-30-update-form-text-editing.md) | Feature | Client-editable form text (labels/placeholders/options; structure locked) | Pending (local prototype scheduled July 30) | — |
+| [07-30 wedding variant](2026-07-30-wedding-variant-scope.md) | Feature | Wedding brand-variant sister site (subdomain deploy of template) | Backlog (client to build portfolio first) | — |
