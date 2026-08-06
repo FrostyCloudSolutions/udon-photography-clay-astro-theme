@@ -46,7 +46,7 @@ free-text location is ambiguous.
 
 - Idea 1 (Frosty): guidance text on the existing field.
 - Idea 2 (Frosty): a restricted Australian locality dropdown.
-- **Recommendation (Frosty Cloud + Claude): a hybrid THIRD option —
+- **Recommendation (Frosty Cloud): a hybrid THIRD option —
   split the field in two:**
   1. A small "City" dropdown: Sydney / Melbourne / Somewhere else —
      which removes the duplicate-suburb ambiguity STRUCTURALLY (the

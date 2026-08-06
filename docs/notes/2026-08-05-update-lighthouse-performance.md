@@ -1,8 +1,7 @@
 # Udon Studio — Update (August 5, 2026): Lighthouse Performance & Accessibility
 
 **Date:** August 5, 2026
-**Status: DRAFT FOR REVIEW — NOT APPROVED.** No implementation until
-the developer approves this document.
+**Status: APPROVED August 5 — implementation in progress.**
 
 Labels: Bug N / Task N, numbered from 1 within this document only.
 
@@ -50,7 +49,7 @@ honest deliverable.
    - `.site-foot-credit` — #a5a5a5 (2.46:1)
    - footer Frosty Cloud link — #a5a5a5 (2.46:1)
 
-## Technical task list (implemented by Claude, on approval)
+## Technical task list (implemented by Frosty Cloud, on approval)
 
 1. **Task 1 — font loading.** Add preconnect hints for both Google
    Fonts hosts; load the fonts stylesheet asynchronously (with

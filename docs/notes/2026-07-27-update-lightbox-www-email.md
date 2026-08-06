@@ -138,7 +138,7 @@ was handled in-chat and is explicitly EXCLUDED from this document
   project (Workers & Pages -> project -> Custom domains) — creates
   the DNS record and serves the site. Optional: Redirect Rule
   www -> apex 301. OWNER: the developer (dashboard-only; no
-  Cloudflare credentials on this machine). Claude verifies
+  Cloudflare credentials on this machine). the developer verifies
   externally afterwards.
 - **Feature 2 — inquiry recipient becomes frame@udonphoto.com
   (client Q2).** Web3Forms dashboard change (access-key recipient or
@@ -146,7 +146,7 @@ was handled in-chat and is explicitly EXCLUDED from this document
   frame@ that the client must click. SEQUENCE: only after Task 3's
   SPF is in place and a test mail to/from frame@ works — otherwise
   inquiries route to an unproven mailbox. OWNER: the developer +
-  client; if a new access key is issued, Claude swaps it in
+  client; if a new access key is issued, the developer swaps it in
   Contact.astro (one line).
 - **Task 3 — email deliverability records (the "48-hours/2-weeks
   DNS" the developer half-remembered).** These are EMAIL
@@ -161,7 +161,7 @@ was handled in-chat and is explicitly EXCLUDED from this document
      `v=DMARC1; p=none; rua=mailto:frame@udonphoto.com` — then
      tighten to quarantine/reject after 1-2 weeks of clean reports
      (the "2 weeks").
-  OWNERS: her Cloudflare + her/the developer's Google Admin. Claude
+  OWNERS: her Cloudflare + her/the developer's Google Admin. The developer
   can only verify externally (dig) once set.
 - **Client Q3 (icon): ALREADY SHIPPED** July 27 (commit fee76f0) —
   the "U" monogram in EB Garamond is live; her list predates the
@@ -221,7 +221,7 @@ article-body "Video" block only (not a cover or gallery item);
 Vimeo links accepted too since the same block handles both. See
 Task 6.
 
-## Technical task list (implemented by Claude)
+## Technical task list (implemented by Frosty Cloud)
 
 1. **Task 1 — Bug 1, lightbox fix.** Diagnose (transform-ancestor
    hypothesis first), fix so clicking any post photo opens an
@@ -289,7 +289,7 @@ Task 6.
 - **M5 — inquiry recipient swap (ONLY after M2 done and a test
   email to/from frame@udonphoto.com works):** Web3Forms dashboard ->
   change the access key's recipient to frame@udonphoto.com (or issue
-  a new key — if new, tell Claude for Task 2); client clicks the
+  a new key — if new, tell the developer for Task 2); client clicks the
   verification email Web3Forms sends to frame@.
 
 ## Confirmation / Testing checklist
@@ -327,10 +327,10 @@ Run after the corresponding task completes. Publishing checks allow
 
 **M1 (www):**
 - [ ] www.udonphoto.com loads the site (and lands on udonphoto.com
-      if the redirect rule was added). Claude re-runs the dig check.
+      if the redirect rule was added). the developer re-runs the dig check.
 
 **M2-M4 (email records):**
-- [ ] Claude's dig shows the SPF and DMARC TXT records (and DKIM
+- [ ] the developer's dig shows the SPF and DMARC TXT records (and DKIM
       once generated).
 - [ ] Send any email FROM frame@udonphoto.com to another mailbox;
       open it in Gmail -> "Show original" -> SPF: PASS (and DKIM:
