@@ -9,6 +9,7 @@ import Footer from "../components/Footer.astro";
 import Lightbox from "../components/Lightbox.astro";
 import { getSiteSettings, getUsedFontKeys } from "../lib/sanity";
 import { BASE_FONTS_URL, FONTS, googleFontsUrl } from "../lib/fonts";
+import { resolveSiteIdentity } from "../lib/siteConfig";
 
 export interface Props {
     title?: string;
@@ -23,36 +24,43 @@ export interface Props {
 
 const { title, description, preloadImage } = Astro.props;
 
-// Site-wide font theme (Site settings in the Studio) + on-demand
-// loading of any extra fonts used via the editor's Font menu. The
-// base fonts ship via vars.css; visitors download others only when
-// published content actually uses them.
+// Site identity (name, socials, contact) comes from the Sanity
+// "Site settings" document, merged over neutral demo defaults —
+// client-specific values never live in code.
 const settings = await getSiteSettings();
+const site = resolveSiteIdentity(settings);
+
+// Font plan: vars.css ships the base fonts; anything else — the
+// site-wide theme font and any fonts picked via the editor's Font
+// menu — is loaded on demand, so visitors only download fonts that
+// published content actually uses.
 const themeFont =
     settings?.fontTheme && FONTS[settings.fontTheme] ? settings.fontTheme : "eb-garamond";
 const usedFontKeys = await getUsedFontKeys();
 const extraFontsUrl = googleFontsUrl([...new Set([themeFont, ...usedFontKeys])]);
 const themeFontCss =
     themeFont !== "eb-garamond" ? `:root { --font-serif: ${FONTS[themeFont].stack}; }` : null;
+
+// Browser-tab title: "SiteName - Page" on subpages, bare name at home.
+const tabTitle = title && title !== site.siteName ? `${site.siteName} - ${title}` : site.siteName;
 ---
 
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="description" content={description || "Udon Studio - Professional Photography"} />
         <meta name="viewport" content="width=device-width" />
-        {/* "U" monogram in the site serif (interim logo until the
-            client supplies an official one). SVG for modern browsers,
-            .ico fallback, apple-touch-icon for iOS home screens. */}
+        <meta name="description" content={description || `${site.siteName} - ${site.tagline}`} />
+        <meta name="generator" content={Astro.generator} />
+        <title>{tabTitle}</title>
+        {/* Monogram favicon in the site serif: SVG for modern
+            browsers, .ico fallback, apple-touch-icon for iOS. */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="generator" content={Astro.generator} />
-        <title>{title && title !== 'Udon Studio' ? `Udon Studio - ${title}` : 'Udon Studio'}</title>
         {/* Fonts load async (media=print until loaded) so text paints
-            immediately in the fallback serif and upgrades — the
-            render-blocking @import cost ~1.85s of first paint. The
+            immediately in the fallback serif and upgrades — a blocking
+            fonts request cost ~1.85s of first paint (Aug 5 round). The
             preconnects start both Google handshakes during HTML parse. */}
         {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -64,25 +72,25 @@ const themeFontCss =
         {themeFontCss && <style set:html={themeFontCss}></style>}
         <ClientRouter />
         <script is:inline>
-            // Theme init
-            const theme = (() => {
-                if (
-                    typeof localStorage !== "undefined" &&
-                    localStorage.getItem("theme")
-                ) {
-                    return localStorage.getItem("theme");
+            // Apply the visitor's stored theme BEFORE first paint, so a
+            // dark-mode visitor never sees a white flash. Policy: light
+            // unless the visitor explicitly chose dark via the toggle —
+            // the OS preference is deliberately not consulted.
+            (() => {
+                let stored = null;
+                if (typeof localStorage !== "undefined") {
+                    stored = localStorage.getItem("theme");
                 }
-                return "light";
+                if (stored === "dark") {
+                    document.documentElement.setAttribute("data-theme", "dark");
+                } else {
+                    document.documentElement.removeAttribute("data-theme");
+                }
             })();
-            if (theme === "dark") {
-                document.documentElement.setAttribute("data-theme", "dark");
-            } else {
-                document.documentElement.removeAttribute("data-theme");
-            }
         </script>
     </head>
     <body class="site-wrapper">
-        <Header />
+        <Header site={site} />
 
         <main id="site-main" class="site-main">
             <div id="swup" class="transition-fade">
@@ -90,101 +98,82 @@ const themeFontCss =
             </div>
         </main>
 
-        {/* Lives OUTSIDE #swup on purpose: .transition-fade keeps a
-            transform (translate3d) after its entry animation, and any
+        {/* Deliberately OUTSIDE the #swup wrapper: .transition-fade
+            keeps a transform after its entry animation, and any
             transformed ancestor becomes the containing block for
-            position:fixed — the lightbox would size to the content
-            column instead of the viewport (July 27 Bug 1). */}
+            position:fixed — inside it, the lightbox would size to the
+            content column instead of the viewport. */}
         <Lightbox />
 
-        <Footer />
+        <Footer site={site} />
 
         <script>
-            import { navigate } from "astro:transitions/client";
+            // Chrome wiring. astro:page-load fires on first load AND
+            // after every client-side navigation, so everything binds
+            // against the freshly-swapped DOM each time.
 
-            function initNav() {
+            const syncThemeIcons = () => {
+                const dark =
+                    document.documentElement.getAttribute("data-theme") === "dark";
+                const sun = document.querySelector<HTMLElement>(".sun-icon");
+                const moon = document.querySelector<HTMLElement>(".moon-icon");
+                if (!sun || !moon) return;
+                sun.style.display = dark ? "inline-block" : "none";
+                moon.style.display = dark ? "none" : "inline-block";
+            };
+
+            const wireMenuBurger = () => {
                 const burger = document.querySelector(".nav-burger");
                 const wrapper = document.querySelector(".site-wrapper");
-                if (burger && wrapper) {
-                    burger.addEventListener("click", (e) => {
-                        e.preventDefault();
-                        wrapper.classList.toggle("site-head-open");
-                    });
-                }
-            }
+                if (!burger || !wrapper) return;
+                burger.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    wrapper.classList.toggle("site-head-open");
+                });
+            };
 
-            function initTheme() {
-                const toggleBtn = document.getElementById("theme-toggle");
-                const updateIcon = () => {
-                    const isDark =
-                        document.documentElement.getAttribute("data-theme") ===
-                        "dark";
-                    // Add logic to animate or swap icons if needed, currently CSS handles visibility? No, added SVGs.
-                    // Simple SVG toggle:
-                    const sun = document.querySelector(
-                        ".sun-icon",
-                    ) as HTMLElement;
-                    const moon = document.querySelector(
-                        ".moon-icon",
-                    ) as HTMLElement;
-                    if (sun && moon) {
-                        sun.style.display = isDark ? "inline-block" : "none";
-                        moon.style.display = isDark ? "none" : "inline-block";
+            const wireThemeToggle = () => {
+                syncThemeIcons();
+                const toggle = document.getElementById("theme-toggle");
+                if (!toggle) return;
+                toggle.addEventListener("click", () => {
+                    const goingDark =
+                        document.documentElement.getAttribute("data-theme") !== "dark";
+                    if (goingDark) {
+                        document.documentElement.setAttribute("data-theme", "dark");
+                    } else {
+                        document.documentElement.removeAttribute("data-theme");
                     }
-                };
+                    localStorage.setItem("theme", goingDark ? "dark" : "light");
+                    syncThemeIcons();
+                });
+            };
 
-                updateIcon();
-
-                if (toggleBtn) {
-                    toggleBtn.addEventListener("click", () => {
-                        const currentTheme =
-                            document.documentElement.getAttribute("data-theme");
-                        const newTheme =
-                            currentTheme === "dark" ? "light" : "dark";
-
-                        if (newTheme === "dark") {
-                            document.documentElement.setAttribute(
-                                "data-theme",
-                                "dark",
-                            );
-                        } else {
-                            document.documentElement.removeAttribute(
-                                "data-theme",
-                            );
-                        }
-                        localStorage.setItem("theme", newTheme);
-                        updateIcon();
-                    });
-                }
-            }
-
-            // Email links are shipped as split data attributes and
-            // assembled here, so Cloudflare's Email Obfuscation never
-            // detects/rewrites them (its decoder doesn't re-run after
-            // client-side navigation, leaving broken cdn-cgi links).
-            function initEmailLinks() {
+            // Email links ship as split data attributes and are
+            // assembled here in the browser, so Cloudflare's Email
+            // Obfuscation never detects/rewrites them (its decoder
+            // doesn't re-run after client-side navigation, which
+            // used to leave broken cdn-cgi links).
+            const assembleEmailLinks = () => {
                 document
                     .querySelectorAll<HTMLAnchorElement>("[data-mail-user]")
                     .forEach((link) => {
-                        const user = link.dataset.mailUser;
-                        const domain = link.dataset.mailDomain;
-                        if (user && domain) {
-                            link.href = "mailto:" + user + "@" + domain;
+                        const { mailUser, mailDomain } = link.dataset;
+                        if (mailUser && mailDomain) {
+                            link.href = `mailto:${mailUser}@${mailDomain}`;
                         }
                     });
-            }
+            };
 
-            // Run on view transitions (fires on initial load too)
             document.addEventListener("astro:page-load", () => {
-                initNav();
-                initTheme();
-                initEmailLinks();
+                wireMenuBurger();
+                wireThemeToggle();
+                assembleEmailLinks();
             });
 
-            // Theme policy: ALWAYS light unless the visitor explicitly
-            // chose dark via the toggle (stored choice); never follow the
-            // OS preference. Same rule as the head init script, re-applied
-            // after client-side navigation.
+            // After a client-side swap the <html> attribute survives but
+            // the policy is re-asserted anyway (same rule as the head
+            // script): stored dark choice wins, everything else is light.
             document.addEventListener("astro:after-swap", () => {
                 if (localStorage.getItem("theme") === "dark") {
                     document.documentElement.setAttribute("data-theme", "dark");

@@ -1,60 +1,56 @@
-/* Variables
-/* ---------------------------------------------------------- */
+/* Still — design tokens.
+   Single source of truth for color, type, and sizing. Themes stay
+   swappable because components only ever reference these tokens. */
 
-/* Web fonts load asynchronously from Layout.astro (BASE_FONTS_URL in
-   src/lib/fonts.ts) — an @import here would serialize CSS -> fonts
-   and block first paint. */
-
-
+/* Web fonts load asynchronously from Layout.astro (BASE_FONTS_URL
+   in src/lib/fonts.ts) — an @import here would serialize CSS ->
+   fonts and block first paint (Aug 5 round). */
 
 :root {
+  /* Palette — near-black on white; dark mode flips via [data-theme]. */
+  --color-base: #131313;
+  --color-bg: #ffffff;
+  --color-border: #ddd;
+  --color-primary: #3eb0ef;
 
-    /* Colours */
-    --color-primary: #3eb0ef;
-    --color-base: #131313;
-    --color-border: #ddd;
-    --color-bg: #ffffff;
+  /* Type. Sans stack leads with Futura for machines that have it;
+     League Spartan (loaded above) is the everywhere-fallback. */
+  --font-sans-serif: 'Futura', 'League Spartan', 'Trebuchet MS', Arial, sans-serif;
+  --font-serif: 'EB Garamond', 'Noto Serif SC', Georgia, Times, serif;
+  --font-mono: Menlo, Courier, monospace;
+  --font-light: 100;
+  --font-normal: 400;
+  --font-bold: 700;
+  --font-heavy: 800;
 
-    /* Fonts */
-    --font-sans-serif: 'Futura', 'League Spartan', 'Trebuchet MS', Arial, sans-serif;
-    --font-serif: 'EB Garamond', 'Noto Serif SC', Georgia, Times, serif;
-    --font-mono: Menlo, Courier, monospace;
-    --font-light: 100;
-    --font-normal: 400;
-    --font-bold: 700;
-    --font-heavy: 800;
+  /* Breakpoint references (informational — CSS can't read custom
+     properties inside @media, so queries hardcode their widths). */
+  --xsmall: 480px;
+  --small: 740px;
+  --medium: 980px;
+  --large: 1280px;
+  --xlarge: 1680px;
 
-    /* Breakpoints */
-    --xlarge: 1680px;
-    --large: 1280px;
-    --medium: 980px;
-    --small: 740px;
-    --xsmall: 480px;
-
-    /* Sizes */
-    --height: 4rem;
-    --margin: 2rem;
-    --radius: 0.5rem;
-
+  /* Control sizing shared by forms and buttons. */
+  --height: 4rem;
+  --margin: 2rem;
+  --radius: 0.5rem;
 }
 
 [data-theme='dark'] {
-    --color-primary: #5ec2ff;
-    --color-base: #e0e0e0;
-    --color-border: #444;
-    --color-bg: #121212;
-
-
-    /* Old BG--color-bg: #f8f8f8;*/
+  --color-base: #e0e0e0;
+  --color-bg: #121212;
+  --color-border: #444;
+  --color-primary: #5ec2ff;
 }
 
-/* Opt out of Chrome-for-Android's "Auto Dark Theme", which force-darkens
-   light pages (dark backgrounds with un-inverted text). The site's own
-   dark mode is applied explicitly via [data-theme="dark"] only. */
+/* Dark mode is a deliberate visitor choice, applied only through
+   [data-theme="dark"] — so opt out of Chrome-for-Android's automatic
+   page darkening, which would force-darken the light design. */
 :root {
-    color-scheme: only light;
+  color-scheme: only light;
 }
 
-:root[data-theme="dark"] {
-    color-scheme: dark;
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }

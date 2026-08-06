@@ -1,51 +1,46 @@
-/* Lists
-/* ---------------------------------------------------------- */
+/* Still — list rhythm for rendered content. */
 
 ul,
 ol,
 dl {
-    margin: 0 0 var(--margin) 0;
-}
-
-ol,
-ul {
-    padding-left: 1.3em;
-    padding-right: 1.5em;
-}
-
-ol ol,
-ul ul,
-ul ol,
-ol ul {
-    margin: 0.5em 0 1em;
-}
-
-ul {
-    list-style: disc;
-}
-
-ol {
-    list-style: decimal;
+  margin: 0 0 var(--margin) 0;
 }
 
 ul,
 ol {
-    max-width: 100%;
+  max-width: 100%;
+  padding-left: 1.3em;
+  padding-right: 1.5em;
+}
+
+ul {
+  list-style: disc;
+}
+
+ol {
+  list-style: decimal;
+}
+
+/* Nested lists sit tighter than top-level ones. */
+ol ol,
+ul ul,
+ul ol,
+ol ul {
+  margin: 0.5em 0 1em;
 }
 
 li {
-    margin: 0.5em 0;
-    padding-left: 0.3em;
-    line-height: 1.6em;
+  margin: 0.5em 0;
+  padding-left: 0.3em;
+  line-height: 1.6em;
 }
 
-
 dt {
-    display: block;
-    font-weight: var(--font-bold);
-    margin: 0 0 calc(var(--margin) * 0.5) 0;
+  display: block;
+  margin: 0 0 calc(var(--margin) * 0.5) 0;
+  font-weight: var(--font-bold);
 }
 
 dd {
-    margin-left: var(--margin);
+  margin-left: var(--margin);
 }

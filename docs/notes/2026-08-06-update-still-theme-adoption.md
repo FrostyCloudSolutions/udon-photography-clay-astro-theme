@@ -123,6 +123,41 @@ with Still's de-client seam, keep udon values):** sanity.ts,
 fonts.ts (keep BASE_FONTS_URL), categories.ts, + adopt
 siteConfig.ts carrying Udon Studio identity values.
 
+## Amendments (developer, Aug 6, mid-execution)
+
+- **Grandfathered deployment:** udon keeps its hardcoded
+  client-specific wiring — it is a GRANDFATHERED site, not a pure
+  Still deployment; new clients start from the template. Effect:
+  Tier C and Tier D shrink to "keep udon's versions" — Still's
+  changes there are de-clienting only, and those files carry little
+  or no original-author code (the fragments that remain exist
+  identically in Still, which passed legal clearance). Adoption
+  scope = Tier A + Tier B.
+- **Task 6 — repo rename (after merge to main):**
+  udon-photography-clay-astro-theme -> udonphoto-frosty-astro-still
+  on GitHub. GitHub redirects old URLs and the Cloudflare Pages
+  GitHub-App connection tracks the repo, so deploys survive.
+  CAUTION: the Cloudflare Pages PROJECT name must NOT be renamed —
+  the custom-domain DNS (udonphoto.com, www) CNAMEs point at
+  udon-photography-clay-astro-theme.pages.dev; renaming the project
+  would change that target and break the site. Repo rename only.
+
+## Task 2 + 3 status (Aug 6, on branch still-theme)
+
+Tier A adopted verbatim (commit c8be16e); Tier B adopted with Aug 5
+fixes re-applied in the same pass (9b514e3): vars.css (no @import),
+content.css (excerpt 0.62), layout.css (copyright 0.78), buttons,
+forms, PostCard (props contract verified against callers), and
+Layout.astro via a udon-flavored siteConfig.ts whose SITE_DEFAULTS
+ARE the client identity (grandfathered pattern). Verified on the
+branch build: title/meta/tab identity identical to production;
+async-font markup, preconnects, LCP preload, id="navigation",
+lightbox placement, six-row form order + Web3Forms key, video
+iframe, footer credit all present; homepage + inquire render
+visually identical in local preview; dark mode toggles to
+#121212/#e0e0e0 correctly. AWAITING: developer's side-by-side
+eyeball on the Cloudflare branch preview, then merge (Task 5).
+
 ## Confirmation / Testing checklist
 
 - [ ] Branch preview: homepage, a gallery post, an article post
