@@ -58,9 +58,18 @@ export const FONTS: Record<string, FontDef> = {
   },
 };
 
-// Always shipped via the static import in vars.css — never needs the
-// dynamic loader.
+// Always shipped on every page (loaded async from Layout.astro) —
+// never needs the dynamic loader. Weights trimmed to what the CSS
+// actually uses; italics beyond 400 dropped (one italic usage
+// site-wide, and browsers synthesize a fallback if ever needed).
 export const BASE_FONTS = new Set(['eb-garamond', 'league-spartan', 'noto-serif-sc']);
+
+// Formerly a render-blocking @import at the top of vars.css — that
+// pattern serializes CSS -> fonts-CSS -> font files and cost ~1.85s
+// of first paint on mobile (Aug 5 Lighthouse round). Loaded async
+// with preconnect hints in Layout.astro instead.
+export const BASE_FONTS_URL =
+  'https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=League+Spartan:wght@300;400;500;600;700&family=Noto+Serif+SC:wght@400;700&display=swap';
 
 export const TEXT_COLORS: Record<string, string> = {
   base: 'var(--color-base)',

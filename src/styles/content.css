@@ -133,7 +133,9 @@ production stylesheet in assets/built/screen.css using gulp dev
   line-height: 1.6em;
   color: var(--color-base);
   text-align: center;
-  opacity: 0.5;
+  /* 0.62 is the WCAG floor here: black at less than ~0.58 opacity on
+     white fails the 4.5:1 contrast ratio (Aug 5 Lighthouse round). */
+  opacity: 0.62;
 }
 @media (max-width: 500px) {
   .post-content-excerpt {

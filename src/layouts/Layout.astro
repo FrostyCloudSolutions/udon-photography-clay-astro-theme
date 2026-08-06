@@ -8,15 +8,20 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Lightbox from "../components/Lightbox.astro";
 import { getSiteSettings, getUsedFontKeys } from "../lib/sanity";
-import { FONTS, googleFontsUrl } from "../lib/fonts";
+import { BASE_FONTS_URL, FONTS, googleFontsUrl } from "../lib/fonts";
 
 export interface Props {
     title?: string;
     description?: string;
+    /** URL of the page's largest above-the-fold image (the LCP
+        candidate). Tiles/cards use CSS background-image, which the
+        browser only discovers after CSS parses — a preload hint with
+        high priority starts the download during HTML parse instead. */
+    preloadImage?: string | null;
     children?: any;
 }
 
-const { title, description } = Astro.props;
+const { title, description, preloadImage } = Astro.props;
 
 // Site-wide font theme (Site settings in the Studio) + on-demand
 // loading of any extra fonts used via the editor's Font menu. The
@@ -45,7 +50,17 @@ const themeFontCss =
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="generator" content={Astro.generator} />
         <title>{title && title !== 'Udon Studio' ? `Udon Studio - ${title}` : 'Udon Studio'}</title>
-        {extraFontsUrl && <link rel="stylesheet" href={extraFontsUrl} />}
+        {/* Fonts load async (media=print until loaded) so text paints
+            immediately in the fallback serif and upgrades — the
+            render-blocking @import cost ~1.85s of first paint. The
+            preconnects start both Google handshakes during HTML parse. */}
+        {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href={BASE_FONTS_URL} media="print" onload="this.media='all'" />
+        <noscript><link rel="stylesheet" href={BASE_FONTS_URL} /></noscript>
+        {extraFontsUrl && <link rel="stylesheet" href={extraFontsUrl} media="print" onload="this.media='all'" />}
+        {extraFontsUrl && <noscript><link rel="stylesheet" href={extraFontsUrl} /></noscript>}
         {themeFontCss && <style set:html={themeFontCss}></style>}
         <ClientRouter />
         <script is:inline>

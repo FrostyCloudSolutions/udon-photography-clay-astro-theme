@@ -34,7 +34,10 @@
     .site-foot-credit {
         margin-top: 0.5rem;
         font-size: 1.1rem;
-        opacity: 0.45;
+        /* Multiplies with .site-foot's 0.85 — 0.73 is the minimum
+           that clears WCAG 4.5:1 (Aug 5 Lighthouse round); slightly
+           paler than the copyright line to keep the hierarchy. */
+        opacity: 0.73;
     }
 
     .site-foot-credit a {

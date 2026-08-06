@@ -139,7 +139,9 @@ body {
 .site-foot-copyright {
     margin-top: 1rem;
     font-size: 1.2rem;
-    opacity: 0.6;
+    /* Multiplies with .site-foot's 0.85 — 0.78 keeps the effective
+       gray above the 4.5:1 WCAG floor (Aug 5 Lighthouse round). */
+    opacity: 0.78;
 }
 
 footer.site-foot a {

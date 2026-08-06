@@ -12,7 +12,11 @@ const description = home?.description ?? undefined;
 const tiles = await getHomeTiles();
 ---
 
-<Layout title={title} description={description}>
+<Layout
+    title={title}
+    description={description}
+    preloadImage={tiles[0]?.image ? cardImage(tiles[0].image) : undefined}
+>
     <header class="post-content-header">
     <h1 class="post-content-title">{title}</h1>
         {description && <p class="post-content-excerpt">{description}</p>}
