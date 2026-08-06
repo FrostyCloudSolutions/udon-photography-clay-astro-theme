@@ -58,5 +58,5 @@ context lives in the linked dated document.
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Hamburger aria-controls points to missing id (+ duplicate id=swup) | Shipped Aug 5 (a11y 100 verified) | a483aff |
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Gray text fails WCAG AA contrast (excerpt + footer) | Shipped Aug 5 (a11y 100 verified) | a483aff |
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Feature | Responsive tile images, sizing-only (Task 7; no quality reduction) | Backlog (Frosty marketing benefit only) | — |
-| [08-06 update](2026-08-06-update-still-theme-adoption.md) | Feature | Still theme adoption — udon becomes fully Frosty-authored (branch + parity testing) | Pending approval | — |
+| [08-06 update](2026-08-06-update-still-theme-adoption.md) | Feature | Still theme adoption — udon now fully Frosty-authored; repo renamed frosty-astro-still-udonphoto | Shipped Aug 6 | c8be16e, 9b514e3, 83edb8c |
 | [08-06 update](2026-08-06-update-still-theme-adoption.md) | Decision | Repo license swap to Still model, preserving client fork promise | Pending (developer wording) | — |

@@ -1,6 +1,14 @@
 # Udon Studio — Update (August 6, 2026): Still Theme Adoption
 
 **Date:** August 6, 2026
+**Status: SHIPPED August 6 (merge 83edb8c) — license swap (Task 4)
+remains deferred.** Live verification passed: new CSS bundle serving
+with re-applied Aug 5 patches, no fonts @import, async fonts,
+id="navigation", lightbox placement — all confirmed on
+udonphoto.com. Repo renamed to **frosty-astro-still-udonphoto**
+(theme-first for catalog sorting; GitHub redirects the old name;
+Cloudflare Pages project name deliberately untouched — DNS CNAMEs
+point at its pages.dev address).
 **Status: APPROVED August 6** with two amendments: (1) adoption
 order = files ranked by how much original clay-theme code they still
 carry, highest first (legal priority); (2) Task 4 license swap
