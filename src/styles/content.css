@@ -1,12 +1,9 @@
-/*
+/* Still — content styles.
+   Everything that renders CMS content: page/post bodies, the
+   portfolio grids and filter bar, and the article reading column.
+   Pulls in the component layer first (vars must come before any
+   rule that reads a token). */
 
-This is a development CSS file which is built to a minified
-production stylesheet in assets/built/screen.css using gulp dev
-
-*/
-
-/* Lib - Local component imports
-/* ---------------------------------------------------------- */
 @import "vars.css";
 @import "components/global.css";
 @import "components/ghost.css";
@@ -19,88 +16,8 @@ production stylesheet in assets/built/screen.css using gulp dev
 @import "components/hamburger.css";
 @import "components/animations.css";
 
-/* Main - Theme styles
-/* ---------------------------------------------------------- */
-
-
-
-/* Layout
-/* ---------------------------------------------------------- */
-
-
-.page-head {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 13vw 0;
-  max-width: 70%;
-  margin: auto;
-  text-align: center;
-}
-
-.error-head {
-  height: 75vh;
-}
-
-.error-head h1 {
-  margin: 0;
-  font-size: 7rem;
-  line-height: 1.1em;
-  font-weight: var(--font-heavy);
-  letter-spacing: 10px;
-}
-
-.error-head p {
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: color-mix(in srgb, var(--color-base), white 50%);
-}
-
-.error-link {
-  margin-top: 1rem;
-  font-size: 1.5rem;
-  text-decoration: underline;
-}
-
-.page-head-title {
-  margin: 0;
-  font-size: 4.2rem;
-  color: var(--color-base);
-}
-@media (max-width: 500px) {
-  .page-head-title {
-    font-size: 2rem;
-  }
-}
-
-.page-head-description {
-  margin: 0 0 1.6vw;
-  color: color-mix(in srgb, var(--color-border), black 20%);
-  font-size: 2.2rem;
-  line-height: 1.35em;
-}
-@media (max-width: 500px) {
-  .page-head-description {
-    font-size: 1.6rem;
-  }
-}
-
-
-
-/* Site Navigation
-/* ---------------------------------------------------------- */
-
-
-
-/* Post Feed
-/* ---------------------------------------------------------- */
-
-
-
-/* Post Content
-/* ---------------------------------------------------------- */
+/* Page & post shells
+   ------------------------------------------------------------ */
 
 .post-content {
   max-width: 100%;
@@ -108,11 +25,12 @@ production stylesheet in assets/built/screen.css using gulp dev
   padding: 0 0 3vw;
 }
 
+/* The inquiry page keeps a narrow column so the form reads well. */
 .contact-form {
   max-width: 720px;
   margin: 0 auto;
-  /* padding: 3vw 0; */
 }
+
 .post-content-header {
   display: flex;
   flex-direction: column;
@@ -133,8 +51,8 @@ production stylesheet in assets/built/screen.css using gulp dev
   line-height: 1.6em;
   color: var(--color-base);
   text-align: center;
-  /* 0.62 is the WCAG floor here: black at less than ~0.58 opacity on
-     white fails the 4.5:1 contrast ratio (Aug 5 Lighthouse round). */
+  /* 0.62 is the WCAG floor: black below ~0.58 opacity on white
+     fails 4.5:1 contrast (Aug 5 round). */
   opacity: 0.62;
 }
 @media (max-width: 500px) {
@@ -143,41 +61,22 @@ production stylesheet in assets/built/screen.css using gulp dev
   }
 }
 
-/* .post-content-image {
-  margin: 4vw 0;
-  position: relative;
-  width: 75vw;
-  min-width: 100%;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  transform: translateX(calc(50vw - 50%));
-} */
+/* Page images share the article reading measure — a full-column
+   image on a wide screen would dwarf the text beside it. */
 .post-content-image {
-  margin: 4vw auto;
   position: relative;
   width: 100%;
-  /* Page images share the article reading measure — on wide screens
-     a full-column image dwarfed the text beside it (client's Bug 1,
-     About page image/text ratio). */
   max-width: 72rem;
+  margin: 4vw auto;
 }
 
-.contact-form-image {
-  margin: 2vw 0;
-  position: relative;
-  width: 100vw;
-  min-width: 100%;
-  min-width: 100%;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
-  transform: translateX(calc(50vw - 50%));
-}
+/* Body copy inside pages and posts
+   ------------------------------------------------------------ */
+
 .post-content-body {
   font-size: 1.9rem;
   line-height: 1.65em;
 }
-/* (Removed the ≤500px sans-serif override: body copy uses the site
-   serif at every size, matching posts — the client's Bug 2.) */
 
 .post-content-body h1,
 .post-content-body h2,
@@ -255,10 +154,6 @@ production stylesheet in assets/built/screen.css using gulp dev
   color: inherit;
 }
 
-.post-content-body .fluid-width-video-wrapper {
-  margin: 1.5em 0 3em;
-}
-
 .post-content-body hr {
   margin: 4vw 0;
 }
@@ -277,101 +172,45 @@ production stylesheet in assets/built/screen.css using gulp dev
   transform: rotate(45deg);
 }
 
-.footnotes-sep {
-  margin-bottom: 30px;
-}
-
-.footnotes {
-  font-size: 1.5rem;
-}
-
-.footnotes p {
-  margin: 0;
-}
-
-.footnote-backref {
-  color: var(--color-primary) !important;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-decoration: none !important;
-  box-shadow: none !important;
-}
-
-/* Author Archive
-/* ---------------------------------------------------------- */
-
-.author-meta {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 10px;
-  color: color-mix(in srgb, var(--color-border), black 20%);
-}
-
-.author-links {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.author-links a {
-  display: block;
-  margin: 0;
-  padding: 0 12px;
-  color: var(--color-base);
-  opacity: 0.4;
-}
-
-.author-links a:hover {
-  text-decoration: none;
-  opacity: 1;
-}
-
-.author-links .divider {
-  display: inline-block;
-  margin: 0 3px;
-}
-
-/* Page Template
-/* ---------------------------------------------------------- */
-
+/* Fixed-page bodies keep their authored heading alignment. */
 .page-template .post-content-body h1,
 .page-template .post-content-body h2,
 .page-template .post-content-body h3 {
   text-align: inherit;
 }
 
-/* 404 page */
-.good-bye-page { display: flex; flex-direction: column; align-items: center; }
-
-
-/* thank you page */
+/* Form thank-you page. */
 .thank-you p {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Squared image corners, everywhere. */
+.kg-image {
+  border-radius: 0;
+}
 
-/* Image corners -- squared per client request */
-.kg-image { border-radius: 0; }
+img {
+  border-radius: 0;
+}
 
-img.gatsby-resp-image-image { border-radius: 0 !important;}
+/* Tile grids (homepage trio, portfolio feed)
+   ------------------------------------------------------------ */
 
-img {border-radius: 0;}
-
-/* Grid feed layout (homepage, portfolio) */
 .post-feed.grid-3 {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   margin: 1rem 0;
 }
+
 .post-feed.grid-3 .post-card {
   margin: 0;
   height: auto;
   aspect-ratio: 1 / 1;
 }
+
 @media (max-width: 900px) {
   .post-feed.grid-3 {
     grid-template-columns: 1fr;
@@ -381,22 +220,26 @@ img {border-radius: 0;}
     aspect-ratio: 4 / 3;
   }
 }
+
 .post-feed.grid-4 {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin: 1rem 0;
 }
+
 .post-feed.grid-4 .post-card {
   margin: 0;
   height: auto;
   aspect-ratio: 1 / 1;
 }
+
 @media (max-width: 900px) {
   .post-feed.grid-4 {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
 @media (max-width: 500px) {
   .post-feed.grid-4 {
     grid-template-columns: 1fr;
@@ -407,14 +250,12 @@ img {border-radius: 0;}
   }
 }
 
-/* Category filter bar (used on the Portfolio listing page, and as
-   navigation on individual post pages -- shared here since it's rendered
-   from more than one template).
+/* Category filter bar
+   ------------------------------------------------------------
+   Rendered on the portfolio listing AND on individual post pages
+   (it doubles as navigation there), so it lives here in shared
+   content styles rather than in either template. */
 
-   The border-bottom here is the definitive divider between the shared
-   section header (title/description/filter bar) and whatever content
-   follows -- listing grid or individual post -- so it only needs to be
-   defined once, in this one shared place. */
 .filter-bar {
   display: flex;
   flex-wrap: wrap;
@@ -423,6 +264,8 @@ img {border-radius: 0;}
   margin: 0 auto 3rem;
   max-width: 80%;
 }
+
+/* Pills are typography-only: no box, small-caps, dim until active. */
 .filter-pill {
   font-family: var(--font-sans-serif);
   font-size: 1.8rem;
@@ -444,6 +287,7 @@ img {border-radius: 0;}
   opacity: 0.6;
   transition: opacity 0.2s ease;
 }
+
 .filter-pill:hover {
   background-color: transparent !important;
   color: var(--color-base) !important;
@@ -451,6 +295,7 @@ img {border-radius: 0;}
   opacity: 1;
   text-decoration: underline !important;
 }
+
 .filter-pill.is-active {
   background-color: transparent !important;
   color: var(--color-base) !important;
@@ -458,34 +303,34 @@ img {border-radius: 0;}
   text-decoration: underline !important;
 }
 
-/* Article-style bodies (portable text on pages and article-layout
-   posts): comfortable reading measure and rhythm, replacing the raw
-   full-width text block. Image rows are styled in ArticleImageRow. */
+/* Article reading column
+   ------------------------------------------------------------
+   Portable-text bodies (pages and article-layout posts). Font,
+   color, and size are explicit so no wrapper can drift article
+   copy away from the post look. Image rows style themselves. */
+
 .post-article {
-    max-width: 72rem;
-    margin: 0 auto;
-    text-align: left;
-    /* Explicit, so no breakpoint or wrapper can drift article copy
-       away from the post look the client asked for: site serif,
-       black, comfortable reading size. */
-    font-family: var(--font-serif);
-    font-size: 2rem;
-    color: var(--color-base);
+  max-width: 72rem;
+  margin: 0 auto;
+  text-align: left;
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--color-base);
 }
 
 .post-article p {
-    margin: 0 0 1.8rem;
-    line-height: 1.8;
+  margin: 0 0 1.8rem;
+  line-height: 1.8;
 }
 
 .post-article h2,
 .post-article h3 {
-    margin: 3.2rem 0 1.2rem;
-    line-height: 1.25;
+  margin: 3.2rem 0 1.2rem;
+  line-height: 1.25;
 }
 
 .post-article ul,
 .post-article ol {
-    margin: 0 0 1.8rem;
-    padding-left: 2.2rem;
+  margin: 0 0 1.8rem;
+  padding-left: 2.2rem;
 }

@@ -1,22 +1,22 @@
-/* Forms
-/* ---------------------------------------------------------- */
+/* Still — form controls.
+   Text fields, selects, and textareas share one quiet outline style;
+   checkboxes and radios are custom-drawn via their labels. */
 
 form {
-    margin: 0 0 var(--margin) 0;
+  margin: 0 0 var(--margin) 0;
 }
 
 fieldset {
-    margin: 0;
-    padding: 0;
-    border: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 
 label {
-    color: var(--color-base);
-    display: block;
-    font-size: 0.9em;
-    font-weight: var(--font-bold);
-    margin: 0 0 (var(--margin) * 0.5) 0;
+  display: block;
+  color: var(--color-base);
+  font-size: 0.9em;
+  font-weight: var(--font-bold);
 }
 
 input[type="text"],
@@ -30,16 +30,15 @@ input[type="time"],
 input[type="number"],
 select,
 textarea {
-    background: var(--color-bg);
-    border-radius: var(--radius);
-    border: none;
-    border: solid 1px #131313;
-    color: inherit;
-    display: block;
-    outline: 0;
-    padding: 0 0.6em;
-    text-decoration: none;
-    width: 100%;
+  display: block;
+  width: 100%;
+  padding: 0 0.6em;
+  color: inherit;
+  background: var(--color-bg);
+  border: solid 1px #131313;
+  border-radius: var(--radius);
+  outline: 0;
+  text-decoration: none;
 }
 
 input[type="text"]:invalid,
@@ -53,7 +52,7 @@ input[type="time"]:invalid,
 input[type="number"]:invalid,
 select:invalid,
 textarea:invalid {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 input[type="text"]:focus,
@@ -67,30 +66,11 @@ input[type="time"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
-    border-color: #131313;
-    box-shadow: 0 0 0 1px #131313;
+  border-color: #131313;
+  box-shadow: 0 0 0 1px #131313;
 }
 
-select {
-    height: var(--height);
-    padding-right: var(--height);
-    text-overflow: ellipsis;
-}
-
-select option {
-    color: #131313;
-    background: var(--color-bg);
-}
-
-select:focus::-ms-value {
-        background-color: transparent;
-    }
-
-select::-ms-expand {
-    display: none;
-}
-
-
+/* Single-line controls share the standard control height. */
 input[type="text"],
 input[type="password"],
 input[type="email"],
@@ -101,70 +81,81 @@ input[type="date"],
 input[type="time"],
 input[type="number"],
 select {
-    height: var(--height);
+  height: var(--height);
+}
+
+select {
+  padding-right: var(--height);
+  text-overflow: ellipsis;
+}
+
+select option {
+  color: #131313;
+  background: var(--color-bg);
 }
 
 textarea {
-    padding: 0.3em 0.6em;
-    resize: vertical;
+  padding: 0.3em 0.6em;
+  resize: vertical;
 }
 
+/* Checkbox/radio: hide the native control, draw a box before the
+   label text and fill it with a check when selected. */
 input[type="checkbox"],
 input[type="radio"] {
-    display: block;
-    margin-right: -2em;
-    opacity: 0;
-    width: 1em;
-    z-index: -1;
+  display: block;
+  width: 1em;
+  margin-right: -2em;
+  opacity: 0;
+  z-index: -1;
 }
 
 input[type="checkbox"] + label,
 input[type="radio"] + label {
-    display: flex;
-    align-items: center;
-    color: var(--color-base);
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: var(--font-normal);
-    padding-left: calc((var(--height) * 0.6) + 0.75em);
-    padding-right: 2rem;
-    position: relative;
-    user-select: none;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding-left: calc((var(--height) * 0.6) + 0.75em);
+  padding-right: 2rem;
+  color: var(--color-base);
+  font-size: 1em;
+  font-weight: var(--font-normal);
+  cursor: pointer;
+  user-select: none;
 }
 
 input[type="checkbox"] + label:before,
 input[type="radio"] + label:before {
-    background: var(--color-bg);
-    border-radius: var(--radius);
-    border: solid 1px #131313;
-    content: '';
-    display: inline-block;
-    height: calc(var(--height) * 0.6);
-    line-height: calc(var(--height) * 0.56);
-    text-align: center;
-    width: calc(var(--height) * 0.6);
-    margin-right: 1rem;
+  content: '';
+  display: inline-block;
+  width: calc(var(--height) * 0.6);
+  height: calc(var(--height) * 0.6);
+  line-height: calc(var(--height) * 0.56);
+  margin-right: 1rem;
+  background: var(--color-bg);
+  border: solid 1px #131313;
+  border-radius: var(--radius);
+  text-align: center;
 }
 
 input[type="checkbox"]:checked + label:before,
 input[type="radio"]:checked + label:before {
-    background: #000000;
-    border-color: #000000;
-    color: var(--color-bg);
-    content: '✓';
+  content: '✓';
+  color: var(--color-bg);
+  background: #000000;
+  border-color: #000000;
 }
 
 input[type="checkbox"]:focus + label:before,
 input[type="radio"]:focus + label:before {
-    border-color:  #0000008e;
-    box-shadow: 0 0 0 1px  #0000008e;
+  border-color: #0000008e;
+  box-shadow: 0 0 0 1px #0000008e;
 }
 
-
 input[type="checkbox"] + label:before {
-    border-radius: var(--radius);
+  border-radius: var(--radius);
 }
 
 input[type="radio"] + label:before {
-    border-radius: 100%;
+  border-radius: 100%;
 }

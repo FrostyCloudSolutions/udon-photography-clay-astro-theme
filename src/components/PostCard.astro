@@ -1,4 +1,8 @@
 ---
+// One tile in a post grid. The photo fills the tile as a background;
+// the title sits on a dark overlay that appears on hover (and stays
+// visible on small screens, where there is no hover). Tiles without a
+// photo instead show their position number as an oversized watermark.
 export interface Props {
   count: number;
   title: string;
@@ -8,140 +12,133 @@ export interface Props {
 }
 
 const { count, title, slug, category, thumbnail } = Astro.props;
-const isLarge = count % 3 === 0;
 
-// Construct background image style
-const bgStyle = thumbnail ? `background-image: url(${thumbnail});` : '';
-const postClass = `post-card ${isLarge ? 'post-card-large' : ''} ${thumbnail ? 'with-image' : 'no-image'} post`;
+// Every third tile spans the full row for an editorial rhythm.
+const classes = [
+  'post-card',
+  'post',
+  count % 3 === 0 && 'post-card-large',
+  thumbnail ? 'with-image' : 'no-image',
+]
+  .filter(Boolean)
+  .join(' ');
 ---
 
-<article class={postClass} style={bgStyle} data-category={category}>
+<article
+  class={classes}
+  style={thumbnail && `background-image: url(${thumbnail});`}
+  data-category={category}
+>
   <a href={`/${slug}`} class="post-card-link">
     <div class="post-card-content">
-      <h2 class="post-card-title">
-        {title}
-      </h2>
+      <h2 class="post-card-title">{title}</h2>
     </div>
   </a>
 </article>
 
 <style>
-/* Post Feed */
-.post-card {
-  position: relative;
-  flex: 1 0 auto;
-  display: flex;
-  position: relative;
-  height: 35vw;
-  background: linear-gradient(135deg, #1f1f1f 0%, #111 100%) center center;
-  background-size: cover;
-  overflow: hidden;
-  counter-increment: posts;
-  margin: 1rem;
-  border-radius: 0;
-}
-
-@media (max-width: 700px) {
   .post-card {
-    flex: 1 1 100%;
-    height: 70vw;
+    position: relative;
+    display: flex;
+    flex: 1 0 auto;
+    height: 35vw;
+    margin: 1rem;
+    overflow: hidden;
+    counter-increment: posts;
+    background: linear-gradient(135deg, #1f1f1f 0%, #111 100%) center center;
+    background-size: cover;
   }
-}
 
-.post-card-large {
-  flex: 1 1 100%;
-}
+  .post-card-large {
+    flex-basis: 100%;
+  }
 
-.post-card-link {
-  flex: 1 1 auto;
-  display: block;
-  text-decoration: none; /* Reset anchor default */
-}
+  .post-card-link {
+    display: block;
+    flex: 1 1 auto;
+    text-decoration: none;
+  }
 
-.post-card-content {
-  flex: 1 1 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  color: #fff;
-  background: rgba(0, 0, 0, 0.6); /* increased opacity */
-  opacity: 1;
-  transition: opacity 0.5s cubic-bezier(0.33, 0, 0.2, 1);
-  /* Ensure content is strictly centered and readable */
-}
+  /* Title overlay: fills the tile, dark scrim, centered text. */
+  .post-card-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.6);
+    transition: opacity 0.5s cubic-bezier(0.33, 0, 0.2, 1);
+  }
 
-.post-card.with-image .post-card-content {
-  opacity: 0;
-}
-
-@media (max-width: 700px) {
   .post-card.with-image .post-card-content {
+    opacity: 0;
+  }
+
+  .post-card-link:hover .post-card-content {
     opacity: 1;
+    transition-duration: 0.3s;
   }
-}
 
-.post-card-link:hover .post-card-content {
-  opacity: 1;
-  transition: opacity 0.3s cubic-bezier(0.33, 0, 0.2, 1);
-}
-
-.post-card-title {
-  margin: 0;
-  display: inline-block;
-  font-size: 3.4rem;
-  max-width: 70%;
-  text-align: center;
-  transition: all 0.3s cubic-bezier(0.33, 0, 0.2, 1);
-  text-shadow: 0px 0px 6px black;
-  font-family: var(--font-sans-serif);
-  font-variant: small-caps;
-  text-transform: lowercase;
-  font-weight: 300;
-}
-
-/* Posts without images */
-.post-card.no-image::before {
-  display: block;
-  content: counter(posts);
-  position: absolute;
-  bottom: -0.15em;
-  right: 5vw;
-  font-size: 28vw;
-  line-height: 1em;
-  font-weight: var(--font-heavy); /* Needs vars.css */
-  letter-spacing: -0.1em;
-  color: rgba(0, 0, 0, 0.2);
-}
-
-.post-card.no-image .post-card-content {
-  justify-content: flex-start;
-  align-items: flex-start;
-  padding: 4vw;
-}
-
-.post-card.no-image .post-card-title {
-  font-size: 5rem;
-  line-height: 1.15em;
-  text-align: left;
-}
-
-.post-card.no-image:hover .post-card-title {
-  text-decoration: underline;
-}
-
-@media (max-width: 1200px) {
-  .post-card.no-image .post-card-title {
+  .post-card-title {
+    margin: 0;
+    max-width: 70%;
+    font-family: var(--font-sans-serif);
     font-size: 3.4rem;
+    font-weight: 300;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    text-align: center;
+    text-shadow: 0 0 6px black;
   }
-}
-@media (max-width: 700px) {
+
+  /* Photo-less tiles: top-left title, giant position number watermark. */
   .post-card.no-image::before {
-    font-size: 50vw;
+    content: counter(posts);
+    position: absolute;
+    right: 5vw;
+    bottom: -0.15em;
+    font-size: 28vw;
+    line-height: 1;
+    font-weight: var(--font-heavy);
+    letter-spacing: -0.1em;
+    color: rgba(0, 0, 0, 0.2);
   }
-}
+
+  .post-card.no-image .post-card-content {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 4vw;
+  }
+
+  .post-card.no-image .post-card-title {
+    font-size: 5rem;
+    line-height: 1.15;
+    text-align: left;
+  }
+
+  .post-card.no-image:hover .post-card-title {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 1200px) {
+    .post-card.no-image .post-card-title {
+      font-size: 3.4rem;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .post-card {
+      flex: 1 1 100%;
+      height: 70vw;
+    }
+
+    .post-card.with-image .post-card-content {
+      opacity: 1;
+    }
+
+    .post-card.no-image::before {
+      font-size: 50vw;
+    }
+  }
 </style>
