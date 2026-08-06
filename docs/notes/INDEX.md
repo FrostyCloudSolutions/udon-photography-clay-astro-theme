@@ -54,6 +54,6 @@ context lives in the linked dated document.
 | [07-27 update](2026-07-27-update-lightbox-www-email.md) | Feature | Video support — YouTube/Vimeo embed block in article bodies (Task 6) | Shipped | f934192 |
 | [07-30 update](2026-07-30-update-form-text-editing.md) | Feature | Client-editable form text (labels/placeholders/options; structure locked) | Pending (local prototype scheduled July 30) | — |
 | [07-30 wedding variant](2026-07-30-wedding-variant-scope.md) | Feature | Wedding brand-variant sister site (subdomain deploy of template) | Backlog (client to build portfolio first) | — |
-| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Feature | Performance: font loading, CSS minify, LCP priority (Lighthouse 87→95+) | Pending approval | — |
-| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Hamburger aria-controls points to missing id | Pending approval | — |
-| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Gray text fails WCAG AA contrast (excerpt + footer) | Pending approval | — |
+| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Feature | Performance: async fonts, LCP preload (causes fixed; hosted re-run pending) | Shipped Aug 5 | a483aff |
+| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Hamburger aria-controls points to missing id (+ duplicate id=swup) | Shipped Aug 5 (a11y 100 verified) | a483aff |
+| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Gray text fails WCAG AA contrast (excerpt + footer) | Shipped Aug 5 (a11y 100 verified) | a483aff |

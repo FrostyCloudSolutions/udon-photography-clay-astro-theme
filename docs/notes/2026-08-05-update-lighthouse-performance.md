@@ -1,7 +1,30 @@
 # Udon Studio — Update (August 5, 2026): Lighthouse Performance & Accessibility
 
 **Date:** August 5, 2026
-**Status: APPROVED August 5 — implementation in progress.**
+**Status: SHIPPED August 5 (commit a483aff) — one verification
+checkbox open.** Results of the live re-audit (local Lighthouse,
+mobile, against udonphoto.com):
+
+- **Accessibility: 100** (was 90) — both audits fixed and verified
+  live in two separate runs.
+- **Performance — every flagged cause eliminated, verified live:**
+  render-blocking is now ONLY the site's own 7.6 KB CSS (the Google
+  Fonts stylesheet is gone from the blocking list); the LCP
+  discovery checklist passes fully (fetchpriority=high applied,
+  discoverable in initial document, eagerly loaded); each tile image
+  downloads exactly once (~40 KB). First Contentful Paint improved
+  in like-for-like local runs.
+- **Headline performance number: pending a hosted re-run.** Local
+  runs on this connection swing 30+ points between attempts (image
+  CDN delivery variance), so the honest scoreboard is
+  lighthouse-metrics.com — the same environment as the original
+  87 baseline. The developer re-runs it there for the client
+  scoresheet.
+- Task 2 resolved as NO CHANGE NEEDED: the "unminified/unused CSS"
+  audits pointed at Google's fonts stylesheet, which Task 1 removed
+  from the critical path (and the weight trim shrank it).
+- Bonus fix: the nav id rename also removed a duplicate id="swup"
+  (nav + page wrapper shared it — invalid HTML).
 
 Labels: Bug N / Task N, numbered from 1 within this document only.
 
