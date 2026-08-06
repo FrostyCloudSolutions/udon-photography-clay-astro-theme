@@ -123,6 +123,25 @@ with Still's de-client seam, keep udon values):** sanity.ts,
 fonts.ts (keep BASE_FONTS_URL), categories.ts, + adopt
 siteConfig.ts carrying Udon Studio identity values.
 
+## Amendments (developer, Aug 6, mid-execution)
+
+- **Grandfathered deployment:** udon keeps its hardcoded
+  client-specific wiring — it is a GRANDFATHERED site, not a pure
+  Still deployment; new clients start from the template. Effect:
+  Tier C and Tier D shrink to "keep udon's versions" — Still's
+  changes there are de-clienting only, and those files carry little
+  or no original-author code (the fragments that remain exist
+  identically in Still, which passed legal clearance). Adoption
+  scope = Tier A + Tier B.
+- **Task 6 — repo rename (after merge to main):**
+  udon-photography-clay-astro-theme -> udonphoto-frosty-astro-still
+  on GitHub. GitHub redirects old URLs and the Cloudflare Pages
+  GitHub-App connection tracks the repo, so deploys survive.
+  CAUTION: the Cloudflare Pages PROJECT name must NOT be renamed —
+  the custom-domain DNS (udonphoto.com, www) CNAMEs point at
+  udon-photography-clay-astro-theme.pages.dev; renaming the project
+  would change that target and break the site. Repo rename only.
+
 ## Confirmation / Testing checklist
 
 - [ ] Branch preview: homepage, a gallery post, an article post
