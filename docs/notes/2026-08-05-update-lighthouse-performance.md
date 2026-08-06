@@ -97,6 +97,20 @@ honest deliverable.
    before/after scores in this document for the client scoresheet.
    (~5k)
 
+7. **Task 7 — responsive tile images (added Aug 6, PENDING
+   APPROVAL).** Hosted re-run after Tasks 1-5: Accessibility 100;
+   per-region performance rose to 83-92 with FCP/Speed Index halved
+   in the best region (3.0s -> 1.5s) — but LCP sits at ~3.3s in
+   EVERY region, meaning the bottleneck is now image weight, not
+   delivery: tiles ship a 1200x900 derivative to all devices,
+   including phones rendering them ~400px wide. Fix: two derivatives
+   from Sanity's CDN (~600px for phones, 1200px for desktop),
+   selected via CSS custom properties + a media query (background
+   images can't use srcset), and the homepage preload upgraded with
+   imagesrcset/imagesizes so the hint matches whichever variant the
+   device picks. Expected: mobile LCP toward ~2.5s, most regions
+   into the 90s. (~8-10k tokens)
+
 Out of scope (noted, not planned): unused-CSS purge, self-hosting
 fonts (revisit only if Task 1 falls short), cache-lifetime tweak
 (Task 4 of July's _headers already covers the essentials; ~5 KiB

@@ -57,3 +57,4 @@ context lives in the linked dated document.
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Feature | Performance: async fonts, LCP preload (causes fixed; hosted re-run pending) | Shipped Aug 5 | a483aff |
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Hamburger aria-controls points to missing id (+ duplicate id=swup) | Shipped Aug 5 (a11y 100 verified) | a483aff |
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Bug | Gray text fails WCAG AA contrast (excerpt + footer) | Shipped Aug 5 (a11y 100 verified) | a483aff |
+| [08-05 update](2026-08-05-update-lighthouse-performance.md) | Feature | Responsive tile images — mobile-sized derivatives (Task 7, LCP ~3.3s -> ~2.5s) | Pending approval | — |
