@@ -97,8 +97,14 @@ honest deliverable.
    before/after scores in this document for the client scoresheet.
    (~5k)
 
-7. **Task 7 — responsive tile images (added Aug 6, PENDING
-   APPROVAL).** Hosted re-run after Tasks 1-5: Accessibility 100;
+7. **Task 7 — responsive tile images (added Aug 6; BACKLOG, not
+   planned — developer decision Aug 6: client is satisfied, real
+   visitors are unaffected, and lab-score gains have negligible SEO
+   value at this level. SIZING-ONLY if ever revived: serve ~600px
+   derivatives to phones, keep desktop at 1200px, and do NOT lower
+   the quality parameter — no visible change to a photography
+   portfolio is the standard. Revive only if Frosty Cloud wants a
+   95+ scoresheet for its own marketing.)** Hosted re-run after Tasks 1-5: Accessibility 100;
    per-region performance rose to 83-92 with FCP/Speed Index halved
    in the best region (3.0s -> 1.5s) — but LCP sits at ~3.3s in
    EVERY region, meaning the bottleneck is now image weight, not
