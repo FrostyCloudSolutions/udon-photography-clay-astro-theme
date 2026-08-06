@@ -142,6 +142,22 @@ siteConfig.ts carrying Udon Studio identity values.
   udon-photography-clay-astro-theme.pages.dev; renaming the project
   would change that target and break the site. Repo rename only.
 
+## Task 2 + 3 status (Aug 6, on branch still-theme)
+
+Tier A adopted verbatim (commit c8be16e); Tier B adopted with Aug 5
+fixes re-applied in the same pass (9b514e3): vars.css (no @import),
+content.css (excerpt 0.62), layout.css (copyright 0.78), buttons,
+forms, PostCard (props contract verified against callers), and
+Layout.astro via a udon-flavored siteConfig.ts whose SITE_DEFAULTS
+ARE the client identity (grandfathered pattern). Verified on the
+branch build: title/meta/tab identity identical to production;
+async-font markup, preconnects, LCP preload, id="navigation",
+lightbox placement, six-row form order + Web3Forms key, video
+iframe, footer credit all present; homepage + inquire render
+visually identical in local preview; dark mode toggles to
+#121212/#e0e0e0 correctly. AWAITING: developer's side-by-side
+eyeball on the Cloudflare branch preview, then merge (Task 5).
+
 ## Confirmation / Testing checklist
 
 - [ ] Branch preview: homepage, a gallery post, an article post
