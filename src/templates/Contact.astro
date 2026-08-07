@@ -13,10 +13,11 @@ interface Props {
 
 const { title, description, image, body } = Astro.props;
 
-// Reservation / quote-request form, submitted via Web3Forms (static-site
-// friendly, no backend needed). The access key is a public-safe client-side
-// identifier by design, not a secret.
-const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
+// Reservation / quote-request form. Delivery goes through the
+// same-origin relay at /api/contact (functions/api/contact.js) — the
+// Web3Forms key lives server-side as a Cloudflare secret and never
+// ships in page code. Deploys without the secret run in demo mode:
+// the form works but sends nothing, and says so. (Aug 6 hardening.)
 ---
 
 <Layout title={title} description={description}>
@@ -42,16 +43,14 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
         </div>
       )}
 
-      <form id="inquiry-form" name="inquiry" method="POST" action="https://api.web3forms.com/submit">
-        {/* Web3Forms delivers to the address its access key is
-            registered to — as of July 26 that is the client's email
-            (changed in the Web3Forms dashboard). Multiple recipients
-            / CC require their paid tier. */}
-        <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
-        <input type="hidden" name="subject" value="New Inquiry - Udon Studio" />
-        <input type="hidden" name="replyto" value="" />
-        <input type="hidden" name="redirect" value="https://udonphoto.com/inquire/thanks/" />
-        <input type="checkbox" name="botcheck" style="display:none" />
+      <form id="inquiry-form" name="inquiry" method="POST" action="/api/contact">
+        {/* Honeypot: visually hidden, skipped by keyboard and
+            autocomplete. Humans never fill it; bots do — the relay
+            answers those with a fake success and forwards nothing. */}
+        <div style="display:none" aria-hidden="true">
+          <label for="botcheck">Leave this field empty</label>
+          <input type="text" id="botcheck" name="botcheck" tabindex="-1" autocomplete="off" />
+        </div>
 
         <div class="row gtr-uniform">
           <div class="col-6 col-12-xsmall">
@@ -244,26 +243,34 @@ const WEB3FORMS_ACCESS_KEY = '07872cc3-b937-460b-a37b-c9e51880bdb5';
       if (status) status.textContent = '';
 
       try {
-        const formData = new FormData(form);
-        const requesterName = (formData.get('name') || '').toString().trim();
-        const requesterEmail = (formData.get('email') || '').toString().trim();
-        formData.set(
-          'subject',
-          requesterName ? `New Inquiry from ${requesterName} - Udon Studio` : 'New Inquiry - Udon Studio'
-        );
-        formData.set('replyto', requesterEmail);
+        // FormData -> plain JSON for the relay. Disabled (hidden
+        // conditional) fields are excluded automatically; the relay
+        // builds the subject and replyto server-side.
+        const payload: Record<string, string> = {};
+        new FormData(form).forEach((value, key) => {
+          payload[key] = value.toString();
+        });
 
-        const response = await fetch('https://api.web3forms.com/submit', {
+        const response = await fetch('/api/contact', {
           method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: formData,
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload),
         });
         const result = await response.json();
 
-        if (result.success) {
+        if (result.success && result.demo) {
+          // No delivery key configured on this deployment (previews,
+          // demos): be honest instead of pretending it sent.
+          if (status) status.textContent = '(Demo form — no message was actually sent.)';
+          const submitBtn2 = form.querySelector('input[type="submit"]') as HTMLInputElement | null;
+          if (submitBtn2) {
+            submitBtn2.disabled = false;
+            submitBtn2.value = 'Send Inquiry';
+          }
+        } else if (result.success) {
           window.location.assign('/inquire/thanks/');
         } else {
-          throw new Error(result.message || 'Submission failed');
+          throw new Error(result.error || 'Submission failed');
         }
       } catch {
         if (status) status.textContent = 'Something went wrong sending your inquiry. Please try again or email us directly.';
