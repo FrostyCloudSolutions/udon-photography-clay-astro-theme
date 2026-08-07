@@ -1,0 +1,106 @@
+# Udon Studio — Update (August 6, 2026): Inquiry Form Hardening
+
+**Date:** August 6, 2026
+**Status: CODE SHIPPED + LIVE-VERIFIED (commit 4992f65); dashboard
+phases in progress.** Ported from the frosty-astro-sassify reference
+implementation, adapted to this form's fields, per the developer's
+written spec (spec = approval; no separate gate).
+
+Labels: Task N, numbered from 1 within this document only.
+
+## How it works (plain language)
+
+Before this change, the inquiry form posted straight from the
+visitor's browser to Web3Forms, and the access key rode along inside
+the page's HTML — public by design, but that means anyone could copy
+the key and pump spam through it, and there was nowhere to put spam
+defenses.
+
+Now the form posts to OUR OWN address — /api/contact on
+udonphoto.com. A small server-side program (a Cloudflare Pages
+Function living at functions/api/contact.js in this repo; Cloudflare
+runs it automatically, no server to manage) answers that address and
+runs four gates in order:
+
+1. **Honeypot** — the form contains an invisible field named
+   "botcheck" that humans never see or fill. Bots auto-fill every
+   field, so a filled botcheck means a bot: the function replies
+   "success" (so the bot learns nothing) and forwards nothing.
+2. **Origin check** — posts coming from any other website (a foreign
+   Origin header) are refused with 403.
+3. **Validation** — required fields present, sane lengths, real
+   email shape; otherwise 422. Newlines are stripped from anything
+   that reaches the email subject (header-injection defense).
+4. **Forward** — only then does the function pass the inquiry,
+   server-to-server, to Web3Forms — using the key stored as the
+   Cloudflare secret **WEB3FORMS_KEY**. The key never appears in any
+   page a visitor can view-source.
+
+If no key is configured (previews/demos), the function answers
+{success:true, demo:true} and the form shows "(Demo form — no
+message was actually sent.)" instead of pretending.
+
+The subject line is built server-side as
+`New udonphoto.com inquiry from <name>` — hostname derived from the
+request, never hardcoded. Reply-to is set to the visitor's email, so
+the client replies straight to the customer, unchanged from before.
+
+Because submissions now flow through our own domain, a Cloudflare
+rate-limiting rule on /api/contact can throttle flooders per IP —
+impossible when the browser posted directly to Web3Forms.
+
+Where things live: relay = functions/api/contact.js · form wiring =
+src/templates/Contact.astro · key = Cloudflare Pages project →
+Settings → Variables and Secrets → WEB3FORMS_KEY (Secret,
+Production) · rate rule = udonphoto.com zone → Security →
+"contact-form-throttle".
+
+## Task list
+
+1. **Task 1 — relay function (DONE, live-verified).** Honeypot →
+   origin → validation → forward; demo mode; whitelisted optional
+   fields (bots love inventing extras); 300-char caps; subject
+   hostname-derived.
+2. **Task 2 — form rewiring (DONE, live-verified).** Posts JSON to
+   /api/contact; visible-field behavior unchanged; honeypot added
+   (invisible); demo note only when keyless; access key + Web3Forms
+   hidden fields fully removed — built pages contain ZERO
+   web3forms.com references and no key.
+3. **Task 3 — dashboard Phase 1 (developer, in progress):** secret
+   WEB3FORMS_KEY = old key (closes the demo-mode delivery gap
+   tonight — old key still works and now sits behind all defenses);
+   Retry deployment (env binds at deploy time); zone rate rule
+   "contact-form-throttle": URI Path equals /api/contact, per IP,
+   Block (free plan ~3 req/10s).
+4. **Task 4 — dashboard Phase 2 (developer + client, next day):**
+   fresh Web3Forms key for frame@udonphoto.com (verification email
+   lands in the client's inbox — needs her click); swap the
+   secret's value; Retry deployment; human test submission; then
+   deactivate the burned old key (dashboard option, or
+   support@web3forms.com if the dashboard lacks one) and delete any
+   PUBLIC_WEB3FORMS_KEY variable if present. Old key is treated as
+   burned because it shipped in public HTML (and lives on in web
+   archives) — rotation, not deletion-from-code, is what retires it.
+
+## Verification record
+
+Local (wrangler pages dev): all four gates correct. Live
+(udonphoto.com, post-deploy): honeypot → {"success":true} · bad
+email → 422 · foreign Origin → 403 · valid keyless → demo:true.
+Built output: zero web3forms references, zero key occurrences;
+relay + honeypot present in built inquire page.
+
+## Confirmation / Testing checklist
+
+- [ ] After Phase 1 retry: valid curl no longer returns demo:true
+      (Claude re-checks — without sending mail, via the 422/403
+      probes staying correct and a human submission for delivery).
+- [ ] Human end-to-end submission arrives at frame@udonphoto.com
+      with subject "New udonphoto.com inquiry from <name>". (If the
+      demo note appears right after the retry, wait a minute,
+      refresh, resubmit before diagnosing — deploy race.)
+- [ ] After the rate rule: burst of 8 rapid honeypot POSTs → first
+      ~3 pass then 429s (Claude runs this — honeypot posts never
+      send mail).
+- [ ] Phase 2: new key delivers; old key deactivated; no
+      PUBLIC_WEB3FORMS_KEY variable exists.

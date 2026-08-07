@@ -60,3 +60,4 @@ context lives in the linked dated document.
 | [08-05 update](2026-08-05-update-lighthouse-performance.md) | Feature | Responsive tile images, sizing-only (Task 7; no quality reduction) | Backlog (Frosty marketing benefit only) | — |
 | [08-06 update](2026-08-06-update-still-theme-adoption.md) | Feature | Still theme adoption — udon now fully Frosty-authored; repo renamed frosty-astro-still-udonphoto | Shipped Aug 6 | c8be16e, 9b514e3, 83edb8c |
 | [08-06 update](2026-08-06-update-still-theme-adoption.md) | Decision | Repo license swap to Still model, preserving client fork promise | Pending (developer wording) | — |
+| [08-06 form hardening](2026-08-06-update-form-hardening.md) | Feature | Inquiry form hardening: same-origin relay, server-side key, honeypot/origin/validation/rate-limit | Code shipped + live-verified; dashboard phases with developer | 4992f65 |
