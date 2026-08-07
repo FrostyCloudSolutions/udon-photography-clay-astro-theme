@@ -1,8 +1,11 @@
-# Udon Studio — Update (August 6, 2026): Inquiry Form Hardening
+# Udon Studio — Update (August 7, 2026): Inquiry Form Hardening
 
-**Date:** August 6, 2026
-**Status: CODE SHIPPED + LIVE-VERIFIED (commit 4992f65); dashboard
-phases in progress.** Ported from the frosty-astro-sassify reference
+**Date:** August 7, 2026 (doc initially misdated Aug 6; corrected —
+completion date is the doc date per owner convention)
+**Status: COMPLETE August 7.** Relay + secret + throttle live and
+verified; human end-to-end submission reached the thank-you page
+(Web3Forms accepted the forward upstream). Phase 2 key rotation
+CANCELLED by owner decision — see Task 4. Ported from the frosty-astro-sassify reference
 implementation, adapted to this form's fields, per the developer's
 written spec (spec = approval; no separate gate).
 
@@ -72,15 +75,20 @@ Production) · rate rule = udonphoto.com zone → Security →
    Retry deployment (env binds at deploy time); zone rate rule
    "contact-form-throttle": URI Path equals /api/contact, per IP,
    Block (free plan ~3 req/10s).
-4. **Task 4 — dashboard Phase 2 (developer + client, next day):**
-   fresh Web3Forms key for frame@udonphoto.com (verification email
-   lands in the client's inbox — needs her click); swap the
-   secret's value; Retry deployment; human test submission; then
-   deactivate the burned old key (dashboard option, or
-   support@web3forms.com if the dashboard lacks one) and delete any
-   PUBLIC_WEB3FORMS_KEY variable if present. Old key is treated as
-   burned because it shipped in public HTML (and lives on in web
-   archives) — rotation, not deletion-from-code, is what retires it.
+4. **Task 4 — key rotation: CANCELLED (owner decision, Aug 7).**
+   The old key stays in service as the WEB3FORMS_KEY secret. Owner
+   rationale: it works, no abuse has been observed, and skipping
+   rotation removes any need for the client to interact (no
+   verification click). Recorded residual risk, stated once for the
+   record: the old key shipped in public page source for weeks and
+   lives on in web archives — anyone holding it can post spam
+   DIRECTLY to Web3Forms' API with it, bypassing this site's
+   honeypot/origin/throttle gates entirely (those protect only our
+   endpoint). Impact ceiling is spam-to-inbox/quota-drain; no client
+   data is reachable. REMEDY IF SPAM EVER APPEARS: rotate then —
+   fresh key in the Web3Forms dashboard, client clicks the
+   verification email, swap the secret's value, Retry deployment
+   (~10 minutes end to end).
 
 ## Verification record
 
@@ -96,12 +104,15 @@ relay + honeypot present in built inquire page.
       — demo-mode exit proven by the human delivery test below
       (Claude re-checks — without sending mail, via the 422/403
       probes staying correct and a human submission for delivery).
-- [ ] Human end-to-end submission arrives at frame@udonphoto.com
-      with subject "New udonphoto.com inquiry from <name>". (If the
-      demo note appears right after the retry, wait a minute,
-      refresh, resubmit before diagnosing — deploy race.)
+- [x] Human end-to-end submission (Aug 7): thank-you page reached,
+      demo note absent — the relay only reports success after
+      Web3Forms accepts the forward, so delivery is confirmed
+      upstream. (Inbox spot-check at frame@ = casual client
+      confirmation whenever she next looks.)
 - [x] After the rate rule: burst of 8 rapid honeypot POSTs → 3 passed
       then five 429s (verified Aug 6; rule name on the zone is
       "inquiry-form-throttle" per the developer).
-- [ ] Phase 2: new key delivers; old key deactivated; no
-      PUBLIC_WEB3FORMS_KEY variable exists.
+- [x] Phase 2 closed as CANCELLED (owner decision — old key
+      retained; see Task 4). PUBLIC_WEB3FORMS_KEY never existed on
+      this project (key was hardcoded in page source, not a
+      variable).
