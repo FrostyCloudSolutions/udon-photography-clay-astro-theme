@@ -75,6 +75,11 @@ Production) · rate rule = udonphoto.com zone → Security →
    Retry deployment (env binds at deploy time); zone rate rule
    "contact-form-throttle": URI Path equals /api/contact, per IP,
    Block (free plan ~3 req/10s).
+4a. **ADDENDUM (later Aug 7): rotation REINSTATED by owner** —
+   "clean slate and insurance against possible web scrapes." Plan:
+   rotate when the client next responds (fresh key -> her
+   verification click -> swap the secret -> Retry deployment -> test
+   -> deactivate old key). Tracked in the HQ task tracker.
 4. **Task 4 — key rotation: CANCELLED (owner decision, Aug 7).**
    The old key stays in service as the WEB3FORMS_KEY secret. Owner
    rationale: it works, no abuse has been observed, and skipping
