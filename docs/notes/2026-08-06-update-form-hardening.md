@@ -92,15 +92,16 @@ relay + honeypot present in built inquire page.
 
 ## Confirmation / Testing checklist
 
-- [ ] After Phase 1 retry: valid curl no longer returns demo:true
+- [x] After Phase 1 retry: honeypot/422/403 all correct live (Aug 6)
+      — demo-mode exit proven by the human delivery test below
       (Claude re-checks — without sending mail, via the 422/403
       probes staying correct and a human submission for delivery).
 - [ ] Human end-to-end submission arrives at frame@udonphoto.com
       with subject "New udonphoto.com inquiry from <name>". (If the
       demo note appears right after the retry, wait a minute,
       refresh, resubmit before diagnosing — deploy race.)
-- [ ] After the rate rule: burst of 8 rapid honeypot POSTs → first
-      ~3 pass then 429s (Claude runs this — honeypot posts never
-      send mail).
+- [x] After the rate rule: burst of 8 rapid honeypot POSTs → 3 passed
+      then five 429s (verified Aug 6; rule name on the zone is
+      "inquiry-form-throttle" per the developer).
 - [ ] Phase 2: new key delivers; old key deactivated; no
       PUBLIC_WEB3FORMS_KEY variable exists.
