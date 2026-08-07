@@ -18,7 +18,11 @@ export const sanityClient = createClient({
   dataset,
   apiVersion: '2026-07-01',
   // Published content read at build time — the API CDN is exactly right.
-  useCdn: true,
+  // Builds are publish-triggered (Sanity webhook -> rebuild), so the
+  // API's CDN cache can lag the just-published content — the July
+  // stale-first-build retry loops were exactly this. Direct API reads
+  // cost milliseconds at build time and are always fresh.
+  useCdn: false,
 });
 
 const builder = imageUrlBuilder(sanityClient);

@@ -43,6 +43,12 @@ const themeFontCss =
 
 // Browser-tab title: "SiteName - Page" on subpages, bare name at home.
 const tabTitle = title && title !== site.siteName ? `${site.siteName} - ${title}` : site.siteName;
+
+const metaDescription = description || `${site.siteName} - ${site.tagline}`;
+
+// One official URL per page: search engines consolidate ranking onto
+// it instead of splitting credit across apex/www/pages.dev copies.
+const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -50,9 +56,20 @@ const tabTitle = title && title !== site.siteName ? `${site.siteName} - ${title}
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
-        <meta name="description" content={description || `${site.siteName} - ${site.tagline}`} />
+        <meta name="description" content={metaDescription} />
         <meta name="generator" content={Astro.generator} />
         <title>{tabTitle}</title>
+        <link rel="canonical" href={canonical} />
+        {/* Social preview card (Open Graph + Twitter): pasted links
+            render as a titled card in chat/social apps. og:image only
+            where the page provides its hero (the homepage tiles). */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:title" content={tabTitle} />
+        <meta property="og:description" content={metaDescription} />
+        <meta property="og:site_name" content={site.siteName} />
+        {preloadImage && <meta property="og:image" content={preloadImage} />}
+        <meta name="twitter:card" content={preloadImage ? 'summary_large_image' : 'summary'} />
         {/* Monogram favicon in the site serif: SVG for modern
             browsers, .ico fallback, apple-touch-icon for iOS. */}
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
