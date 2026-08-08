@@ -75,6 +75,18 @@ Production) · rate rule = udonphoto.com zone → Security →
    Retry deployment (env binds at deploy time); zone rate rule
    "contact-form-throttle": URI Path equals /api/contact, per IP,
    Block (free plan ~3 req/10s).
+4b. **ROTATION COMPLETED (Aug 7 evening).** New Web3Forms form/key
+   created for frame@udonphoto.com (dashboard label:
+   udonphoto-inquiry-relay-key, sender name "Udon Studio Website");
+   secret swapped, redeployed, verified: human test -> thank-you
+   page, relay probe -> {"success":true}, honeypot/422/403 all
+   correct on the rotated key. GOTCHA FOR FUTURE DEPLOYMENTS: a
+   redirect URL configured on the Web3Forms form makes their API
+   answer JSON submissions with a non-success response — the relay
+   reads that as upstream failure (502). Leave the form's redirect
+   field BLANK; the site handles its own thank-you navigation.
+   Remaining: owner deletes the old form entry (revokes the burned
+   key 07872cc3...).
 4a. **ADDENDUM (later Aug 7): rotation REINSTATED by owner** —
    "clean slate and insurance against possible web scrapes." Plan:
    rotate when the client next responds (fresh key -> her
