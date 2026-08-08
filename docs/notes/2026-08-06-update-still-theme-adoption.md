@@ -11,10 +11,9 @@ Cloudflare Pages project name deliberately untouched — DNS CNAMEs
 point at its pages.dev address).
 **Status: APPROVED August 6** with two amendments: (1) adoption
 order = files ranked by how much original clay-theme code they still
-carry, highest first (legal priority); (2) Task 4 license swap
-DEFERRED — developer will supply wording after frostycloud-site and
-pricing decisions, plus a client conversation about future projects
-and compensation.
+carry, highest first (legal priority); (2) Task 4 license/attribution
+update DEFERRED — wording to be finalized in a later round (tracked
+in the HQ ops queue).
 
 Labels: Design Decision N / Task N, numbered from 1 within this
 document only.
